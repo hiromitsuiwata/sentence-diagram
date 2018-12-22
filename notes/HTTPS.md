@@ -1,6 +1,7 @@
 # Libertyを使ってHTTPS通信を行う
 
-## Libertyがデフォルトで生成する鍵
+## 調査
+### Libertyがデフォルトで生成する鍵
 
 Libertyを起動すると`user/servers/(server-name)/resources/security`に`key.jks`というファイルが生成される。
 このファイルはJava Key Storeという形式のファイルで中に秘密鍵、公開鍵が保存される。
@@ -11,16 +12,16 @@ JKSファイルにはパスワードをかける必要がある。`server.xml`�
 keytool -v -list -keystore key.jks
 ```
 
-## ChromeでHTTPS通信を行うためには
+### ChromeでHTTPS通信を行うためには
 
 自己署名証明書を利用してHTTPS通信を行いたい。過去はCommon Name(CN)が設定されていればOKだったが、Chrome 58以降は証明書にSubject Alternative Name(SAN)が登録されていることを要求するため、SANを含む証明書を作る必要がある。
 
-## 用語の確認
+### 用語の確認
 
 - Certificate Signing Request(CSR)
   - 証明書署名要求。認証局に証明書を作ってもらうように依頼するためのフォーマット
 
-## JKSに含まれている証明書にはSANが設定されていない
+### JKSに含まれている証明書にはSANが設定されていない
 
 `key.jks`には自己署名証明書が内包されており取り出すことが可能。
 
@@ -35,7 +36,8 @@ openssl x509 -inform DER -outform PEM -in default.der -out default.pem
 openssl x509 -text -in default.pem
 ```
 
-## SANを含む証明書を作ってJKSに登録する
+## 手順
+### SANを含む証明書を作ってJKSに登録する手順
 
 ```bash
 # 秘密鍵作成
@@ -52,7 +54,7 @@ openssl pkcs12 -export -in default.crt -inkey default.key -out default.p12 -name
 keytool -importkeystore -srckeystore default.p12 -destkeystore key.jks -srcstoretype pkcs12 -deststoretype jks -deststoretype jks -destalias default -alias default
 ```
 
-## 作った証明書をMacに登録する
+### 作った証明書をMacに登録する
 
 キーチェーンアクセス.appを起動して、証明書を追加する。追加した証明書を右クリックして情報を見るから信頼を開いて、常に信頼するに設定を変更して保存する。
 

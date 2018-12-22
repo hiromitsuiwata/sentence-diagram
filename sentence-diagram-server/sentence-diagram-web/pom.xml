@@ -24,6 +24,11 @@
 			<artifactId>sentence-diagram-logic</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty.alpn</groupId>
+			<artifactId>alpn-boot</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
