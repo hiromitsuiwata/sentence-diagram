@@ -1,4 +1,4 @@
-# Libertyを使ってHTTPS通信を行う
+# WebSphere Libertyを使ってHTTPS通信を行う
 
 ## 調査
 ### Libertyがデフォルトで生成する鍵
@@ -51,7 +51,7 @@ openssl x509 -days 3650 -sha256 -req -signkey default.key < default.csr > defaul
 # pkcs12形式の鍵ストアを作成する
 openssl pkcs12 -export -in default.crt -inkey default.key -out default.p12 -name default
 # PKCS12形式の鍵ストアを登録する
-keytool -importkeystore -srckeystore default.p12 -destkeystore key.jks -srcstoretype pkcs12 -deststoretype jks -deststoretype jks -destalias default -alias default
+keytool -importkeystore -srckeystore default.p12 -destkeystore key.jks -srcstoretype pkcs12 -deststoretype jks -destalias default -alias default
 ```
 
 ### 作った証明書をMacに登録する
