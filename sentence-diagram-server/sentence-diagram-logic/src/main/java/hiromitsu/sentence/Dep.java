@@ -9,13 +9,13 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 public class Dep {
-	@Setter
-	@Getter
-	private Integer src;
-	@Setter
-	@Getter
-	private Integer tgt;
-	@Setter
-	@Getter
-	private String relation;
+  @Setter
+  @Getter
+  private Integer src;
+  @Setter
+  @Getter
+  private Integer tgt;
+  @Setter
+  @Getter
+  private String relation;
 }

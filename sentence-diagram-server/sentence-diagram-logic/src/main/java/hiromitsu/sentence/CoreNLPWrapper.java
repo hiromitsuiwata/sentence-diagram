@@ -21,73 +21,73 @@ import edu.stanford.nlp.trees.Tree;
  */
 public class CoreNLPWrapper {
 
-	private StanfordCoreNLP pipeline;
+  private StanfordCoreNLP pipeline;
 
-	private static CoreNLPWrapper instance;
+  private static CoreNLPWrapper instance;
 
-	public static synchronized CoreNLPWrapper getInstance() {
-		if (instance == null) {
-			instance = new CoreNLPWrapper();
-		}
-		return instance;
-	}
+  public static synchronized CoreNLPWrapper getInstance() {
+    if (instance == null) {
+      instance = new CoreNLPWrapper();
+    }
+    return instance;
+  }
 
-	private CoreNLPWrapper() {
-		// set up pipeline
-		Properties props = new Properties();
-		props.setProperty("annotators", "tokenize,ssplit,pos,lemma,parse");
-		props.setProperty("coref.algorithm", "neural");
-		this.pipeline = new StanfordCoreNLP(props);
-	}
+  private CoreNLPWrapper() {
+    // set up pipeline
+    Properties props = new Properties();
+    props.setProperty("annotators", "tokenize,ssplit,pos,lemma,parse");
+    props.setProperty("coref.algorithm", "neural");
+    this.pipeline = new StanfordCoreNLP(props);
+  }
 
-	public List<ParsedResult> parse(String text) {
+  public List<ParsedResult> parse(String text) {
 
-		List<ParsedResult> results = new ArrayList<>();
+    List<ParsedResult> results = new ArrayList<>();
 
-		// create a document object
-		CoreDocument document = new CoreDocument(text);
-		pipeline.annotate(document);
+    // create a document object
+    CoreDocument document = new CoreDocument(text);
+    pipeline.annotate(document);
 
-		List<CoreSentence> sentences = document.sentences();
+    List<CoreSentence> sentences = document.sentences();
 
-		for (CoreSentence s : sentences) {
+    for (CoreSentence s : sentences) {
 
-			String sentenceText = s.text();
-			List<String> tokens = s.tokens().stream().map(t -> t.originalText()).collect(Collectors.toList());
-			List<String> lemmas = s.tokens().stream().map(t -> t.lemma()).collect(Collectors.toList());
-			List<String> posTags = s.posTags();
-			Tree constituencyParse = s.constituencyParse();
-			Set<String> constituents = constituencyParse.constituents(new LabeledScoredConstituentFactory()).stream()
-					.map(c -> c.toString()).collect(Collectors.toSet());
+      String sentenceText = s.text();
+      List<String> tokens = s.tokens().stream().map(t -> t.originalText()).collect(Collectors.toList());
+      List<String> lemmas = s.tokens().stream().map(t -> t.lemma()).collect(Collectors.toList());
+      List<String> posTags = s.posTags();
+      Tree constituencyParse = s.constituencyParse();
+      Set<String> constituents = constituencyParse.constituents(new LabeledScoredConstituentFactory()).stream()
+        .map(c -> c.toString()).collect(Collectors.toSet());
 
-			ParsedResult result = new ParsedResult();
-			result.setOriginalSentence(sentenceText);
-			result.setTokens(tokens);
-			result.setLemmas(lemmas);
-			result.setPosTags(posTags);
-			result.setConstituents(constituents);
-			result.setConstituentyText(constituencyParse.toString());
+      ParsedResult result = new ParsedResult();
+      result.setOriginalSentence(sentenceText);
+      result.setTokens(tokens);
+      result.setLemmas(lemmas);
+      result.setPosTags(posTags);
+      result.setConstituents(constituents);
+      result.setConstituentyText(constituencyParse.toString());
 
-			SemanticGraph dependencyParse = s.dependencyParse();
-			Iterator<SemanticGraphEdge> ite = dependencyParse.edgeIterable().iterator();
-			Set<Dep> dependencies = new LinkedHashSet<>();
-			while (ite.hasNext()) {
-				SemanticGraphEdge edge = ite.next();
+      SemanticGraph dependencyParse = s.dependencyParse();
+      Iterator<SemanticGraphEdge> ite = dependencyParse.edgeIterable().iterator();
+      Set<Dep> dependencies = new LinkedHashSet<>();
+      while (ite.hasNext()) {
+        SemanticGraphEdge edge = ite.next();
 
-				String relation = edge.getRelation().toString();
+        String relation = edge.getRelation().toString();
 
-				int sourceIndex = edge.getSource().index();
-				int targetIndex = edge.getTarget().index();
+        int sourceIndex = edge.getSource().index();
+        int targetIndex = edge.getTarget().index();
 
-				Dep dep = new Dep(sourceIndex, targetIndex, relation);
-				dependencies.add(dep);
-			}
+        Dep dep = new Dep(sourceIndex, targetIndex, relation);
+        dependencies.add(dep);
+      }
 
-			result.setDependencies(dependencies);
+      result.setDependencies(dependencies);
 
-			results.add(result);
-		}
+      results.add(result);
+    }
 
-		return results;
-	}
+    return results;
+  }
 }

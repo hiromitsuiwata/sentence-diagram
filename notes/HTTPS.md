@@ -23,46 +23,46 @@ keytool -v -list -keystore key.jks
 
 ### JKSに含まれている証明書にはSANが設定されていない
 
-`key.jks`には自己署名証明書が内包されており取り出すことが可能。
+  `key.jks`には自己署名証明書が内包されており取り出すことが可能。
 
-```bash
-keytool -exportcert -keystore key.jks -alias default -file default.der
-```
+  ```bash
+  keytool -exportcert -keystore key.jks -alias default -file default.der
+  ```
 
-ただし前述のSANが登録されていないため、これだけではブラウザに安全な証明書として認めてもらえない。
+  ただし前述のSANが登録されていないため、これだけではブラウザに安全な証明書として認めてもらえない。
 
-```bash
-openssl x509 -inform DER -outform PEM -in default.der -out default.pem
-openssl x509 -text -in default.pem
-```
+  ```bash
+  openssl x509 -inform DER -outform PEM -in default.der -out default.pem
+  openssl x509 -text -in default.pem
+  ```
 
 ## 手順
 ### SANを含む証明書を作ってJKSに登録する手順
 
-```bash
+  ```bash
 # 秘密鍵作成
-openssl genrsa 2048 > default.key
+  openssl genrsa 2048 > default.key
 # CNはlocalhostにしておく
-openssl req -new -key default.key > default.csr 
+  openssl req -new -key default.key > default.csr
 # localhost用
-echo subjectAltName=DNS:localhost > default-san.ext 
+  echo subjectAltName=DNS:localhost > default-san.ext
 # 証明書を作成する(sha256指定しないとsha1となる)
-openssl x509 -days 3650 -sha256 -req -signkey default.key < default.csr > default.crt -extfile default-san.ext
+  openssl x509 -days 3650 -sha256 -req -signkey default.key < default.csr > default.crt -extfile default-san.ext
 # pkcs12形式の鍵ストアを作成する
-openssl pkcs12 -export -in default.crt -inkey default.key -out default.p12 -name default
+  openssl pkcs12 -export -in default.crt -inkey default.key -out default.p12 -name default
 # PKCS12形式の鍵ストアを登録する
-keytool -importkeystore -srckeystore default.p12 -destkeystore key.jks -srcstoretype pkcs12 -deststoretype jks -destalias default -alias default
-```
+  keytool -importkeystore -srckeystore default.p12 -destkeystore key.jks -srcstoretype pkcs12 -deststoretype jks -destalias default -alias default
+  ```
 
 ### 作った証明書をMacに登録する
 
-キーチェーンアクセス.appを起動して、証明書を追加する。追加した証明書を右クリックして情報を見るから信頼を開いて、常に信頼するに設定を変更して保存する。
+  キーチェーンアクセス.appを起動して、証明書を追加する。追加した証明書を右クリックして情報を見るから信頼を開いて、常に信頼するに設定を変更して保存する。
 
 ## 参考
 - JDK keytool の基本的な使い方 (openssl との対比)
   - https://www.qoosky.io/techs/9db75cec15
-- http://thr3a.hatenablog.com/entry/20171203/1512229150
-- https://qiita.com/kunichiko/items/3c0b1a2915e9dacbd4c1
-- http://greathabits.simpleasure.net/?eid=1295889
-- https://qiita.com/irohamaru/items/cfbb5aa4ff0dae56e360
-- https://qiita.com/hnakamur/items/94a3a1d8862941a13d4f
+  - http://thr3a.hatenablog.com/entry/20171203/1512229150
+  - https://qiita.com/kunichiko/items/3c0b1a2915e9dacbd4c1
+  - http://greathabits.simpleasure.net/?eid=1295889
+  - https://qiita.com/irohamaru/items/cfbb5aa4ff0dae56e360
+  - https://qiita.com/hnakamur/items/94a3a1d8862941a13d4f
