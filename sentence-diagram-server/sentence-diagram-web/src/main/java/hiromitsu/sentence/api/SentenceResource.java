@@ -30,8 +30,9 @@ public class SentenceResource {
   public Response getSentences() {
     ParsedResult result = new ParsedResult();
     result.setOriginalSentence(sentences.toString());
+    // TODO JSONで返すようにする
     Response response = Response.ok(result).build();
-    logger.info(response.toString());
+    logger.info(result.toJSON());
     return response;
   }
 
