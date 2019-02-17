@@ -9,11 +9,13 @@
     "eslint": "node ./node_modules/eslint/bin/eslint.js src/*",
     "stylelint": "node ./node_modules/stylelint/bin/stylelint.js",
     "webpack": "node ./node_modules/webpack/bin/webpack.js",
-    "server": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "server": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "prettier": "./node_modules/prettier/bin-prettier.js"
   },
   "author": "Hiromitsu Iwata",
   "devDependencies": {
     "eslint": "^5.14.0",
+    "prettier": "^1.16.4",
     "stylelint": "^9.10.1",
     "webpack": "^4.29.4",
     "webpack-cli": "^3.2.3",
