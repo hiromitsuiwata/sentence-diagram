@@ -13,4 +13,4 @@ function component() {
   return element;
 }
 
-document.body.appendChild(component());
+document.querySelector(".main").appendChild(component());
