@@ -25,5 +25,5 @@ package-lock.json
 .vscode
 bundle.js
 
-public/
-!sentence-diagram-client/public/index.html
+sentence-diagram-client/public/*
+!index.html
