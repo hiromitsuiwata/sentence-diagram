@@ -7,16 +7,20 @@ button {
 body {
   background: #e5e5e5;
   font-family: Helvetica, Arial, "hiragino kaku gothic pro", meiryo, "ms pgothic", sans-serif;
+  margin: 0 0 0 0;
 }
 
 .header {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 48px;
   background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  z-index: 1;
 }
 
 .logo {
@@ -24,6 +28,8 @@ body {
   top: 8px;
   left: 8px;
   overflow: hidden;
+  grid-column: 1 / 2;
+  display: flex;
 }
 
 .logo1 {
@@ -31,12 +37,12 @@ body {
   border-style: solid;
   color: #4169e1;
   font-family: sans-serif;
-  width: 130px;
+  width: 100px;
   height: 26px;
   text-align: center;
   top: 8px;
   float: left;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.15em;
   border-radius: 30px 0 0 30px / 30px 0 0 30px;
 }
 
@@ -46,7 +52,7 @@ body {
   background-color: #4169e1;
   color: white;
   font-family: sans-serif;
-  width: 130px;
+  width: 100px;
   height: 26px;
   text-align: center;
   top: 8px;
@@ -59,8 +65,12 @@ body {
 .search-frame {
   position: absolute;
   top: 8px;
+  left: 0%;
+  right: 0%;
+  /*
   left: 300px;
   width: 550px;
+  */
   height: 30px;
   border-radius: 5px;
   background: #fff;
@@ -70,6 +80,8 @@ body {
   border-width: 1px;
   border-color: #a9a9a9;
   box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  grid-column: 2 / 4;
+  display: flex;
 }
 
 .textbox {
@@ -97,4 +109,50 @@ body {
   text-align: center;
   border-style: none;
   cursor: pointer;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 20px 20px 20px 20px;
+  position: absolute;
+  top: 48px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+}
+
+.card-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
+}
+
+.card-text {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.card-link {
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding: 10px;
+}
+
+.card-link a {
+  text-decoration: none;
+  color: #0bd;
+  margin: 0 10px;
+}
+
+.card-link a:hover {
+  color: #0090aa;
 }

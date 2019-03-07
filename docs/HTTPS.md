@@ -1,6 +1,7 @@
 # WebSphere Libertyを使ってHTTPS通信を行う
 
 ## 調査
+
 ### Libertyがデフォルトで生成する鍵
 
 Libertyを起動すると`user/servers/(server-name)/resources/security`に`key.jks`というファイルが生成される。
@@ -8,6 +9,7 @@ Libertyを起動すると`user/servers/(server-name)/resources/security`に`key.
 JKSファイルにはパスワードをかける必要がある。`server.xml`の`<keyStore>`要素でパスワードを指定する。
 
 内容の確認方法は以下の通り(パスワードは`<keyStore>`で指定したもの)。defaultという別名(alias)で1セットの鍵が登録されている。
+
 ```bash
 keytool -v -list -keystore key.jks
 ```
@@ -37,6 +39,7 @@ keytool -v -list -keystore key.jks
   ```
 
 ## 手順
+
 ### SANを含む証明書を作ってJKSに登録する手順
 
   ```bash
@@ -59,6 +62,7 @@ keytool -v -list -keystore key.jks
   キーチェーンアクセス.appを起動して、証明書を追加する。追加した証明書を右クリックして情報を見るから信頼を開いて、常に信頼するに設定を変更して保存する。
 
 ## 参考
+
 - JDK keytool の基本的な使い方 (openssl との対比)
   - https://www.qoosky.io/techs/9db75cec15
   - http://thr3a.hatenablog.com/entry/20171203/1512229150
