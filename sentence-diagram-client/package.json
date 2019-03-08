@@ -20,13 +20,15 @@
     "style-loader": "^0.23.1",
     "stylelint": "^9.10.1",
     "stylelint-config-standard": "^18.2.0",
+    "vue": "^2.6.8",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.8",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "lodash": "^4.17.11",
-    "vue": "^2.6.8"
+    "lodash": "^4.17.11"
   }
 }

@@ -9,7 +9,7 @@ var app = new Vue({
     }
   },
   mounted() {
-    axios.get('https://localhost:9443/sentence-diagram-web/api/sentences')
+    axios.get('http://localhost:9080/sentence-diagram-web/api/sentences')
       .then(response => this.info = response.data.originalSentence);
   },
   methods: {
@@ -18,7 +18,7 @@ var app = new Vue({
       params.append('text', document.getElementsByName('text')[0].value);
       axios.post('/sentence-diagram-web/api/sentences', params).then(() => {
         document.getElementsByName('text')[0].value = '';
-        axios.get('https://localhost:9443/sentence-diagram-web/api/sentences')
+        axios.get('http://localhost:9080/sentence-diagram-web/api/sentences')
           .then(response => this.info = response.data.originalSentence);
       });
     }

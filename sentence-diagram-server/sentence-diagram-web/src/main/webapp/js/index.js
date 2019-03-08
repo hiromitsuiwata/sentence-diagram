@@ -5,7 +5,7 @@ var app = new Vue({
   }
 });
 
-app.message = 'I have changed the data';
+app.message = ' #### I have changed the data #### ';
 
 var app2 = new Vue({
   el: '#app-2',
