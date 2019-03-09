@@ -26,13 +26,34 @@
         Lorem ipsum
       </div>
       <div class="card-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-        est
-        laborum.
+        <div class="main2">
+          <div id="app1">{{ message }}</div>
+
+          <div id="app2">
+            <span v-bind:title="message">
+              Hover your mouse over me for a few seconds
+              to see my dynamically bound title!
+            </span>
+          </div>
+
+          <div id="app3">
+            <svg viewbox="0 0 100 100" width="100" height="100">
+              <line :x1="x1" y1=100 x2=100 y2=0 stroke="blue"></line>
+            </svg>
+            <div>
+              <input type="range" v-model="x1">
+            </div>
+            <svg viewbox="0 0 100 100" width="100" height="100">
+              <path id="myPath" fill="none" stroke="red" d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
+              <text>
+                <textPath href="#myPath">
+                  Lorem ipsum
+                </textPath>
+              </text>
+            </svg>
+          </div>
+        </div>
+
       </div>
       <div class="card-link">
         <a href="http://localhost:8080/">Link</a>
@@ -237,11 +258,7 @@
       </div>
     </div>
   </div>
-
-  <div class="main2">
-    <div id="app1">{{ message }}</div>
-  </div>
-
   <script src="./bundle.js"></script>
 </body>
+
 </html>

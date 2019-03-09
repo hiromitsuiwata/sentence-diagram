@@ -27,3 +27,9 @@ bundle.js
 
 sentence-diagram-client/public/*
 !index.html
+
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.woff2
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.woff
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.svg
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.eot
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.ttf
