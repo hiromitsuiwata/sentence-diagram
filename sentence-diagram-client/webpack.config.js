@@ -19,6 +19,15 @@ module.exports = {
       }
     ],
   },
+  resolve: {
+    extensions: ['.js', '.vue'],
+    modules: [
+        "node_modules"
+    ],
+    alias: {
+        vue: 'vue/dist/vue.common.js'
+    }
+  },
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     host: '0.0.0.0',
