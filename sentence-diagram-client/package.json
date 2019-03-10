@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js; gulp",
     "serve": "webpack-dev-server --config webpack.config.js",
     "eslint": "node ./node_modules/eslint/bin/eslint.js src/*",
     "stylelint": "node ./node_modules/stylelint/bin/stylelint.js",

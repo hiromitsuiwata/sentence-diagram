@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import Vue from 'vue';
+import axios from 'axios';
+
 import '../css/brands.css';
 import '../css/fontawesome.css';
 import '../css/sentence.css';
@@ -18,7 +20,7 @@ function component() {
 document.querySelector(".main").appendChild(component());
 
 var app1 = new Vue({
-  el: '#app1',
+  el: '#app-1',
   data: {
     message: 'Hello Vue!'
   }
@@ -26,16 +28,43 @@ var app1 = new Vue({
 app1.message = ' #### I have changed the data #### ';
 
 var app2 = new Vue({
-  el: '#app2',
+  el: '#app-2',
   data: {
     message: 'You loaded this page on ' + new Date().toLocaleString()
   }
 });
 
 var app3 = new Vue({
-  el: "#app3",
+  el: "#app-3",
   data: {
     x1: 100,
     active: false
+  }
+});
+
+var app4 = new Vue({
+  el: '#app-4',
+  data: {
+    message: 'Hello Vue!'
+  },
+  data() {
+    return {
+      info: null
+    }
+  },
+  mounted() {
+    axios.get('api/sentences')
+      .then(response => this.info = response.data.originalSentence);
+  },
+  methods: {
+    create: function () {
+      var params = new URLSearchParams();
+      params.append('text', document.getElementsByName('text')[0].value);
+      axios.post('api/sentences', params).then(() => {
+        document.getElementsByName('text')[0].value = '';
+        axios.get('api/sentences')
+          .then(response => this.info = response.data.originalSentence);
+      });
+    }
   }
 });

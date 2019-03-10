@@ -28,16 +28,16 @@
         </div>
         <div class="card-text">
           <div class="main2">
-            <div id="app1">{{ message }}</div>
+            <div id="app-1">{{ message }}</div>
 
-            <div id="app2">
+            <div id="app-2">
               <span v-bind:title="message">
                 Hover your mouse over me for a few seconds
                 to see my dynamically bound title!
               </span>
             </div>
 
-            <div id="app3">
+            <div id="app-3">
               <svg viewbox="0 0 100 100" width="100" height="100">
                 <line :x1="x1" y1=100 x2=100 y2=0 stroke="blue"></line>
               </svg>
@@ -52,6 +52,12 @@
                   </textPath>
                 </text>
               </svg>
+            </div>
+
+            <div id="app-4">
+              <input type="text" name="text">
+              <button v-on:click="create">submit</button>
+              {{ info }}
             </div>
           </div>
 
