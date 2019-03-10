@@ -1,4 +1,5 @@
 const path = require('path');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   entry: './src/assets/js/index.js',
@@ -16,16 +17,20 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
         use: ['file-loader']
+      },
+      {
+        test: /\.vue$/,
+        use: ['vue-loader']
       }
     ],
   },
+  plugins: [
+    // make sure to include the plugin!
+    new VueLoaderPlugin()
+  ],
   resolve: {
-    extensions: ['.js', '.vue'],
-    modules: [
-        "node_modules"
-    ],
     alias: {
-        vue: 'vue/dist/vue.common.js'
+      'vue$': 'vue/dist/vue.esm.js'
     }
   },
   devServer: {

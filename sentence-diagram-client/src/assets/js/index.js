@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Vue from 'vue';
 import axios from 'axios';
+import CardLorem from '../../components/cardlorem.vue';
 
 import '../css/brands.css';
 import '../css/fontawesome.css';
@@ -11,9 +12,7 @@ import '../css/normalize.css';
 
 function component() {
   let element = document.createElement('div');
-
   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
   return element;
 }
 
@@ -27,14 +26,14 @@ var app1 = new Vue({
 });
 app1.message = ' #### I have changed the data #### ';
 
-var app2 = new Vue({
+new Vue({
   el: '#app-2',
   data: {
     message: 'You loaded this page on ' + new Date().toLocaleString()
   }
 });
 
-var app3 = new Vue({
+new Vue({
   el: "#app-3",
   data: {
     x1: 100,
@@ -42,7 +41,7 @@ var app3 = new Vue({
   }
 });
 
-var app4 = new Vue({
+new Vue({
   el: '#app-4',
   data: {
     message: 'Hello Vue!'
@@ -67,4 +66,10 @@ var app4 = new Vue({
       });
     }
   }
+});
+
+Vue.component('card-lorem', CardLorem);
+
+new Vue({
+  el: '#app-5'
 });
