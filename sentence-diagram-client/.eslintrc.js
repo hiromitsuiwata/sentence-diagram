@@ -7,7 +7,14 @@ module.exports = {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "extends": "eslint:recommended",
+    "plugins": [
+        "vue"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/essential",
+        "prettier"
+    ],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
