@@ -11,11 +11,6 @@ body {
 }
 
 .main {
-  /*
-  display: grid;
-  grid-template-columns: 100px, 1fr;
-  grid-gap: 20px;
-  */
   padding: 20px 20px 20px 20px;
   position: absolute;
   top: 48px;
