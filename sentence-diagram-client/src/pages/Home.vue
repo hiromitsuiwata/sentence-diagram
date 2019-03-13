@@ -1,46 +1,27 @@
 <template>
   <div>
-  <div class="header">
-    <div class="logo">
-      <div class="logo1">sentence</div>
-      <div class="logo2">diagram</div>
-    </div>
-    <div class="search-frame">
-      <input type="text" class="textbox">
-      <button class="search-button"><i class="fas fa-search"></i></button>
-    </div>
+    <home-header></home-header>
 
-    <div class="user-button">
-        <i class="fas fa-user center"></i>
-    </div>
-
-    <router-link to="/register">
-    <div class="create-button">
-        <i class="fas fa-pencil-alt center"></i>
-    </div>
-    </router-link>
-  </div>
-
-  <div class="main">
-    <div class="columns">
-      <div id="app-1">
-        <my-card></my-card>
-      </div>
-
-      <div id="app-5">
-        <card-lorem v-for="card in cards" :key="card.id" :id="card.id" :title="card.title" :text="card.text" :url="card.url"></card-lorem>
+    <div class="main">
+      <div class="columns">
+        <div id="app-1">
+          <my-card></my-card>
+        </div>
+        <div id="app-5">
+          <card-lorem v-for="card in cards" :key="card.id" :id="card.id" :title="card.title" :text="card.text" :url="card.url"></card-lorem>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+import HomeHeader from '../components/HomeHeader.vue';
 import CardLorem from '../components/CardLorem.vue';
 import MyCard from '../components/MyCard.vue';
 
-
+Vue.component('home-header', HomeHeader);
 Vue.component('my-card', MyCard);
 Vue.component('card-lorem', CardLorem);
 

@@ -1,0 +1,177 @@
+<template>
+  <div class="header">
+    <div class="logo">
+      <div class="logo1">sentence</div>
+      <div class="logo2">diagram</div>
+    </div>
+    <div class="search-frame">
+      <input type="text" class="textbox">
+      <button class="search-button"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="user-button">
+        <i class="fas fa-user center"></i>
+    </div>
+
+    <router-link to="/register">
+    <div class="create-button">
+        <i class="fas fa-pencil-alt center"></i>
+    </div>
+    </router-link>
+  </div>
+</template>
+
+<style scoped>
+.header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  z-index: 1;
+}
+
+.logo {
+  position: absolute;
+  top: 8px;
+  left: 20px;
+  overflow: hidden;
+  grid-column: 1 / 2;
+  display: flex;
+}
+
+.logo1 {
+  border-color: #4169e1;
+  border-style: solid;
+  color: #4169e1;
+  font-family: sans-serif;
+  width: 100px;
+  height: 26px;
+  text-align: center;
+  top: 8px;
+  line-height: 24px;
+  float: left;
+  letter-spacing: 0.15em;
+  border-radius: 30px 0 0 30px / 30px 0 0 30px;
+}
+
+.logo2 {
+  border-color: #4169e1;
+  border-style: solid;
+  background-color: #4169e1;
+  color: white;
+  font-family: sans-serif;
+  width: 100px;
+  height: 26px;
+  text-align: center;
+  top: 8px;
+  line-height: 24px;
+  left: 200px;
+  float: left;
+  letter-spacing: 0.15em;
+  border-radius: 0 30px 30px 0 / 0 30px 30px 0;
+}
+
+.search-frame {
+  position: absolute;
+  top: 8px;
+  left: 0%;
+  right: 0%;
+  height: 30px;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 15px;
+  color: #000;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #a9a9a9;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  grid-column: 2 / 4;
+  display: flex;
+}
+
+.textbox {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  width: 500px;
+  height: 30px;
+  background: #fff;
+  font-size: 15px;
+  color: #000;
+  border-style: none;
+  background-color: transparent;
+}
+
+.search-button {
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 33px;
+  height: 32px;
+  color: #4169e1;
+  background-color: transparent;
+  font-size: 15px;
+  text-align: center;
+  border-style: none;
+  cursor: pointer;
+}
+
+.user-button {
+  position: absolute;
+  display: flex;
+  background-color: #4169e1;
+  width: 30px;
+  height: 30px;
+  margin-top: 9px;
+  right: 70px;
+  grid-column: 4 / 5;
+  border-radius: 5px;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  font-size: 20px;
+  color: white;
+}
+
+.create-button {
+  position: absolute;
+  display: flex;
+  background-color: #4169e1;
+  width: 30px;
+  height: 30px;
+  margin-top: 9px;
+  right: 20px;
+  grid-column: 4 / 5;
+  border-radius: 5px;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  font-size: 20px;
+  color: white;
+}
+
+.center {
+  margin: auto;
+}
+
+@media screen and (max-width: 400px) {
+  .create {
+    right: 10px;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .logo {
+    display: none;
+  }
+
+  .search-frame {
+    grid-column: 1 / 5;
+    margin-left: 10px;
+    margin-right: 120px;
+  }
+}
+
+</style>
+

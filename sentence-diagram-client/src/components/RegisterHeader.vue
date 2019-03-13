@@ -1,0 +1,63 @@
+<template>
+  <div class="header">
+    <router-link to="/">
+    <div class="back-button">
+        <i class="fas fa-arrow-left center"></i>
+    </div>
+    </router-link>
+  </div>
+</template>
+
+<style scoped>
+.header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  z-index: 1;
+}
+
+.back-button {
+  position: absolute;
+  display: flex;
+  background-color: #4169e1;
+  width: 30px;
+  height: 30px;
+  margin-top: 9px;
+  left: 20px;
+  grid-column: 1 / 2;
+  border-radius: 5px;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  font-size: 20px;
+  color: white;
+}
+
+.center {
+  margin: auto;
+}
+
+@media screen and (max-width: 400px) {
+  .create {
+    right: 10px;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .logo {
+    display: none;
+  }
+
+  .search-frame {
+    grid-column: 1 / 5;
+    margin-left: 10px;
+    margin-right: 120px;
+  }
+}
+
+</style>
+
