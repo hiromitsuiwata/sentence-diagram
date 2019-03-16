@@ -26,9 +26,7 @@ import RegisterHeader from '../components/RegisterHeader.vue';
 
 Vue.component('register-header', RegisterHeader);
 
-export default {
-  
-}
+export default {};
 </script>
 
 <style scoped>
@@ -90,5 +88,4 @@ export default {
   margin: 10px 10px 10px 10px;
   right: 0;
 }
-
 </style>

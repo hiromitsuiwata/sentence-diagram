@@ -13,9 +13,14 @@ import './assets/css/solid.css';
 import './assets/css/normalize.css';
 
 const router = new VueRouter({
-  routes: [
-    { path: '/', component: Home },
-    { path: '/register', component: Register }
+  routes: [{
+      path: '/',
+      component: Home
+    },
+    {
+      path: '/register',
+      component: Register
+    }
   ]
 });
 

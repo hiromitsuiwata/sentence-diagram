@@ -17,7 +17,5 @@ import MyCardText from './MyCardText.vue';
 
 Vue.component('my-card-text', MyCardText);
 
-export default {
-  
-}
+export default {};
 </script>

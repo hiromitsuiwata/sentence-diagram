@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       x1: 100
-    }
+    };
   }
-}
+};
 </script>

@@ -15,5 +15,5 @@ export default {
     text: String,
     url: String
   }
-}
+};
 </script>

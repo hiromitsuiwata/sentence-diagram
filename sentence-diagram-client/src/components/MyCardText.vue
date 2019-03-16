@@ -13,7 +13,5 @@ import ExampleSvg from './ExampleSvg.vue';
 Vue.component('hello', Hello);
 Vue.component('example-svg', ExampleSvg);
 
-export default {
-  
-}
+export default {};
 </script>
