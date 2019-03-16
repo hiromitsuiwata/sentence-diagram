@@ -13,7 +13,7 @@
           <div class="placeholder" data-placeholder="URL"></div>
         </div>
         <div class="button-area">
-          <div class="post-button">Post</div>
+          <div class="post-button" v-on:click="greet">Post</div>
         </div>
       </div>
     </div>
@@ -22,11 +22,33 @@
 
 <script>
 import Vue from 'vue';
+import axios from 'axios';
 import RegisterHeader from '../components/RegisterHeader.vue';
 
 Vue.component('register-header', RegisterHeader);
 
-export default {};
+export default {
+  methods: {
+    greet: function(event) {
+      alert('Hello!');
+      // メソッド内の `this` は、 Vue インスタンスを参照します
+      console.log(this);
+      // `event` は、ネイティブ DOM イベントです
+      console.log(event);
+
+      axios
+        .post('/sentence-diagram-web/api/sentences', {
+          text: 'sample text'
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .then(function(error) {
+          console.log(error);
+        });
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -39,7 +61,7 @@ export default {};
   margin: auto;
   border-width: 1px;
   width: 520px;
-  height: 350px;
+  height: 340px;
   margin-top: 20px;
   background: #fff;
   border-radius: 5px;
@@ -80,12 +102,14 @@ export default {};
 .post-button {
   position: absolute;
   background-color: #4169e1;
-  width: 40px;
-  text-align: center;
   color: #fff;
+  width: 40px;
   border-radius: 5px;
   padding: 5px 5px 5px 5px;
-  margin: 10px 10px 10px 10px;
+  margin: 10px 10px 0 0;
   right: 0;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  cursor: pointer;
 }
 </style>
