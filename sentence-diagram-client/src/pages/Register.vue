@@ -3,17 +3,10 @@
     <register-header></register-header>
     <div class="main">
       <div class="register-fields">
-        <div class="editor editor-title" contenteditable="true">
-          <div class="placeholder" data-placeholder="Title"></div>
-        </div>
-        <div class="editor editor-text" contenteditable="true">
-          <div class="placeholder" data-placeholder="Your text here"></div>
-        </div>
-        <div class="editor editor-url" contenteditable="true">
-          <div class="placeholder" data-placeholder="URL"></div>
-        </div>
+        <textarea class="editor editor-text" placeholder="Your text here" v-model="text"></textarea>
+        <input type="text" class="editor editor-url" placeholder="URL" v-model="url">
         <div class="button-area">
-          <div class="post-button" v-on:click="greet">Post</div>
+          <div class="post-button" v-on:click="submit">Post</div>
         </div>
       </div>
     </div>
@@ -28,17 +21,22 @@ import RegisterHeader from '../components/RegisterHeader.vue';
 Vue.component('register-header', RegisterHeader);
 
 export default {
+  data() {
+    return {
+      text:
+        'The cathedral is dedicated to Finbarr of Cork, patron saint of the city, who may have founded a monastery on the grounds in the seventh century.',
+      url: 'https://en.wikipedia.org/wiki/Saint_Fin_Barre%27s_Cathedral'
+    };
+  },
   methods: {
-    greet: function(event) {
-      alert('Hello!');
-      // メソッド内の `this` は、 Vue インスタンスを参照します
-      console.log(this);
-      // `event` は、ネイティブ DOM イベントです
-      console.log(event);
+    submit: function(event) {
+      console.log(this.text);
+      console.log(this.url);
 
       axios
         .post('/sentence-diagram-web/api/sentences', {
-          text: 'sample text'
+          text: this.text,
+          url: this.url
         })
         .then(function(response) {
           console.log(response);
@@ -72,16 +70,13 @@ export default {
 
 .editor {
   margin: 10px 10px 10px 10px;
-}
-
-.editor-title {
-  font-size: 36px;
-  width: 500px;
+  border-style: none;
+  resize: none;
 }
 
 .editor-text {
   font-size: 16px;
-  height: 200px;
+  height: 220px;
   width: 500px;
 }
 

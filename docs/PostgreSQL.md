@@ -46,6 +46,8 @@ psql --host 127.0.0.1 -U postgres
 create database <dbname>
 # データベースへの接続
 \c <dbname>
+# テーブル一覧の表示
+\dt
 # テーブル定義の表示
 \d <tablename>
 ```

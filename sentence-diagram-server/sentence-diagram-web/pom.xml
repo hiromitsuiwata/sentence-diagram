@@ -25,6 +25,10 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.mortbay.jetty.alpn</groupId>
 			<artifactId>alpn-boot</artifactId>
 			<scope>test</scope>
