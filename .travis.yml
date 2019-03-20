@@ -6,6 +6,7 @@ matrix:
       script:
         - npm install; npm run build
     - lauguage: java
+      jdk: openjdk11
       before_script:
         - cd sentence-diagram-server
       script:
