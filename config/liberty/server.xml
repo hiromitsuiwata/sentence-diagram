@@ -12,15 +12,10 @@
 		<feature>jaxrs-2.1</feature>
 	</featureManager>
 
-	<basicRegistry id="basic" realm="BasicRealm">
-	</basicRegistry>
-
 	<httpEndpoint httpPort="9080" httpsPort="9443"
 		id="defaultHttpEndpoint" />
 
 	<applicationManager autoExpand="true" />
-
-
 	<applicationMonitor updateTrigger="mbean" />
 
 	<webApplication id="sentence-diagram-web"
@@ -39,8 +34,6 @@
 			portNumber="5432"></properties>
 	</dataSource>
 
-	<logging traceSpecification="eclipselink.sql=all"
-		traceFileName="trace.log" maxFileSize="20" maxFiles="1"
-		traceFormat="BASIC" />
-	<jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"></jpa>
+	<jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres"
+	 defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 </server>

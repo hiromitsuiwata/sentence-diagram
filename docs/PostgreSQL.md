@@ -28,13 +28,10 @@ postgres -D /usr/local/var/postgres
 ```bash
 # データベースを一覧表示
 psql -l
-
 # データベースを作成
 createdb mydb
-
 # データベース名を指定して接続
 psql -d mydb
-
 # ホスト名、ユーザー名を指定して接続する
 psql --host 127.0.0.1 -U postgres
 ```

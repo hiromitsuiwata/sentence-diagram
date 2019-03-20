@@ -10,6 +10,8 @@
         <property name="eclipselink.logging.level.sql" value="FINE"/>
         <property name="eclipselink.logging.level" value="ALL"/>
         <property name="eclipselink.logging.parameters" value="true"/>
+        <!-- java.util.loggingへログ出力する -->
+        <property name="eclipselink.logging.logger" value="JavaLogger"/>
       </properties>
     </persistence-unit>
 </persistence>
