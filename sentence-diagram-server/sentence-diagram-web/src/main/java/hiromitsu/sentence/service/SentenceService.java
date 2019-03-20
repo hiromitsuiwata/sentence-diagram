@@ -7,6 +7,9 @@ import javax.transaction.Transactional;
 
 import hiromitsu.sentence.db.SentenceEntity;
 
+/**
+ * 文サービス
+ */
 @ApplicationScoped
 @Transactional
 public class SentenceService {

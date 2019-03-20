@@ -7,8 +7,11 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
+/**
+ * 文エンティティ
+ */
 @Data
-@Entity(name="SENTENCE")
+@Entity(name = "SENTENCE")
 public class SentenceEntity {
 
   @Id

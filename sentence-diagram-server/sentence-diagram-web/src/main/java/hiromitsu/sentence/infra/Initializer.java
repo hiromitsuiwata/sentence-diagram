@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebListener;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
+/**
+ * 初期化
+ */
 @WebListener
 public class Initializer implements ServletContextListener {
 

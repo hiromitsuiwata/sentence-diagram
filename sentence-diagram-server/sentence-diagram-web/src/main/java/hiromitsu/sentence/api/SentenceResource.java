@@ -1,6 +1,5 @@
 package hiromitsu.sentence.api;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.service.Sentence;
@@ -64,14 +63,9 @@ public class SentenceResource {
   public Response createSentence(String request) {
     logger.info(request);
     
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      Sentence sentence = mapper.readValue(request, Sentence.class);
-      sentenceService.create(sentence);
-    } catch (IOException e) {
-      throw new IllegalArgumentException(e);
-    }
-
+    Gson gson = new Gson();
+    Sentence sentence = gson.fromJson(request, Sentence.class);
+    sentenceService.create(sentence);
     
     Response response = Response.ok().build();
     logger.info(response.toString());
