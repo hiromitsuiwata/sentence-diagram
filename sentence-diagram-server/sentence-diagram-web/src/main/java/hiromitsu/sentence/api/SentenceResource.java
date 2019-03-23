@@ -1,6 +1,5 @@
 package hiromitsu.sentence.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.service.Sentence;
 import hiromitsu.sentence.service.SentenceService;
 
@@ -34,27 +32,34 @@ public class SentenceResource {
   @Inject
   private SentenceService sentenceService;
   
-  private static List<String> sentences = new ArrayList<>();
-
   @GET
   @Produces("application/json")
   public Response getSentences() {
-    ParsedResult result = new ParsedResult();
-    result.setOriginalSentence(sentences.toString());
-    // TODO JSONで返すようにする
-    Response response = Response.ok(result).build();
-    logger.info(result.toJSON());
+    
+    List<Sentence> list = sentenceService.findAll();
+    
+    Gson gson = new Gson();
+    String json = gson.toJson(list);
+    logger.info(json);
+
+    Response response = Response.ok(json).build();
+
     return response;
   }
 
   @GET
   @Produces("application/json")
   @Path("{id}")
-  public Response getSentence(@PathParam("id") int id) {
-    ParsedResult result = new ParsedResult();
-    result.setOriginalSentence(sentences.get(id));
-    Response response = Response.ok(result).build();
-    logger.info("getSentence");
+  public Response getSentence(@PathParam("id") long id) {
+    
+    Sentence sentence = sentenceService.find(id);
+
+    Gson gson = new Gson();
+    String json = gson.toJson(sentence);
+    logger.info(json);
+
+    Response response = Response.ok(json).build();
+    
     return response;
   }
 
