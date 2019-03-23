@@ -6,7 +6,9 @@
       <jta-data-source>jdbc/postgres</jta-data-source>
       <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
+        <!-- テーブルの自動生成 -->
         <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        <!-- SQL、パラメータのログ出力 -->
         <property name="eclipselink.logging.level.sql" value="FINE"/>
         <property name="eclipselink.logging.level" value="ALL"/>
         <property name="eclipselink.logging.parameters" value="true"/>

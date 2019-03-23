@@ -32,6 +32,7 @@ export default {
     submit: function(event) {
       console.log(this.text);
       console.log(this.url);
+      const self = this;
 
       axios
         .post('/sentence-diagram-web/api/sentences', {
@@ -39,10 +40,12 @@ export default {
           url: this.url
         })
         .then(function(response) {
-          console.log(response);
+          console.log({ response: response });
+          // Home画面へ遷移
+          self.$router.push('/');
         })
         .then(function(error) {
-          console.log(error);
+          console.log({ error: error });
         });
     }
   }

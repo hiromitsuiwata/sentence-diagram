@@ -5,12 +5,5 @@
   version="4.0">
 
   <display-name>sentence-diagram-web</display-name>
-  <servlet>
-    <servlet-name>SampleServlet</servlet-name>
-    <servlet-class>hiromitsu.sentence.servlet.SampleServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SampleServlet</servlet-name>
-    <url-pattern>/SampleServlet</url-pattern>
-  </servlet-mapping>
+
 </web-app>
