@@ -5,7 +5,7 @@
     <div class="card-text" id="app-1">
       <my-card-text></my-card-text>
     </div>
-    <div class="card-link">
+    <div class="card-operation">
       <a href="http://localhost:8080/">Link</a>
     </div>
   </div>
