@@ -17,6 +17,8 @@
 
 <script>
 import Vue from 'vue';
+import axios from 'axios';
+
 import HomeHeader from '../components/HomeHeader.vue';
 import CardLorem from '../components/CardLorem.vue';
 import MyCard from '../components/MyCard.vue';
@@ -28,20 +30,46 @@ Vue.component('card-lorem', CardLorem);
 export default {
   data() {
     const cards = [];
+    /*
     for (let i = 1; i < 13; i++) {
       cards.push(new Card(i));
     }
+    */
     return {
       cards
     };
+  },
+  created: function() {
+    console.log('created');
+
+    axios
+      .get('/sentence-diagram-web/api/sentences')
+      .then(response => {
+        console.log({
+          response: response
+        });
+        this.cards = response.data;
+      })
+      .catch(error => {
+        console.log({
+          error: error
+        });
+      });
   }
 };
 
-function Card(id) {
-  (this.id = id),
-    (this.title = 'Lorem ipsum'),
-    (this.text =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
-    (this.url = 'http://localhost:8080/');
+function Card(id, text, url) {
+  this.id = id;
+  if (text) {
+    this.text = text;
+  } else {
+    this.text =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+  }
+  if (url) {
+    this.url = url;
+  } else {
+    this.url = 'http://localhost:8080/';
+  }
 }
 </script>

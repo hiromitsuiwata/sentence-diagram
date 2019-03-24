@@ -3,9 +3,13 @@
     <register-header></register-header>
     <div class="main">
       <div class="register-fields">
+        <input type="text" class="editor editor-title" placeholder="Title" v-model="title">
         <textarea class="editor editor-text" placeholder="Your text here" v-model="text"></textarea>
         <input type="text" class="editor editor-url" placeholder="URL" v-model="url">
         <div class="button-area">
+          <router-link to="/">
+            <div class="cancel-button">Cancel</div>
+          </router-link>
           <div class="post-button" v-on:click="submit">Post</div>
         </div>
       </div>
@@ -23,6 +27,7 @@ Vue.component('register-header', RegisterHeader);
 export default {
   data() {
     return {
+      title: "Saint Fin Barre's Cathedral",
       text:
         'The cathedral is dedicated to Finbarr of Cork, patron saint of the city, who may have founded a monastery on the grounds in the seventh century.',
       url: 'https://en.wikipedia.org/wiki/Saint_Fin_Barre%27s_Cathedral'
@@ -30,12 +35,14 @@ export default {
   },
   methods: {
     submit: function(event) {
+      console.log(this.title);
       console.log(this.text);
       console.log(this.url);
       const self = this;
 
       axios
         .post('/sentence-diagram-web/api/sentences', {
+          title: this.title,
           text: this.text,
           url: this.url
         })
@@ -62,7 +69,7 @@ export default {
   margin: auto;
   border-width: 1px;
   width: 520px;
-  height: 340px;
+  height: 370px;
   margin-top: 20px;
   background: #fff;
   border-radius: 5px;
@@ -75,6 +82,11 @@ export default {
   margin: 10px 10px 10px 10px;
   border-style: none;
   resize: none;
+}
+
+.editor-title {
+  font-size: 16px;
+  width: 500px;
 }
 
 .editor-text {
@@ -106,6 +118,19 @@ export default {
   padding: 5px 5px 5px 5px;
   margin: 10px 10px 0 0;
   right: 0;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  cursor: pointer;
+}
+
+.cancel-button {
+  position: absolute;
+  background-color: #696969;
+  color: #fff;
+  width: 60px;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+  margin: 10px 10px 0 0;
   box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
   text-align: center;
   cursor: pointer;

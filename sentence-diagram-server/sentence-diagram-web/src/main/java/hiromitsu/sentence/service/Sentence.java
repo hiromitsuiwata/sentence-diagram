@@ -25,9 +25,12 @@ public class Sentence {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   
+  @Column(length = 1024, nullable = true)
+  private String title; 
+  
   @Column(length = 1024, nullable = false)
   private String text;
 
-  @Column(length = 1024)
+  @Column(length = 1024, nullable = true)
   private String url;
 }
