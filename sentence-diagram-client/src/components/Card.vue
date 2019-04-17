@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: {
     id: Number,
@@ -21,6 +23,15 @@ export default {
   methods: {
     showDiagram: function(event) {
       console.log({ showDiagram: this.id });
+
+      axios
+        .put('/sentence-diagram-web/api/sentences/' + this.id + '/diagram')
+        .then(function(response) {
+          console.log({ response: response });
+        })
+        .then(function(error) {
+          console.log({ error: error });
+        });
     }
   }
 };

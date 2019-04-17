@@ -15,22 +15,22 @@ import lombok.Data;
  */
 @Data
 @Entity(name = "SENTENCE")
-@NamedQueries({
-  @NamedQuery(name = "Sentence.findAll", query = "SELECT s FROM SENTENCE s")
-})
+@NamedQueries({ @NamedQuery(name = "Sentence.findAll", query = "SELECT s FROM SENTENCE s") })
 public class Sentence {
+
+  private static final int COLUMN_LENGTH = 1024;
 
   @Column
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  
-  @Column(length = 1024, nullable = true)
-  private String title; 
-  
-  @Column(length = 1024, nullable = false)
+
+  @Column(length = COLUMN_LENGTH, nullable = true)
+  private String title;
+
+  @Column(length = COLUMN_LENGTH, nullable = false)
   private String text;
 
-  @Column(length = 1024, nullable = true)
+  @Column(length = COLUMN_LENGTH, nullable = true)
   private String url;
 }

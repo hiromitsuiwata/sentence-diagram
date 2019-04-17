@@ -100,11 +100,6 @@ export default {
   width: 500px;
 }
 
-.placeholder:empty:before {
-  color: gray;
-  content: attr(data-placeholder);
-}
-
 .button-area {
   border-top: 1px solid #eee;
 }

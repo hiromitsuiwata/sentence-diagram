@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -47,22 +48,6 @@ public class SentenceResource {
     return response;
   }
 
-  @GET
-  @Produces("application/json")
-  @Path("{id}")
-  public Response getSentence(@PathParam("id") long id) {
-    
-    Sentence sentence = sentenceService.find(id);
-
-    Gson gson = new Gson();
-    String json = gson.toJson(sentence);
-    logger.info(json);
-
-    Response response = Response.ok(json).build();
-    
-    return response;
-  }
-
   @POST
   @Consumes("application/json")
   public Response createSentence(String request) {
@@ -74,6 +59,16 @@ public class SentenceResource {
     
     Response response = Response.ok().build();
     logger.info(response.toString());
+    return response;
+  }
+  
+  @PUT
+  @Path("{id}/diagram")
+  @Produces("application/json")
+  public Response createDiagram(@PathParam("id") long id) {
+    logger.info(Long.toString(id));
+    sentenceService.createDiagram(id);
+    Response response = Response.ok().build();
     return response;
   }
 }

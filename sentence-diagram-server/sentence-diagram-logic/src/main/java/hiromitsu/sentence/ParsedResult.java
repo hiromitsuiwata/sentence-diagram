@@ -7,10 +7,12 @@ import com.google.gson.Gson;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * CoreNLPパーサーの実行結果を格納しJSON形式で取り出す
  */
+@ToString
 public class ParsedResult {
   @Setter
   @Getter

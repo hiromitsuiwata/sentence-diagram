@@ -8,12 +8,20 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import hiromitsu.sentence.CoreNLPWrapper;
+import hiromitsu.sentence.ParsedResult;
+
 /**
  * 文サービス
  */
 @ApplicationScoped
 @Transactional
 public class SentenceService {
+
+  private static Logger logger = LoggerFactory.getLogger(SentenceService.class);
 
   @PersistenceContext
   private EntityManager em;
@@ -44,5 +52,21 @@ public class SentenceService {
    */
   public Sentence find(Long id) {
     return em.find(Sentence.class, id);
+  }
+  
+  public Sentence createDiagram(Long id) {
+    Sentence sentence = em.find(Sentence.class, id);
+    CoreNLPWrapper nlp = CoreNLPWrapper.getInstance();
+    List<ParsedResult> result = nlp.parse(sentence.getText());
+    result.forEach( r -> {
+      logger.info(r.getOriginalSentence().toString());
+      logger.info(r.getConstituents().toString());
+      logger.info(r.getConstituentyText().toString());
+      logger.info(r.getDependencies().toString());
+      logger.info(r.getLemmas().toString());
+      logger.info(r.getPosTags().toString());
+      logger.info(r.getTokens().toString());      
+    });
+    return sentence;
   }
 }

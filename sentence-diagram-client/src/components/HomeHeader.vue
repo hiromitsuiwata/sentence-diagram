@@ -97,8 +97,8 @@
 .textbox {
   position: absolute;
   top: 0;
-  left: 15px;
-  width: 500px;
+  left: 0;
+  width: 690px;
   height: 30px;
   background: #fff;
   font-size: 15px;
