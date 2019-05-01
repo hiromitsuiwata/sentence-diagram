@@ -58,7 +58,7 @@ public class SentenceService {
     Sentence sentence = em.find(Sentence.class, id);
     CoreNLPWrapper nlp = CoreNLPWrapper.getInstance();
     List<ParsedResult> result = nlp.parse(sentence.getText());
-    result.forEach( r -> {
+    result.forEach(r -> {
       logger.info(r.getOriginalSentence().toString());
       logger.info(r.getConstituents().toString());
       logger.info(r.getConstituentyText().toString());
