@@ -41,12 +41,6 @@
   margin: auto;
 }
 
-@media screen and (max-width: 400px) {
-  .create {
-    right: 10px;
-  }
-}
-
 @media screen and (max-width: 930px) {
   .logo {
     display: none;
