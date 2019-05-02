@@ -1,6 +1,7 @@
 package hiromitsu.sentence;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import edu.stanford.nlp.pipeline.CoreSentence;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphEdge;
+import edu.stanford.nlp.trees.Constituent;
 import edu.stanford.nlp.trees.LabeledScoredConstituentFactory;
 import edu.stanford.nlp.trees.Tree;
 
@@ -22,7 +24,6 @@ import edu.stanford.nlp.trees.Tree;
 public class CoreNLPWrapper {
 
   private StanfordCoreNLP pipeline;
-
   private static CoreNLPWrapper instance;
 
   public static synchronized CoreNLPWrapper getInstance() {
@@ -33,7 +34,6 @@ public class CoreNLPWrapper {
   }
 
   private CoreNLPWrapper() {
-    // set up pipeline
     Properties props = new Properties();
     props.setProperty("annotators", "tokenize,ssplit,pos,lemma,parse");
     props.setProperty("coref.algorithm", "neural");
@@ -53,41 +53,68 @@ public class CoreNLPWrapper {
     for (CoreSentence s : sentences) {
 
       String sentenceText = s.text();
+      ParsedResult result = new ParsedResult();
+
+      result.setOriginalSentence(sentenceText);
+
       List<String> tokens = s.tokens().stream().map(t -> t.originalText()).collect(Collectors.toList());
       List<String> lemmas = s.tokens().stream().map(t -> t.lemma()).collect(Collectors.toList());
       List<String> posTags = s.posTags();
-      Tree constituencyParse = s.constituencyParse();
-      Set<String> constituents = constituencyParse.constituents(new LabeledScoredConstituentFactory()).stream()
-        .map(c -> c.toString()).collect(Collectors.toSet());
 
-      ParsedResult result = new ParsedResult();
-      result.setOriginalSentence(sentenceText);
-      result.setTokens(tokens);
-      result.setLemmas(lemmas);
-      result.setPosTags(posTags);
-      result.setConstituents(constituents);
-      result.setConstituentyText(constituencyParse.toString());
-
-      SemanticGraph dependencyParse = s.dependencyParse();
-      Iterator<SemanticGraphEdge> ite = dependencyParse.edgeIterable().iterator();
-      Set<Dep> dependencies = new LinkedHashSet<>();
-      while (ite.hasNext()) {
-        SemanticGraphEdge edge = ite.next();
-
-        String relation = edge.getRelation().toString();
-
-        int sourceIndex = edge.getSource().index();
-        int targetIndex = edge.getTarget().index();
-
-        Dep dep = new Dep(sourceIndex, targetIndex, relation);
-        dependencies.add(dep);
+      List<Word> wordList = new ArrayList<>();
+      for (int i = 0; i < tokens.size(); i++) {
+        String token = tokens.get(i);
+        String lemma = lemmas.get(i);
+        String posTag = posTags.get(i);
+        Word w = new Word(token, lemma, posTag);
+        wordList.add(w);
       }
-
-      result.setDependencies(dependencies);
+      result.setWordList(wordList);
+      
+      
+      Tree constituencyParse = s.constituencyParse();
+      result.setConstituentyText(constituencyParse.toString());
+      Set<Con> cons = createConstituentSet(constituencyParse);
+      result.setConstituents(cons);
+      
+      Set<Dep> deps = createDepSet(s);
+      result.setDependencies(deps);
 
       results.add(result);
     }
 
     return results;
+  }
+
+  private Set<Dep> createDepSet(CoreSentence s) {
+    // Dependencies
+    SemanticGraph dependencyParse = s.dependencyParse();
+    Iterator<SemanticGraphEdge> ite = dependencyParse.edgeIterable().iterator();
+    Set<Dep> dependencies = new LinkedHashSet<>();
+    while (ite.hasNext()) {
+      SemanticGraphEdge edge = ite.next();
+
+      String relation = edge.getRelation().toString();
+
+      int sourceIndex = edge.getSource().index();
+      int targetIndex = edge.getTarget().index();
+
+      Dep dep = new Dep(sourceIndex, targetIndex, relation);
+      dependencies.add(dep);
+    }
+    return dependencies;
+  }
+
+  private Set<Con> createConstituentSet(Tree constituencyParse) {
+    // Constituents
+    Set<Constituent> constituentSet = constituencyParse.constituents(new LabeledScoredConstituentFactory());
+    Iterator<Constituent> ite = constituentSet.iterator();
+    Set<Con> conSet = new HashSet<>();
+    while (ite.hasNext()) {
+      Constituent constituent = ite.next();
+      Con con = new Con(constituent.start(), constituent.end(), constituent.label().toString());
+      conSet.add(con);
+    }
+    return conSet;
   }
 }

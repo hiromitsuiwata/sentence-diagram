@@ -63,9 +63,9 @@ public class SentenceService {
       logger.info(r.getConstituents().toString());
       logger.info(r.getConstituentyText().toString());
       logger.info(r.getDependencies().toString());
-      logger.info(r.getLemmas().toString());
-      logger.info(r.getPosTags().toString());
-      logger.info(r.getTokens().toString());      
+//      logger.info(r.getLemmas().toString());
+//      logger.info(r.getPosTags().toString());
+//      logger.info(r.getTokens().toString());      
     });
     return sentence;
   }
