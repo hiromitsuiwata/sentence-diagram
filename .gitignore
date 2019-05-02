@@ -26,10 +26,23 @@ package-lock.json
 bundle.js
 
 sentence-diagram-client/public/*
+!browserconfig.xml
+!favicon.ico
+!icon.png
 !index.html
+!manifest.json
+!site.webmanifest
+!tile-wide.png
+!tile.png
 
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.woff2
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.woff
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.svg
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.eot
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.ttf
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.png
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.xml
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.ico
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.webmanigest
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.html
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.json

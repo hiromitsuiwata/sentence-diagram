@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-id">#0</div>
     <div class="card-title">Lorem ipsum</div>
-    <div class="card-text" id="app-1">
+    <div class="card-text" id="app-2">
       <my-card-text></my-card-text>
     </div>
     <div class="card-operation">
