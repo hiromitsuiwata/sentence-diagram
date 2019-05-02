@@ -43,6 +43,6 @@ sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.ttf
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.png
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.xml
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.ico
-sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.webmanigest
+sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.webmanifest
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.html
 sentence-diagram-server/sentence-diagram-web/src/main/webapp/*.json
