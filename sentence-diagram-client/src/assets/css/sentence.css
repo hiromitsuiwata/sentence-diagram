@@ -47,7 +47,6 @@ body {
   text-align: left;
   color: #333;
   display: inline-block;
-  width: 400px;
 }
 
 .card-text {
@@ -61,7 +60,7 @@ body {
   text-align: center;
   border-top: 1px solid #eee;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   height: 20px;
   padding-top: 5px;
   font-size: 16px;
@@ -74,7 +73,7 @@ body {
 }
 
 .card-link {
-  grid-column: 3 / 4;
+  grid-column: 2 / 3;
 }
 
 .card-link a {
@@ -84,7 +83,7 @@ body {
 }
 
 .card-diagram {
-  grid-column: 4 / 5;
+  grid-column: 3 / 4;
 }
 
 .card-diagram a {
@@ -101,12 +100,18 @@ body {
   color: #0090aa;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
   .columns {
     column-count: 1;
   }
 
   .main {
     padding: 10px 10px 10px 10px;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 930px) {
+  .columns {
+    column-count: 2;
   }
 }
