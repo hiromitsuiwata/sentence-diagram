@@ -68,7 +68,7 @@ export default {
   left: 0;
   margin: auto;
   border-width: 1px;
-  width: 520px;
+  width: 540px;
   height: 370px;
   margin-top: 20px;
   background: #fff;
@@ -86,18 +86,18 @@ export default {
 
 .editor-title {
   font-size: 16px;
-  width: 500px;
+  width: 460px;
 }
 
 .editor-text {
   font-size: 16px;
   height: 220px;
-  width: 500px;
+  width: 460px;
 }
 
 .editor-url {
   font-size: 16px;
-  width: 500px;
+  width: 460px;
 }
 
 .button-area {
@@ -129,5 +129,23 @@ export default {
   box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
   text-align: center;
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    width: 90%;
+  }
+
+  .editor-title {
+    width: 85%;
+  }
+
+  .editor-text {
+    width: 85%;
+  }
+
+  .editor-url {
+    width: 85%;
+  }
 }
 </style>

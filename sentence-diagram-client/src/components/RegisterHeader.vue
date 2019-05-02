@@ -40,17 +40,5 @@
 .center {
   margin: auto;
 }
-
-@media screen and (max-width: 930px) {
-  .logo {
-    display: none;
-  }
-
-  .search-frame {
-    grid-column: 1 / 5;
-    margin-left: 10px;
-    margin-right: 120px;
-  }
-}
 </style>
 
