@@ -1,5 +1,6 @@
 package hiromitsu.sentence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,10 +21,12 @@ import lombok.ToString;
 @Getter
 public class ParsedResult {
   private String originalSentence;
-  private Set<Con> constituents;
   private String constituentyText;
+  private Set<Con> constituents;
   private Set<Dep> dependencies;
   private List<Word> wordList;
+  private List<Node> nodeList = new ArrayList<>();
+  private List<Edge> edgeList = new ArrayList<>();
 
   /**
    * JSON文字列を取得する
@@ -49,6 +52,10 @@ public class ParsedResult {
     return prettyJsonString;
   }
 
+  /**
+   * 品詞を表形式の文字列に整形する
+   * @return 単語と品詞の表
+   */
   public String toWordTable() {
     StringBuffer sbIndex = new StringBuffer();
     StringBuffer sbToken = new StringBuffer();
@@ -72,6 +79,16 @@ public class ParsedResult {
     
     StringBuffer sb = new StringBuffer();
     sb.append(sbIndex).append("\n").append(sbToken).append("\n").append(sbLemma).append("\n").append(sbPosTag);
+    return sb.toString();
+  }
+  
+  public String toGraphEdges() {
+    StringBuffer sb = new StringBuffer();
+    for (Edge edge : edgeList) {
+      List<Word> fromWords = edge.getFrom().getWordList();
+      List<Word> toWords = edge.getTo().getWordList();
+      sb.append(fromWords.toString()).append(" --> ").append(toWords.toString());
+    }
     return sb.toString();
   }
 }

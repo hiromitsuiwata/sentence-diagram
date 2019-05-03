@@ -16,12 +16,14 @@ public class Word {
   private String token;
   private String lemma;
   private String posTag;
+  private int index;
   private int maxLength;
 
-  public Word(String token, String lemma, String posTag) {
+  public Word(String token, String lemma, String posTag, int index) {
     this.token = token;
     this.lemma = lemma;
     this.posTag = posTag;
+    this.index = index;
     
     List<Integer> lengthList = Arrays.asList(token.length(), lemma.length(), posTag.length());
     Optional<Integer> m = lengthList.stream().max(Comparator.naturalOrder());

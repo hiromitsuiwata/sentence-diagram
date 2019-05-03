@@ -10,14 +10,10 @@ import lombok.ToString;
  */
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class Dep {
-  @Setter
-  @Getter
-  private Integer src;
-  @Setter
-  @Getter
-  private Integer tgt;
-  @Setter
-  @Getter
+  private Integer from;
+  private Integer to;
   private String relation;
 }

@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class CoreNLPWrapperTest {
+class AnalyzerTest {
 
   @Test
-  void CoreNLPを呼び出せること() {
-    CoreNLPWrapper wrapper = CoreNLPWrapper.getInstance();
+  void testAnalyze() {
     String text = "Bill is calling.";
-    List<ParsedResult> results = wrapper.parse(text);
+    List<ParsedResult> results = Analyzer.analyze(text);
     results.forEach(r -> System.out.println(r.toPrettyJSON()));
     results.forEach(r -> System.out.println(r.toWordTable()));
+    results.forEach(r -> System.out.println(r.toGraphEdges()));
   }
 }

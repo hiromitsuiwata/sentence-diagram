@@ -17,6 +17,8 @@ import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.trees.Constituent;
 import edu.stanford.nlp.trees.LabeledScoredConstituentFactory;
 import edu.stanford.nlp.trees.Tree;
+import hiromitsu.sentence.ParsedResult;
+import hiromitsu.sentence.Word;
 
 /**
  * CoreNLPを呼び出すラッパー
@@ -57,26 +59,17 @@ public class CoreNLPWrapper {
 
       result.setOriginalSentence(sentenceText);
 
-      List<String> tokens = s.tokens().stream().map(t -> t.originalText()).collect(Collectors.toList());
-      List<String> lemmas = s.tokens().stream().map(t -> t.lemma()).collect(Collectors.toList());
-      List<String> posTags = s.posTags();
-
-      List<Word> wordList = new ArrayList<>();
-      for (int i = 0; i < tokens.size(); i++) {
-        String token = tokens.get(i);
-        String lemma = lemmas.get(i);
-        String posTag = posTags.get(i);
-        Word w = new Word(token, lemma, posTag);
-        wordList.add(w);
-      }
+      // 品詞
+      List<Word> wordList = createWordList(s);
       result.setWordList(wordList);
       
-      
+      // 構成素
       Tree constituencyParse = s.constituencyParse();
       result.setConstituentyText(constituencyParse.toString());
       Set<Con> cons = createConstituentSet(constituencyParse);
       result.setConstituents(cons);
       
+      // 依存関係
       Set<Dep> deps = createDepSet(s);
       result.setDependencies(deps);
 
@@ -84,6 +77,22 @@ public class CoreNLPWrapper {
     }
 
     return results;
+  }
+
+  private List<Word> createWordList(CoreSentence s) {
+    List<String> tokens = s.tokens().stream().map(t -> t.originalText()).collect(Collectors.toList());
+    List<String> lemmas = s.tokens().stream().map(t -> t.lemma()).collect(Collectors.toList());
+    List<String> posTags = s.posTags();
+
+    List<Word> wordList = new ArrayList<>();
+    for (int i = 0; i < tokens.size(); i++) {
+      String token = tokens.get(i);
+      String lemma = lemmas.get(i);
+      String posTag = posTags.get(i);
+      Word w = new Word(token, lemma, posTag, i + 1);
+      wordList.add(w);
+    }
+    return wordList;
   }
 
   private Set<Dep> createDepSet(CoreSentence s) {
