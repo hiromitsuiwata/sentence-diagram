@@ -10,8 +10,8 @@ class AnalyzerTest {
   void testAnalyze() {
     String text = "Bill is calling.";
     List<ParsedResult> results = Analyzer.analyze(text);
-    results.forEach(r -> System.out.println(r.toPrettyJSON()));
-    results.forEach(r -> System.out.println(r.toWordTable()));
-    results.forEach(r -> System.out.println(r.toGraphEdges()));
+//    results.forEach(r -> System.out.println(r.toPrettyJSON()));
+//    results.forEach(r -> System.out.println(r.toWordTable()));
+    results.forEach(r -> System.out.println(r.toGraphPrettyString()));
   }
 }

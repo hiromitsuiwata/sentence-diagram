@@ -2,20 +2,17 @@
   <div>
   <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 100 100" width="100" height="100">
     <line :x1="x1" y1=100 x2=100 y2=0 stroke="blue"></line>
-  </svg>
-
-  <div>
-    <input type="range" v-model="x1">
-  </div>
-
-  <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 100 100" width="100" height="100">
     <path id="myPath" fill="none" stroke="red" d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
     <text>
       <textPath href="#myPath">Lorem ipsum</textPath>
     </text>
   </svg>
 
-  <svg id="svg-canvas" width=200 height=200></svg>
+  <div>
+    <input type="range" v-model="x1">
+  </div>
+
+  <svg id="svg-canvas" width=300 height=300></svg>
   </div>
 </template>
 
@@ -30,29 +27,39 @@ export default {
     };
   },
   mounted: function() {
-    var g = new dagreD3.graphlib.Graph().setGraph({ rankdir: 'LR' }).setDefaultEdgeLabel(function() {
+    var g = new dagreD3.graphlib.Graph().setGraph({ rankdir: 'LR', align: 'DL' }).setDefaultEdgeLabel(function() {
       return {};
     });
-    g.setNode(0, { label: 'Bill' });
-    g.setNode(1, { label: 'is calling.' });
-    g.setEdge(0, 1, { arrowhead: 'undirected' });
+    g.setNode(0, { label: 'The' });
+    g.setNode(1, { label: 'while' });
+    g.setNode(2, { label: 'unicorn' });
+    g.setNode(3, { label: 'flew.' });
+
+    g.setEdge(0, 2, { arrowhead: 'vee' });
+    g.setEdge(1, 2, { arrowhead: 'vee' });
+    g.setEdge(2, 3, { arrowhead: 'undirected' });
+
     var render = new dagreD3.render();
     var svg = d3.select('#svg-canvas');
     var svgGroup = svg.append('g');
     render(d3.select('svg g'), g);
+
+    var xCenterOffset = (svg.attr('width') - g.graph().width) / 2;
+    svgGroup.attr('transform', 'translate(' + xCenterOffset + ', 20)');
+    svg.attr('height', g.graph().height + 50);
   }
 };
 </script>
 
 <style>
-rect {
+#svg-canvas rect {
   fill: transparent;
-  stroke: red;
+  stroke: blue;
 }
 
-path {
-  fill: transparent;
+#svg-canvas path {
+  fill: blue;
   stroke-width: 2;
-  stroke: red;
+  stroke: blue;
 }
 </style>

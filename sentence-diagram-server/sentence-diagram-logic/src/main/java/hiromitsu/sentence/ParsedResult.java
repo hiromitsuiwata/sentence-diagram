@@ -1,9 +1,10 @@
 package hiromitsu.sentence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +22,8 @@ import lombok.ToString;
 @Setter
 @Getter
 public class ParsedResult {
+  private final String LINE_SEPARETOR = System.getProperty("line.separator");
+
   private String originalSentence;
   private String constituentyText;
   private Set<Con> constituents;
@@ -83,17 +86,13 @@ public class ParsedResult {
     return sb.toString();
   }
   
-  public String toGraphEdges() {
+  public String toGraphPrettyString() {
     StringBuffer sb = new StringBuffer();
+    List<String> nList = new ArrayList<>();
+    for (Node node : nodeList) {
+    }
     for (Edge edge : edgeList) {
-      List<Word> fromWords = edge.getFrom().getWordList();
-      List<String> fromTokens = fromWords.stream().map(w -> w.getToken()).collect(Collectors.toList());
-      String from = fromTokens.stream().collect(Collectors.joining(" "));
-      List<Word> toWords = edge.getTo().getWordList();
-      List<String> toTokens = toWords.stream().map(w -> w.getToken()).collect(Collectors.toList());
-      String to = toTokens.stream().collect(Collectors.joining(" "));
-      
-      sb.append(from).append("--").append(edge.getType().toString()).append("-->").append(to);
+      sb.append(edge.toPrettyString()).append(",").append(LINE_SEPARETOR);
     }
     return sb.toString();
   }

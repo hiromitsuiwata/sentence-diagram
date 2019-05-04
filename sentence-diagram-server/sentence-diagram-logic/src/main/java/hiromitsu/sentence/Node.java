@@ -2,6 +2,8 @@ package hiromitsu.sentence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Data;
 
 /**
@@ -10,4 +12,9 @@ import lombok.Data;
 @Data
 public class Node {
   private List<Word> wordList = new ArrayList<>();
+  
+  public String toPrettyString() {
+    List<String> tokens = wordList.stream().map(w -> w.getToken()).collect(Collectors.toList());
+    return tokens.stream().collect(Collectors.joining(" "));
+  }
 }
