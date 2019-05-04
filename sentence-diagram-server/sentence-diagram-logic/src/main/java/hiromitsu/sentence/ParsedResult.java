@@ -3,6 +3,7 @@ package hiromitsu.sentence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -86,8 +87,13 @@ public class ParsedResult {
     StringBuffer sb = new StringBuffer();
     for (Edge edge : edgeList) {
       List<Word> fromWords = edge.getFrom().getWordList();
+      List<String> fromTokens = fromWords.stream().map(w -> w.getToken()).collect(Collectors.toList());
+      String from = fromTokens.stream().collect(Collectors.joining(" "));
       List<Word> toWords = edge.getTo().getWordList();
-      sb.append(fromWords.toString()).append(" --> ").append(toWords.toString());
+      List<String> toTokens = toWords.stream().map(w -> w.getToken()).collect(Collectors.toList());
+      String to = toTokens.stream().collect(Collectors.joining(" "));
+      
+      sb.append(from).append("--").append(edge.getType().toString()).append("-->").append(to);
     }
     return sb.toString();
   }
