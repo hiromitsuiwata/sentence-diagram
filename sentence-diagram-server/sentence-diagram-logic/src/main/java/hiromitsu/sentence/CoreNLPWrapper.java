@@ -17,8 +17,6 @@ import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.trees.Constituent;
 import edu.stanford.nlp.trees.LabeledScoredConstituentFactory;
 import edu.stanford.nlp.trees.Tree;
-import hiromitsu.sentence.ParsedResult;
-import hiromitsu.sentence.Word;
 
 /**
  * CoreNLPを呼び出すラッパー
