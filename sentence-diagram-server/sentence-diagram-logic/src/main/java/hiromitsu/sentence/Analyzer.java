@@ -9,9 +9,9 @@ public class Analyzer {
     List<ParsedResult> results = wrapper.parse(text);
     
     for (ParsedResult r : results) {
-      // 2回実行する
-      Grouping.groupAux(r);
-      Grouping.groupNsubj(r);
+      // FIXME とりあえず2回実行する
+      Grouping.groupAuxAndAuxpass(r);
+      Grouping.groupNsubjAndNsubjpass(r);
     }
     
     return results;

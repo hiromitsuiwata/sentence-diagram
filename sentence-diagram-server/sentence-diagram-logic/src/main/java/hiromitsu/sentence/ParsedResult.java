@@ -1,9 +1,7 @@
 package hiromitsu.sentence;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.Gson;
@@ -88,8 +86,8 @@ public class ParsedResult {
   
   public String toGraphPrettyString() {
     StringBuffer sb = new StringBuffer();
-    List<String> nList = new ArrayList<>();
     for (Node node : nodeList) {
+      sb.append(node.toPrettyString()).append(",").append(LINE_SEPARETOR);
     }
     for (Edge edge : edgeList) {
       sb.append(edge.toPrettyString()).append(",").append(LINE_SEPARETOR);

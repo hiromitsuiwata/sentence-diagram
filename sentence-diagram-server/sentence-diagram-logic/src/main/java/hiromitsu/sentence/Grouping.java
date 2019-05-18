@@ -14,7 +14,7 @@ public class Grouping {
    * グルーピングを行う.マルチパスで少しずつ変形させる.
    * @param input
    */
-  public static void groupAux(ParsedResult input) {
+  public static void groupAuxAndAuxpass(ParsedResult input) {
     
     Set<Dep> deps = input.getDependencies();
     Iterator<Dep> ite = deps.iterator();
@@ -22,7 +22,7 @@ public class Grouping {
       Dep dep = ite.next();
       
       // 助動詞と動詞をグルーピングする
-      if (dep.getRelation().equals(EdgeType.aux.toString())) {
+      if (dep.getRelation().equals(EdgeType.aux.toString()) || dep.getRelation().equals(EdgeType.auxpass.toString())) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);
@@ -37,7 +37,7 @@ public class Grouping {
     }
   }
   
-  public static void groupNsubj(ParsedResult input) {
+  public static void groupNsubjAndNsubjpass(ParsedResult input) {
     
     Set<Dep> deps = input.getDependencies();
     Iterator<Dep> ite = deps.iterator();
@@ -45,7 +45,7 @@ public class Grouping {
       Dep dep = ite.next();
       
       // 主語のnodeと主語と動詞の間のedgeを作る
-      if (dep.getRelation().equals(EdgeType.nsubj.toString())) {
+      if (dep.getRelation().equals(EdgeType.nsubj.toString()) || dep.getRelation().equals(EdgeType.nsubjpass.toString())) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);

@@ -14,19 +14,19 @@
   "devDependencies": {
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^3.0.1",
-    "gulp": "^4.0.1",
-    "prettier": "^1.17.0",
+    "gulp": "^4.0.2",
+    "prettier": "^1.17.1",
     "style-loader": "^0.23.1",
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.3.0",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1"
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
   },
   "dependencies": {
     "axios": "^0.18.0",
