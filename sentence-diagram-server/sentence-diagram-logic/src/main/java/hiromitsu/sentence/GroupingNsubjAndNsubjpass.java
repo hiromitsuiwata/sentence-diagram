@@ -7,40 +7,12 @@ import java.util.Set;
 /**
  * 文のなかの単語をグルーピングする
  */
-public class Grouping {
+public class GroupingNsubjAndNsubjpass {
 
-  private Grouping() {
+  private GroupingNsubjAndNsubjpass() {
   }
 
-  /**
-   * グルーピングを行う.マルチパスで少しずつ変形させる.
-   * 
-   * @param input
-   */
-  public static void groupAuxAndAuxpass(ParsedResult input) {
-
-    Set<Dep> deps = input.getDependencies();
-    Iterator<Dep> ite = deps.iterator();
-    while (ite.hasNext()) {
-      Dep dep = ite.next();
-
-      // 助動詞と動詞をグルーピングする
-      if (dep.getRelation().equals(EdgeType.aux.toString()) || dep.getRelation().equals(EdgeType.auxpass.toString())) {
-        int from = dep.getFrom();
-        int to = dep.getTo();
-        Word fromWord = input.getWordList().get(from - 1);
-        Word toWord = input.getWordList().get(to - 1);
-        Node node = new Node();
-        List<Word> wordList = node.getWordList();
-        wordList.add(toWord);
-        wordList.add(fromWord);
-        input.getNodeList().add(node);
-        break;
-      }
-    }
-  }
-
-  public static void groupNsubjAndNsubjpass(ParsedResult input) {
+  public static void execute(ParsedResult input) {
 
     Set<Dep> deps = input.getDependencies();
     Iterator<Dep> ite = deps.iterator();

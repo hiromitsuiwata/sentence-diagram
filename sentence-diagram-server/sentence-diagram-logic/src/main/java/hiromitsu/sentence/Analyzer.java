@@ -21,8 +21,8 @@ public class Analyzer {
     
     for (ParsedResult r : results) {
       // FIXME とりあえず2回実行する
-      Grouping.groupAuxAndAuxpass(r);
-      Grouping.groupNsubjAndNsubjpass(r);
+      GroupingAuxAndAuxpass.execute(r);
+      GroupingNsubjAndNsubjpass.execute(r);
     }
     
     return results;
