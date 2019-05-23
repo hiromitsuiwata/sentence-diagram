@@ -18,6 +18,7 @@ public enum EdgeType {
   cop, // copula
   csubj, // clausal subject
   csubjpass, // clausal passive subject
+  case_, // case marking
   dep, // dependent
   det, // determiner
   discourse, // discourse element
@@ -34,6 +35,7 @@ public enum EdgeType {
   nsubjpass, // passive nominal subject
   num, // numeric modifier
   number, // element of compound number
+  nmod_poss, // nominal modifier(possesive)
   parataxis, // parataxis
   pcomp, // prepositional complement
   pobj, // object of a preposition

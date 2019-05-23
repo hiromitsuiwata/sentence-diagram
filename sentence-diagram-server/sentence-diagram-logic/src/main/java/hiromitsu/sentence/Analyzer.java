@@ -2,6 +2,12 @@ package hiromitsu.sentence;
 
 import java.util.List;
 
+import hiromitsu.sentence.grouping.GroupingAdvmod;
+import hiromitsu.sentence.grouping.GroupingAuxAndAuxpass;
+import hiromitsu.sentence.grouping.GroupingCase;
+import hiromitsu.sentence.grouping.GroupingNmodPoss;
+import hiromitsu.sentence.grouping.GroupingNsubjAndNsubjpass;
+
 /**
  * dependency分析
  */
@@ -20,8 +26,11 @@ public class Analyzer {
     List<ParsedResult> results = wrapper.parse(text);
     
     for (ParsedResult r : results) {
-      // FIXME とりあえず2回実行する
+      // FIXME とりあえず
+      GroupingCase.execute(r);
+      GroupingNmodPoss.execute(r);
       GroupingAuxAndAuxpass.execute(r);
+      GroupingAdvmod.execute(r);
       GroupingNsubjAndNsubjpass.execute(r);
     }
     

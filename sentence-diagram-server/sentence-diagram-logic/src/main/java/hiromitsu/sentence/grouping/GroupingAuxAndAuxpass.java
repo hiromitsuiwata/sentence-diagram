@@ -1,4 +1,4 @@
-package hiromitsu.sentence;
+package hiromitsu.sentence.grouping;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,6 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import hiromitsu.sentence.Dep;
+import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.Node;
+import hiromitsu.sentence.ParsedResult;
+import hiromitsu.sentence.Word;
 
 /**
  * 文のなかの単語をグルーピングする
