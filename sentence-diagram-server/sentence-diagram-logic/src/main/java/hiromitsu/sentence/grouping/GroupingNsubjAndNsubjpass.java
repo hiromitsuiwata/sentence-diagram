@@ -33,14 +33,7 @@ public class GroupingNsubjAndNsubjpass {
         Word fromWord = input.getWordList().get(from - 1);
         Word toWord = input.getWordList().get(to - 1);
 
-        Node node = Utility.searchWordInNodes(input, fromWord);
-        Node fromNode = null;
-        if (node != null) {
-          fromNode = node;
-        } else {
-          fromNode = new Node();
-          fromNode.getWordList().add(fromWord);
-        }
+        Node fromNode = Utility.createNodeIfAbsent(input, fromWord);
 
         Node toNode = new Node();
         toNode.getWordList().add(toWord);

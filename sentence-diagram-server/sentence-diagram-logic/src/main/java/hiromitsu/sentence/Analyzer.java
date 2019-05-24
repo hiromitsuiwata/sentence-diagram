@@ -5,6 +5,7 @@ import java.util.List;
 import hiromitsu.sentence.grouping.GroupingAdvmod;
 import hiromitsu.sentence.grouping.GroupingAuxAndAuxpass;
 import hiromitsu.sentence.grouping.GroupingCase;
+import hiromitsu.sentence.grouping.GroupingDetAndAmod;
 import hiromitsu.sentence.grouping.GroupingNmodPoss;
 import hiromitsu.sentence.grouping.GroupingNsubjAndNsubjpass;
 
@@ -31,6 +32,7 @@ public class Analyzer {
       GroupingNmodPoss.execute(r);
       GroupingAuxAndAuxpass.execute(r);
       GroupingAdvmod.execute(r);
+      GroupingDetAndAmod.execute(r);
       GroupingNsubjAndNsubjpass.execute(r);
     }
     

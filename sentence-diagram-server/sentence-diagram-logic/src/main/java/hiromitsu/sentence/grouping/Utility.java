@@ -6,7 +6,14 @@ import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
 
+/**
+ * ユーティリティー
+ */
 class Utility {
+  
+  private Utility() {
+    
+  }
 
   static Node searchWordInNodes(ParsedResult input, Word fromWord) {
     // fromの方は句になっている場合があるので、Nodeの中から探す
@@ -17,5 +24,19 @@ class Utility {
       }
     }
     return null;
+  }
+  
+  static Node createNodeIfAbsent(ParsedResult input, Word word) {
+    Node result = null;
+    
+    Node node = searchWordInNodes(input, word);
+    if (node != null) {
+      result = node;
+    } else {
+      result = new Node();
+      result.getWordList().add(word);
+    }
+    
+    return result;
   }
 }

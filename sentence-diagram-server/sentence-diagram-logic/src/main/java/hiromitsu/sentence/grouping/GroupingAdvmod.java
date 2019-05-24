@@ -1,7 +1,6 @@
 package hiromitsu.sentence.grouping;
 
 import java.util.Iterator;
-import java.util.Set;
 
 import hiromitsu.sentence.Dep;
 import hiromitsu.sentence.Edge;
@@ -20,8 +19,7 @@ public class GroupingAdvmod {
 
   public static void execute(ParsedResult input) {
 
-    Set<Dep> deps = input.getDependencies();
-    Iterator<Dep> ite = deps.iterator();
+    Iterator<Dep> ite = input.getDependencies().iterator();
     while (ite.hasNext()) {
       Dep dep = ite.next();
 
@@ -31,14 +29,7 @@ public class GroupingAdvmod {
         Word fromWord = input.getWordList().get(from - 1);
         Word toWord = input.getWordList().get(to - 1);
 
-        Node node = Utility.searchWordInNodes(input, fromWord);
-        Node fromNode = null;
-        if (node != null) {
-          fromNode = node;
-        } else {
-          fromNode = new Node();
-          fromNode.getWordList().add(fromWord);
-        }
+        Node fromNode = Utility.createNodeIfAbsent(input, fromWord);
 
         Node toNode = new Node();
         toNode.getWordList().add(toWord);
