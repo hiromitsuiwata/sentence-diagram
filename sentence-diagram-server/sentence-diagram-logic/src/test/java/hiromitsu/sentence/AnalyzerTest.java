@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import hiromitsu.sentence.visualization.VResult;
+
 class AnalyzerTest {
 
   @Test
@@ -55,14 +57,14 @@ class AnalyzerTest {
   void nmodpossAndAdvmod2() {
     String text = "The white unicorn flew.";
     List<ParsedResult> results = Analyzer.analyze(text);
+    assertEquals("The--det-->unicorn", results.get(0).getEdgeList().get(0).toPrettyString());
+    assertEquals("white--amod-->unicorn", results.get(0).getEdgeList().get(1).toPrettyString());
+    assertEquals("flew--nsubj-->unicorn", results.get(0).getEdgeList().get(2).toPrettyString());
+    
     printResult(results);
-    System.out.println(results.toString());
   }
   
   private void printResult(List<ParsedResult> results) {
-    results.forEach(r -> {
-      System.out.println(r.toPrettyJSON());
-      System.out.println(r.toGraphPrettyString()); 
-    });
+    results.stream().map(r -> new VResult(r)).map(vr -> vr.toJSON()).forEach(System.out::println);
   }
 }

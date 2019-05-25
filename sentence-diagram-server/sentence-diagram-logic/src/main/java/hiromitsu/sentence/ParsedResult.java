@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
+import hiromitsu.sentence.infrastructure.JsonUtility;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -47,11 +45,7 @@ public class ParsedResult {
    */
   public String toPrettyJSON() {
     String json = this.toJSON();
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    JsonParser jp = new JsonParser();
-    JsonElement je = jp.parse(json);
-    String prettyJsonString = gson.toJson(je);
-    return prettyJsonString;
+    return JsonUtility.toPrettyJSON(json);
   }
 
   /**
@@ -84,7 +78,7 @@ public class ParsedResult {
     return sb.toString();
   }
   
-  public String toGraphPrettyString() {
+  public String toPrettyString() {
     StringBuffer sb = new StringBuffer();
     for (Node node : nodeList) {
       sb.append(node.toPrettyString()).append(",").append(LINE_SEPARETOR);
@@ -94,4 +88,6 @@ public class ParsedResult {
     }
     return sb.toString();
   }
+  
+
 }

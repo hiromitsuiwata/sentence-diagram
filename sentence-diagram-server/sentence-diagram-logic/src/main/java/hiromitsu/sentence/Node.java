@@ -17,4 +17,8 @@ public class Node {
     List<String> tokens = wordList.stream().map(w -> w.getToken()).collect(Collectors.toList());
     return tokens.stream().collect(Collectors.joining(" "));
   }
+  
+  public String getWordIds() {
+    return this.getWordList().stream().map(w -> Integer.toString(w.getIndex())).collect(Collectors.joining("_"));
+  }
 }
