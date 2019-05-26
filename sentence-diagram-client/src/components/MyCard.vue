@@ -6,7 +6,16 @@
       <my-card-text></my-card-text>
     </div>
     <div class="card-operation">
-      <a href="http://localhost:8080/">Link</a>
+      <div class="card-id">#{{id}}</div>
+      <div class="card-link">
+        <a :href="url">link</a>
+      </div>
+      <div class="card-diagram">
+        <a v-on:click="showDiagram">
+          diagram
+          <i class="fas fa-pencil-ruler"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -17,5 +26,20 @@ import MyCardText from './MyCardText.vue';
 
 Vue.component('my-card-text', MyCardText);
 
-export default {};
+export default {
+  props: {
+    id: Number,
+    title: String,
+    text: String,
+    url: String
+  },
+  methods: {
+    showDiagram: function(event) {
+      let jsonStr =
+        '[{"vnodes":[{"ids":"1","text":"The"},{"ids":"2","text":"white"},{"ids":"3","text":"unicorn"},{"ids":"4","text":"flew"}],"vedges":[{"fromIds":"1","toIds":"3","type":"mod"},{"fromIds":"2","toIds":"3","type":"mod"},{"fromIds":"4","toIds":"3","type":"subj"}]}]';
+      let response = JSON.parse(jsonStr);
+      console.dir(response);
+    }
+  }
+};
 </script>

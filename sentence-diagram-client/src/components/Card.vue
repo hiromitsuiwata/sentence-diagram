@@ -4,8 +4,15 @@
     <div class="card-text">{{text}}</div>
     <div class="card-operation">
       <div class="card-id">#{{id}}</div>
-      <div class="card-link"><a :href="url">link</a></div>
-      <div class="card-diagram"><a v-on:click="showDiagram">diagram <i class="fas fa-pencil-ruler"></i></a></div>
+      <div class="card-link">
+        <a :href="url">link</a>
+      </div>
+      <div class="card-diagram">
+        <a v-on:click="showDiagram">
+          diagram
+          <i class="fas fa-pencil-ruler"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>

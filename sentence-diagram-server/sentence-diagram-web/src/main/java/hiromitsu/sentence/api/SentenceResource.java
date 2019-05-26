@@ -67,8 +67,9 @@ public class SentenceResource {
   @Produces("application/json")
   public Response createDiagram(@PathParam("id") long id) {
     logger.info(Long.toString(id));
-    sentenceService.createDiagram(id);
-    Response response = Response.ok().build();
+    String json = sentenceService.createDiagram(id);
+    logger.info(json);
+    Response response = Response.ok(json).build();
     return response;
   }
 }

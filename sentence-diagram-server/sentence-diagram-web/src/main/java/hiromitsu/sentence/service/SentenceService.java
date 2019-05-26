@@ -1,6 +1,7 @@
 package hiromitsu.sentence.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
@@ -8,11 +9,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
 
-import hiromitsu.sentence.CoreNLPWrapper;
+import hiromitsu.sentence.Analyzer;
 import hiromitsu.sentence.ParsedResult;
+import hiromitsu.sentence.visualization.VResult;
 
 /**
  * 文サービス
@@ -20,8 +21,6 @@ import hiromitsu.sentence.ParsedResult;
 @ApplicationScoped
 @Transactional
 public class SentenceService {
-
-  private static Logger logger = LoggerFactory.getLogger(SentenceService.class);
 
   @PersistenceContext
   private EntityManager em;
@@ -54,19 +53,17 @@ public class SentenceService {
     return em.find(Sentence.class, id);
   }
   
-  public Sentence createDiagram(Long id) {
+  public String createDiagram(Long id) {
+    
     Sentence sentence = em.find(Sentence.class, id);
-    CoreNLPWrapper nlp = CoreNLPWrapper.getInstance();
-    List<ParsedResult> result = nlp.parse(sentence.getText());
-    result.forEach(r -> {
-      logger.info(r.getOriginalSentence().toString());
-      logger.info(r.getConstituents().toString());
-      logger.info(r.getConstituentyText().toString());
-      logger.info(r.getDependencies().toString());
-//      logger.info(r.getLemmas().toString());
-//      logger.info(r.getPosTags().toString());
-//      logger.info(r.getTokens().toString());      
-    });
-    return sentence;
+    String text = sentence.getText();
+    
+    List<ParsedResult> results = Analyzer.analyze(text);
+    List<VResult> vresults = results.stream().map(r -> new VResult(r)).collect(Collectors.toList());
+    
+    Gson gson = new Gson();
+    String json = gson.toJson(vresults);
+    
+    return json;
   }
 }
