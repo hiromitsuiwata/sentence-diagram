@@ -37,8 +37,12 @@ export default {
     showDiagram: function(event) {
       let jsonStr =
         '[{"vnodes":[{"ids":"1","text":"The"},{"ids":"2","text":"white"},{"ids":"3","text":"unicorn"},{"ids":"4","text":"flew"}],"vedges":[{"fromIds":"1","toIds":"3","type":"mod"},{"fromIds":"2","toIds":"3","type":"mod"},{"fromIds":"4","toIds":"3","type":"subj"}]}]';
-      let response = JSON.parse(jsonStr);
-      console.dir(response);
+      let diagramData = JSON.parse(jsonStr);
+      let text = 'The white unicorn flew.';
+      let id = 0;
+      console.dir(diagramData);
+      // イベント発行
+      this.$emit('show-diagram', { id, text, diagramData });
     }
   }
 };
