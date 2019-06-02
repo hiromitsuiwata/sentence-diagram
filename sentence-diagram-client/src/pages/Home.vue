@@ -19,13 +19,7 @@
         </div>
       </div>
     </div>
-    <diagram @close="closeModal" v-if="showing">
-      <p>Vue.js Modal Window!</p>
-      <div>Hello from modal.</div>
-      <template slot="footer">
-        <button @click="doSend">閉じる</button>
-      </template>
-    </diagram>
+    <diagram @close="closeModal" v-if="showing" :modalData="modalData"></diagram>
   </div>
 </template>
 
@@ -46,10 +40,11 @@ Vue.component('diagram', Diagram);
 export default {
   data() {
     const cards = [];
+    const modalData = {};
     return {
       cards,
       showing: false,
-      cardNo: 0
+      modalData
     };
   },
   created: function() {
@@ -72,15 +67,15 @@ export default {
     openModal(data) {
       console.log('openModal');
       console.dir(data);
+      this.modalData.id = data.id;
+      this.modalData.title = data.title;
+      this.modalData.text = data.text;
+      this.modalData.diagramData = data.diagramData;
       this.showing = true;
     },
     closeModal() {
       console.log('closeModal');
       this.showing = false;
-    },
-    doSend() {
-      console.log('doSend');
-      this.closeModal();
     }
   }
 };
