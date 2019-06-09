@@ -5,7 +5,7 @@
         <div class="card-title">{{modalData.title}}</div>
         <div class="modal-content card-text">
           <div>{{modalData.text}}</div>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
             <line :x1="x1" y1="100" x2="100" y2="0" stroke="blue"></line>
             <path
               id="myPath"
@@ -16,6 +16,12 @@
             <text>
               <textPath href="#myPath">Lorem ipsum</textPath>
             </text>
+            <path id="subj0" fill="none" stroke="red" d="M110 110 L280 110"></path>
+            <path id="subj1" fill="none" stroke="red" d="M200 90 L 200 130"></path>
+            <text x="130" y="110">unicorn</text>
+            <text x="230" y="110">flew.</text>
+            <svg-path v-bind:x="130" v-bind:y="110" text="The"></svg-path>
+            <svg-path v-bind:x="160" v-bind:y="110" text="white1234567890"></svg-path>
           </svg>
           <input type="range" v-model="x1">
         </div>
@@ -28,6 +34,10 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import SvgPath from './SvgPath.vue';
+Vue.component('svg-path', SvgPath);
+
 export default {
   props: {
     modalData: {
