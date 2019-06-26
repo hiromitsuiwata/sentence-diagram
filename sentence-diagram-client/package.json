@@ -12,10 +12,10 @@
   },
   "author": "Hiromitsu Iwata",
   "devDependencies": {
-    "css-loader": "^2.1.1",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-vue": "^5.2.2",
+    "css-loader": "^3.0.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-vue": "^5.2.3",
     "file-loader": "^4.0.0",
     "gulp": "^4.0.2",
     "prettier": "^1.18.2",
@@ -24,9 +24,9 @@
     "stylelint-config-standard": "^18.3.0",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.33.0",
-    "webpack-cli": "^3.3.3",
-    "webpack-dev-server": "^3.7.1"
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
     "axios": "^0.19.0",
