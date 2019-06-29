@@ -1,0 +1,11 @@
+filebeat.inputs:
+- type: log
+  paths:
+    - /mnt/*.log
+  exclude_files: ['[0-9].log$']
+  tail_files: true
+
+output.console:
+  codec.format:
+    string: '%{[host][name]} %{[log][file][path]} %{[message]}'
+
