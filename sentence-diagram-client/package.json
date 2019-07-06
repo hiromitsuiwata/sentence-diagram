@@ -24,17 +24,17 @@
     "stylelint-config-standard": "^18.3.0",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.35.0",
+    "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "d3": "^5.9.2",
+    "d3": "^5.9.7",
     "dagre-d3": "^0.6.3",
     "lodash": "^4.17.11",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.6"
+    "vue-router": "^3.0.7"
   }
 }
