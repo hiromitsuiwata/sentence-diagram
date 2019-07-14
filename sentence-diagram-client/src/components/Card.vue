@@ -28,9 +28,8 @@ export default {
     url: String
   },
   methods: {
-    showDiagram: function(event) {
+    showDiagram: function() {
       console.log({ showDiagram: this.id });
-
       axios
         .put('/sentence-diagram-web/api/sentences/' + this.id + '/diagram')
         .then(function(response) {

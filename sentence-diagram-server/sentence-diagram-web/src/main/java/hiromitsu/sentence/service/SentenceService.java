@@ -24,9 +24,10 @@ public class SentenceService {
 
   @PersistenceContext
   private EntityManager em;
-  
+
   /**
    * DBに文を登録する
+   * 
    * @param sentence
    * @return 自動採番された主キー(id)
    */
@@ -34,36 +35,44 @@ public class SentenceService {
     em.persist(sentence);
     return sentence.getId();
   }
-  
+
   /**
    * 全件検索する
+   * 
    * @return 検索結果
    */
   public List<Sentence> findAll() {
     TypedQuery<Sentence> query = em.createNamedQuery("Sentence.findAll", Sentence.class);
     return query.getResultList();
   }
-  
+
   /**
    * 主キー検索する
+   * 
    * @param id 主キー
-   * @return　検索結果
+   * @return 検索結果
    */
   public Sentence find(Long id) {
     return em.find(Sentence.class, id);
   }
-  
+
+  public List<Sentence> search(String text) {
+    TypedQuery<Sentence> query = em.createNamedQuery("Sentence.search", Sentence.class).setParameter("keyword",
+        "%" + text + "%");
+    return query.getResultList();
+  }
+
   public String createDiagram(Long id) {
-    
+
     Sentence sentence = em.find(Sentence.class, id);
     String text = sentence.getText();
-    
+
     List<ParsedResult> results = Analyzer.analyze(text);
     List<VResult> vresults = results.stream().map(r -> new VResult(r)).collect(Collectors.toList());
-    
+
     Gson gson = new Gson();
     String json = gson.toJson(vresults);
-    
+
     return json;
   }
 }

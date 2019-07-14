@@ -15,7 +15,8 @@ import lombok.Data;
  */
 @Data
 @Entity(name = "SENTENCE")
-@NamedQueries({ @NamedQuery(name = "Sentence.findAll", query = "SELECT s FROM SENTENCE s") })
+@NamedQueries({ @NamedQuery(name = "Sentence.findAll", query = "SELECT s FROM SENTENCE s"),
+    @NamedQuery(name = "Sentence.search", query = "SELECT s FROM SENTENCE s WHERE (s.title LIKE :keyword) OR (s.text LIKE :keyword) OR (s.url LIKE :keyword)") })
 public class Sentence {
 
   private static final int COLUMN_LENGTH = 1024;

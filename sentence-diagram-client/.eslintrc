@@ -1,6 +1,8 @@
-module.exports = {
+{
   "env": {
     "browser": true,
+    "node": true,
+    "commonjs": true,
     "es6": true
   },
   "globals": {
@@ -13,11 +15,12 @@ module.exports = {
   "extends": [
     "eslint:recommended",
     "plugin:vue/essential",
-    "prettier"
+    "prettier",
+    "plugin:vue/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "rules": {}
-};
+}

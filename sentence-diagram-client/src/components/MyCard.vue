@@ -34,7 +34,7 @@ export default {
     url: String
   },
   methods: {
-    showDiagram: function(event) {
+    showDiagram: function() {
       let id = 99;
       let title = 'sample title';
       let text = 'The white unicorn flew.';

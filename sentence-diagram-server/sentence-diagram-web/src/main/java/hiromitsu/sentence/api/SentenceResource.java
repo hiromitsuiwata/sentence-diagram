@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
@@ -29,16 +30,31 @@ import hiromitsu.sentence.service.SentenceService;
 public class SentenceResource {
 
   private static Logger logger = LoggerFactory.getLogger(SentenceResource.class);
-  
+
   @Inject
   private SentenceService sentenceService;
-  
+
   @GET
   @Produces("application/json")
   public Response getSentences() {
-    
     List<Sentence> list = sentenceService.findAll();
-    
+
+    Gson gson = new Gson();
+    String json = gson.toJson(list);
+    logger.info(json);
+
+    Response response = Response.ok(json).build();
+
+    return response;
+  }
+
+  @GET
+  @Produces("application/json")
+  @Path("/search")
+  public Response searchSentences(@QueryParam("q") String query) {
+    logger.info("query: " + query);
+
+    List<Sentence> list = sentenceService.search(query);
     Gson gson = new Gson();
     String json = gson.toJson(list);
     logger.info(json);
@@ -52,16 +68,16 @@ public class SentenceResource {
   @Consumes("application/json")
   public Response createSentence(String request) {
     logger.info(request);
-    
+
     Gson gson = new Gson();
     Sentence sentence = gson.fromJson(request, Sentence.class);
     sentenceService.create(sentence);
-    
+
     Response response = Response.ok().build();
     logger.info(response.toString());
     return response;
   }
-  
+
   @PUT
   @Path("{id}/diagram")
   @Produces("application/json")

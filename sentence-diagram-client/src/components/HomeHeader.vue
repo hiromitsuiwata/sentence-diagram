@@ -4,20 +4,31 @@
       <div class="logo1">sentence</div>
       <div class="logo2">diagram</div>
     </div>
+
     <div class="search-frame">
-      <input type="text" class="textbox">
-      <button class="search-button"><i class="fas fa-search"></i></button>
+      <input
+        id="searchInput"
+        v-model="searchWord"
+        type="text"
+        class="textbox"
+        @input="inputSearchWord"
+      />
+      <button class="search-button">
+        <i class="fas fa-search" />
+      </button>
     </div>
 
     <div class="user-button">
-        <i class="fas fa-user center"></i>
+      <i class="fas fa-user center" />
     </div>
 
-    <router-link to="/register">
-    <div class="create-button">
-        <i class="fas fa-pencil-alt center"></i>
+    <div>
+      <router-link to="/register">
+        <div class="create-button">
+          <i class="fas fa-pencil-alt center" />
+        </div>
+      </router-link>
     </div>
-    </router-link>
   </div>
 </template>
 
@@ -168,3 +179,48 @@
 }
 </style>
 
+<script>
+import lodash from 'lodash';
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      searchWord: ''
+    };
+  },
+  created: function() {
+    // 500ms間隔にスロットリングする
+    this.searchThrottled = lodash.throttle(this.search, 500);
+  },
+  watch: {
+    // dataのsearchWordの変更を監視する
+    searchWord: function() {
+      this.searchThrottled();
+    }
+  },
+  methods: {
+    inputSearchWord: function() {
+      // IMEで未確定な状態の文字列を取得するためinputイベントをトリガーに直接取得する
+      // dataのsearchWordを変更する
+      this.searchWord = document.getElementById('searchInput').value;
+    },
+    search: function() {
+      console.log(this.searchWord);
+      if (this.searchWord == '') return;
+      axios
+        .get('/sentence-diagram-web/api/sentences/search', {
+          params: {
+            q: this.searchWord
+          }
+        })
+        .then(function(response) {
+          console.log({ response: response });
+        })
+        .then(function(error) {
+          console.log({ error: error });
+        });
+    }
+  }
+};
+</script>
