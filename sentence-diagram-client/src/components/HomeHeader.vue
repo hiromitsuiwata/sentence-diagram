@@ -207,19 +207,8 @@ export default {
     },
     search: function() {
       console.log(this.searchWord);
-      if (this.searchWord == '') return;
-      axios
-        .get('/sentence-diagram-web/api/sentences/search', {
-          params: {
-            q: this.searchWord
-          }
-        })
-        .then(function(response) {
-          console.log({ response: response });
-        })
-        .then(function(error) {
-          console.log({ error: error });
-        });
+      // イベント発行
+      this.$emit('search', this.searchWord);
     }
   }
 };

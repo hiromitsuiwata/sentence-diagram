@@ -1,6 +1,6 @@
 <template>
   <div>
-    <home-header></home-header>
+    <home-header @search="search"></home-header>
 
     <div class="main">
       <div class="columns">
@@ -76,6 +76,25 @@ export default {
     closeModal() {
       console.log('closeModal');
       this.showing = false;
+    },
+    search(searchWord) {
+      axios
+        .get('/sentence-diagram-web/api/sentences/search', {
+          params: {
+            q: searchWord
+          }
+        })
+        .then(response => {
+          console.log({
+            response: response
+          });
+          this.cards = response.data;
+        })
+        .catch(error => {
+          console.log({
+            error: error
+          });
+        });
     }
   }
 };
