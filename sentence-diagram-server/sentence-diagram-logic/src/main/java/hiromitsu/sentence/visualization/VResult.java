@@ -17,15 +17,15 @@ import lombok.Data;
  */
 @Data
 public class VResult {
-  
+
   private List<VNode> vnodes = new ArrayList<>();
   private List<VEdge> vedges = new ArrayList<>();
 
   public VResult(ParsedResult r) {
-    
+
     List<Edge> edgeList = r.getEdgeList();
     List<Node> nodeList = r.getNodeList();
-    
+
     for (Edge edge : edgeList) {
       Node fromNode = edge.getFrom();
       if (!nodeList.contains(fromNode)) {
@@ -35,22 +35,23 @@ public class VResult {
       if (!nodeList.contains(toNode)) {
         nodeList.add(toNode);
       }
-      
+
       String fromIds = fromNode.getWordIds();
       String toIds = toNode.getWordIds();
-      
+
       String vtype = null;
       EdgeType type = edge.getType();
+      // TODO 他のタイプに対応する
       if (type == EdgeType.det || type == EdgeType.amod) {
         vtype = "mod";
       } else if (type == EdgeType.nsubj) {
         vtype = "subj";
       }
-      
+
       VEdge vedge = new VEdge(fromIds, toIds, vtype);
       vedges.add(vedge);
     }
-    
+
     for (Node node : nodeList) {
       String ids = node.getWordIds();
       if (ids == null || ids.isEmpty()) {
@@ -60,11 +61,11 @@ public class VResult {
       VNode vnode = new VNode(ids, text);
       vnodes.add(vnode);
     }
-    
+
   }
-  
+
   public String toJSON() {
     Gson gson = new Gson();
-    return JsonUtility.toPrettyJSON(gson.toJson(this));    
+    return JsonUtility.toPrettyJSON(gson.toJson(this));
   }
 }
