@@ -1,3 +1,4 @@
+<!-- 始点のx, y座標と文字列を指定すると右斜め下への線と文字列を描く -->
 <template>
   <g>
     <path :id="id" fill="none" stroke="red" :d="d"></path>
@@ -14,7 +15,8 @@ export default {
   props: {
     x: Number,
     y: Number,
-    text: String
+    text: String,
+    direction: String
   },
   computed: {
     id: function() {
@@ -24,10 +26,12 @@ export default {
       return 15;
     },
     d: function() {
-      let endX = Math.round(this.x + this.length / Math.sqrt(2));
-      let endY = Math.round(this.y + this.length / Math.sqrt(2));
-      let str = `M ${this.x} ${this.y} L ${endX} ${endY}`;
-      return str;
+      if (this.direction === 'lower-right') {
+        let endX = Math.round(this.x + this.length / Math.sqrt(2));
+        let endY = Math.round(this.y + this.length / Math.sqrt(2));
+        let str = `M ${this.x} ${this.y} L ${endX} ${endY}`;
+        return str;
+      }
     },
     href: function() {
       return '#' + this.id;

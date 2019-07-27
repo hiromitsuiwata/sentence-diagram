@@ -41,7 +41,7 @@ public class VResult {
 
       String vtype = null;
       EdgeType type = edge.getType();
-      // TODO 他のタイプに対応する
+      // TODO 実際のダイアグラムを見ながら他のタイプに対応する
       if (type == EdgeType.det || type == EdgeType.amod) {
         vtype = "mod";
       } else if (type == EdgeType.nsubj) {
