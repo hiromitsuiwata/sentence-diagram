@@ -72,7 +72,6 @@ export default {
       .size([300, 300]);
 
     var svg = d3.select('#d3svg');
-    var color = d3.scaleOrdinal(d3.schemeCategory20);
 
     d3cola
       .nodes(graph.nodes)
@@ -94,9 +93,7 @@ export default {
       .append('circle')
       .attr('class', 'node')
       .attr('r', 5)
-      .style('fill', function(d) {
-        return color(d.group);
-      });
+      .style('fill', 'blue');
 
     d3cola.on('tick', function() {
       console.log('tick');
