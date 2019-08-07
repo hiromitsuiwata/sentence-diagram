@@ -9,14 +9,14 @@
   },
   "author": "Hiromitsu Iwata",
   "devDependencies": {
-    "css-loader": "^3.1.0",
+    "css-loader": "^3.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-vue": "^5.2.3",
     "file-loader": "^4.1.0",
     "gulp": "^4.0.2",
     "prettier": "^1.18.2",
-    "style-loader": "^0.23.1",
+    "style-loader": "^1.0.0",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "vue-loader": "^15.7.1",
@@ -35,7 +35,7 @@
     "svg.js": "^2.7.1",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.7",
+    "vue-router": "^3.1.1",
     "webcola": "^3.4.0"
   }
 }

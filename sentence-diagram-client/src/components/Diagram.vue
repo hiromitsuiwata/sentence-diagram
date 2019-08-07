@@ -58,17 +58,128 @@ export default {
   mounted: function() {
     var graph = {
       nodes: [
-        { name: 'a', width: 60, height: 40 },
-        { name: 'b', width: 60, height: 40 },
-        { name: 'c', width: 60, height: 40 },
-        { name: 'd', width: 60, height: 40 },
-        { name: 'e', width: 60, height: 40 }
+        { name: 0 },
+        { name: 1 },
+        { name: 2 },
+        { name: 3 },
+        { name: 4 },
+        { name: 5 },
+        { name: 6 },
+        { name: 7 },
+        { name: 8 },
+        { name: 9 }
       ],
-      links: [{ source: 0, target: 1 }, { source: 1, target: 2 }, { source: 2, target: 0 }, { source: 2, target: 3 }]
+      links: [
+        { source: 0, target: 1, length: 100 },
+        { source: 1, target: 2, length: 10 },
+        { source: 2, target: 3, length: 100 },
+        { source: 4, target: 5, length: 50, kind: 'support' },
+        { source: 5, target: 6, length: 50, kind: 'support' },
+        { source: 4, target: 6, length: 50 * Math.SQRT2 },
+        { source: 7, target: 8, length: 80, kind: 'support' },
+        { source: 8, target: 9, length: 80, kind: 'support' },
+        { source: 7, target: 9, length: 80 * Math.SQRT2 }
+      ],
+      constraints: [
+        {
+          type: 'alignment',
+          axis: 'y',
+          offsets: [
+            { node: 0, offset: 0 },
+            { node: 1, offset: 0 },
+            { node: 2, offset: 0 },
+            { node: 3, offset: 0 },
+            { node: 4, offset: 0 },
+            { node: 7, offset: 0 }
+          ]
+        },
+        {
+          type: 'alignment',
+          axis: 'x',
+          offsets: [{ node: 4, offset: 0 }, { node: 5, offset: 0 }]
+        },
+        {
+          type: 'alignment',
+          axis: 'y',
+          offsets: [{ node: 5, offset: 0 }, { node: 6, offset: 0 }]
+        },
+        {
+          type: 'alignment',
+          axis: 'x',
+          offsets: [{ node: 7, offset: 0 }, { node: 8, offset: 0 }]
+        },
+        {
+          type: 'alignment',
+          axis: 'y',
+          offsets: [{ node: 8, offset: 0 }, { node: 9, offset: 0 }]
+        },
+        {
+          axis: 'x',
+          left: 0,
+          right: 1,
+          gap: 1
+        },
+        {
+          axis: 'x',
+          left: 1,
+          right: 2,
+          gap: 1
+        },
+        {
+          axis: 'x',
+          left: 2,
+          right: 3,
+          gap: 1
+        },
+        {
+          axis: 'x',
+          left: 0,
+          right: 4,
+          gap: 20
+        },
+        {
+          axis: 'y',
+          left: 4,
+          right: 5,
+          gap: 20
+        },
+        {
+          axis: 'x',
+          left: 5,
+          right: 6,
+          gap: 20
+        },
+        {
+          axis: 'x',
+          left: 4,
+          right: 7,
+          gap: 20
+        },
+        {
+          axis: 'x',
+          left: 7,
+          right: 1,
+          gap: 20
+        },
+        {
+          axis: 'y',
+          left: 7,
+          right: 8,
+          gap: 20
+        },
+        {
+          axis: 'x',
+          left: 8,
+          right: 9,
+          gap: 20
+        }
+      ]
     };
     var d3cola = cola
       .d3adaptor(d3)
-      .linkDistance(30)
+      .linkDistance(function(l) {
+        return l.length;
+      })
       .size([300, 300]);
 
     var svg = d3.select('#d3svg');
@@ -76,7 +187,7 @@ export default {
     d3cola
       .nodes(graph.nodes)
       .links(graph.links)
-      .avoidOverlaps(true)
+      .constraints(graph.constraints)
       .start();
 
     var link = svg
@@ -84,7 +195,14 @@ export default {
       .data(graph.links)
       .enter()
       .append('line')
-      .attr('style', 'stroke:rgb(255,0,0);stroke-width:2');
+      .attr('style', 'stroke:rgb(255,0,0); stroke-width:2')
+      .attr('stroke-opacity', function(l) {
+        if (l.kind === 'support') {
+          return 0.2;
+        } else {
+          return 1;
+        }
+      });
 
     var node = svg
       .selectAll('.node')
@@ -93,7 +211,10 @@ export default {
       .append('circle')
       .attr('class', 'node')
       .attr('r', 5)
-      .style('fill', 'blue');
+      .style('fill', 'blue')
+      .attr('id', function(d) {
+        return d.name;
+      });
 
     d3cola.on('tick', function() {
       console.log('tick');
