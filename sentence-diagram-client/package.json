@@ -13,7 +13,7 @@
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-vue": "^5.2.3",
-    "file-loader": "^4.1.0",
+    "file-loader": "^4.2.0",
     "gulp": "^4.0.2",
     "prettier": "^1.18.2",
     "style-loader": "^1.0.0",
@@ -23,19 +23,20 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "cytoscape": "^3.8.2",
+    "cytoscape": "^3.9.0",
     "cytoscape-cola": "^2.3.0",
     "d3": "^5.9.7",
     "dagre-d3": "^0.6.3",
     "lodash": "^4.17.15",
+    "string-pixel-width": "^1.10.0",
     "svg.js": "^2.7.1",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",
-    "vue-router": "^3.1.1",
+    "vue-router": "^3.1.2",
     "webcola": "^3.4.0"
   }
 }
