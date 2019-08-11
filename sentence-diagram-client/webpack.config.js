@@ -27,6 +27,7 @@ module.exports = {
     // make sure to include the plugin!
     new VueLoaderPlugin()
   ],
+  devtool: 'source-map',
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
