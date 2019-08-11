@@ -57,8 +57,10 @@ export default {
   mounted: function() {
     // NLPから取得したデータ
     var nlpGraph = {
-      nodes: [{ id: 0, text: 'unicorn' }, { id: 1, text: 'flew.' }],
-      edges: [{ from: 1, to: 0, type: 'subj' }]
+      // nodes: [{ id: 0, text: 'unicorn' }, { id: 1, text: 'flew.' }],
+      // nlpEdges: [{ from: 1, to: 0, type: 'subj' }]
+      nodes: [{ id: 0, text: 'The' }, { id: 1, text: 'white' }, { id: 2, text: 'unicorn' }, { id: 3, text: 'flew.' }],
+      nlpEdges: [{ from: 0, to: 2, type: 'mod' }, { from: 1, to: 2, type: 'mod' }, { from: 3, to: 2, type: 'subj' }]
     };
 
     // 文字列の横幅(ピクセル単位)を追加
@@ -72,10 +74,11 @@ export default {
   },
   methods: {
     measureLength: function(text) {
-      //return text.length * 9 + 20;
+      // 文字列の長さを計算
       return pixelWidth(text, { size: 14 }) + 10;
     },
     addTextLength: function(nodes) {
+      // ノードに文字列長を追加する
       nodes.map(node => {
         node.pixels = this.measureLength(node.text);
       });
@@ -117,19 +120,27 @@ export default {
       });
 
       // NLPのエッジをもとに追加する
-      nlpGraph.edges.forEach(edge => {
-        if (edge.type === 'subj') {
-          // NLPのedgeからWebColaのlinkを作る
+      nlpGraph.nlpEdges.forEach(nlpEdge => {
+        if (nlpEdge.type === 'subj') {
+          // NLPのnlpEdgeからWebColaのlinkを作る
           var source = colaGraph.nodes.filter(node => {
-            return node.nlpName === edge.from + '-0';
+            return node.nlpName === nlpEdge.from + '-0';
           })[0].name;
           var target = colaGraph.nodes.filter(node => {
-            return node.nlpName === edge.to + '-1';
+            return node.nlpName === nlpEdge.to + '-1';
           })[0].name;
           colaGraph.links.push({ source, target, length: 10, type: 'subj' });
 
-          // NLPのedgeからWebColaのconstraintを作る
+          // NLPのnlpEdgeからWebColaのconstraintを作る
           this.addHorizontalConstraint(colaGraph, target, source);
+        } else if (nlpEdge.type === 'mod') {
+          var source = colaGraph.nodes.filter(colaNode => {
+            return colaNode.nlpName == nlpEdge.from + '-0';
+          })[0].name;
+          var target = colaGraph.nodes.filter(node => {
+            return node.nlpName === nlpEdge.to + '-0';
+          })[0].name;
+          colaGraph.links.push({ source, target, length: 10, type: 'mod' });
         }
       });
 
@@ -322,8 +333,8 @@ export default {
         console.log(graph);
 
         // 一時的に作成していたcircleとlineを削除
-        svg.selectAll('circle').remove();
-        svg.selectAll('line').remove();
+        // svg.selectAll('circle').remove();
+        // svg.selectAll('line').remove();
 
         graph.links.forEach(link => {
           let x1 = link.source.x;
@@ -343,12 +354,14 @@ export default {
             .attr('id', id);
 
           if (type === 'subj') {
+            // subjの飾り線を追加
             svg
               .append('path')
               .attr('d', `M ${(x1 + x2) / 2} ${y1 - 20} L ${(x1 + x2) / 2} ${y1 + 20}`)
               .attr('stroke', 'blue')
               .attr('stroke-width', 2)
               .attr('fill', 'none');
+          } else if (type === 'mod') {
           } else {
             svg
               .append('text')
