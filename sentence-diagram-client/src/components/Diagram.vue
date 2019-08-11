@@ -57,7 +57,7 @@ export default {
   mounted: function() {
     // NLPから取得したデータ
     var nlpGraph = {
-      nodes: [{ id: 0, text: 'You2222' }, { id: 1, text: 'run11111111111111111111.' }],
+      nodes: [{ id: 0, text: 'unicorn' }, { id: 1, text: 'flew.' }],
       edges: [{ from: 1, to: 0, type: 'subj' }]
     };
 
@@ -80,6 +80,23 @@ export default {
         node.pixels = this.measureLength(node.text);
       });
     },
+
+    addHorizontalConstraint: function(colaGraph, leftIndex, rightIndex) {
+      // 横並びにする
+      colaGraph.constraints.push({
+        type: 'alignment',
+        axis: 'y',
+        offsets: [{ node: leftIndex, offset: 0 }, { node: rightIndex, offset: 0 }]
+      });
+      // 左右に並べる
+      colaGraph.constraints.push({
+        axis: 'x',
+        left: leftIndex,
+        right: rightIndex,
+        gap: 1
+      });
+    },
+
     translateToColaGraph: function(nlpGraph) {
       // NLPのグラフをWebColaのグラフへ変換する
       const colaGraph = { nodes: [], links: [], constraints: [] };
@@ -96,39 +113,27 @@ export default {
         colaGraph.links.push({ source: index - 2, target: index - 1, length: node.pixels });
 
         // constraintを作る
-        colaGraph.constraints.push({
-          type: 'alignment',
-          axis: 'y',
-          offsets: [{ node: index - 2, offset: 0 }, { node: index - 1, offset: 0 }]
-        });
-        colaGraph.constraints.push({
-          axis: 'x',
-          left: index - 2,
-          right: index - 1,
-          gap: 1
-        });
+        this.addHorizontalConstraint(colaGraph, index - 2, index - 1);
       });
 
       // NLPのエッジをもとに追加する
       nlpGraph.edges.forEach(edge => {
         if (edge.type === 'subj') {
+          // NLPのedgeからWebColaのlinkを作る
           var source = colaGraph.nodes.filter(node => {
             return node.nlpName === edge.from + '-0';
           })[0].name;
           var target = colaGraph.nodes.filter(node => {
             return node.nlpName === edge.to + '-1';
           })[0].name;
-          colaGraph.links.push({ source, target, length: 10, type: 'invisible' });
+          colaGraph.links.push({ source, target, length: 10, type: 'subj' });
+
+          // NLPのedgeからWebColaのconstraintを作る
+          this.addHorizontalConstraint(colaGraph, target, source);
         }
       });
 
       return colaGraph;
-    },
-    createColaGraph1: function() {
-      return {
-        nodes: [{ name: 0 }, { name: 1 }, { name: 2 }],
-        links: [{ source: 0, target: 1, length: 100 }, { source: 1, target: 2, length: 50 }]
-      };
     },
     createGraph0: function() {
       return {
@@ -316,6 +321,10 @@ export default {
       d3cola.on('end', function() {
         console.log(graph);
 
+        // 一時的に作成していたcircleとlineを削除
+        svg.selectAll('circle').remove();
+        svg.selectAll('line').remove();
+
         graph.links.forEach(link => {
           let x1 = link.source.x;
           let y1 = link.source.y;
@@ -333,7 +342,14 @@ export default {
             .attr('fill', 'none')
             .attr('id', id);
 
-          if (type !== 'invisible') {
+          if (type === 'subj') {
+            svg
+              .append('path')
+              .attr('d', `M ${(x1 + x2) / 2} ${y1 - 20} L ${(x1 + x2) / 2} ${y1 + 20}`)
+              .attr('stroke', 'blue')
+              .attr('stroke-width', 2)
+              .attr('fill', 'none');
+          } else {
             svg
               .append('text')
               .append('textPath')
