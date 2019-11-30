@@ -10,6 +10,11 @@
             <svg-path v-bind:x="30" v-bind:y="30" text="The" direction="lower-right" />
             <svg-path v-bind:x="60" v-bind:y="30" text="white1234567890" direction="lower-right" />
           </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+            <nsubj v-bind:x="10" v-bind:y="30" firstText="unicorn" secondText="flew." />
+            <svg-path v-bind:x="30" v-bind:y="30" text="The" direction="lower-right" />
+            <svg-path v-bind:x="60" v-bind:y="30" text="white1234567890" direction="lower-right" />
+          </svg>
         </div>
         <div class="modal-footer card-operation">
           <button @click="$emit('close')">Close</button>
