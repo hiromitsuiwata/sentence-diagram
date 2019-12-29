@@ -1,17 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-const App: React.FC = () => {
+import logo from './logo.svg';
+import './Home.css';
+
+const Home = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="Home">
+      <header className="Home-header">
+        <img src={logo} className="Home-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit <code>src/Home.tsx</code> and save to reload.
         </p>
         <a
-          className="App-link"
+          className="Home-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
@@ -23,4 +24,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Home;

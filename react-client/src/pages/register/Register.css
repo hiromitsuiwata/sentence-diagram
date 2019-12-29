@@ -1,0 +1,88 @@
+.main {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  border-width: 1px;
+  width: 540px;
+  height: 370px;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  display: inline-block;
+}
+
+.editor {
+  margin: 10px 10px 10px 10px;
+  border-style: none;
+  resize: none;
+}
+
+.editor-title {
+  font-size: 16px;
+  width: 460px;
+}
+
+.editor-text {
+  font-size: 16px;
+  height: 220px;
+  width: 460px;
+}
+
+.editor-url {
+  font-size: 16px;
+  width: 460px;
+}
+
+.button-area {
+  border-top: 1px solid #eee;
+}
+
+.post-button {
+  position: absolute;
+  background-color: #4169e1;
+  color: #fff;
+  width: 40px;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+  margin: 10px 10px 0 0;
+  right: 0;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  cursor: pointer;
+}
+
+.cancel-button {
+  position: absolute;
+  background-color: #696969;
+  color: #fff;
+  width: 60px;
+  border-radius: 5px;
+  padding: 5px 5px 5px 5px;
+  margin: 10px 10px 0 0;
+  box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    width: 90%;
+  }
+
+  .editor-title {
+    width: 85%;
+  }
+
+  .editor-text {
+    width: 85%;
+  }
+
+  .editor-url {
+    width: 85%;
+  }
+}
