@@ -1,11 +1,82 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: #e5e5e5;
+  font-family: Helvetica, Arial, "hiragino kaku gothic pro", meiryo, "ms pgothic", sans-serif;
+  margin: 0 0 0 0;
+  overscroll-behavior-y: none;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+.main {
+  padding: 20px 20px 20px 20px;
+  position: absolute;
+  top: 48px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  display: inline-block;
+  margin: 0 2px 15px;
+}
+
+.card-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: left;
+  color: #333;
+  display: inline-block;
+}
+
+.card-text {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  width: 400px;
+}
+
+.card-operation {
+  text-align: center;
+  border-top: 1px solid #eee;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 20px;
+  padding-top: 5px;
+  font-size: 16px;
+}
+
+.card-id {
+  grid-column: 1 / 2;
+  color: gray;
+  text-align: left;
+}
+
+.card-link {
+  grid-column: 2 / 3;
+}
+
+.card-link a {
+  text-decoration: none;
+  color: #0bd;
+  cursor: pointer;
+}
+
+.card-diagram {
+  grid-column: 3 / 4;
+}
+
+.card-diagram a {
+  text-decoration: none;
+  color: #0bd;
+  cursor: pointer;
+}
+
+.card-link a:hover {
+  color: #0090aa;
+}
+
+.card-diagram a:hover {
+  color: #0090aa;
 }

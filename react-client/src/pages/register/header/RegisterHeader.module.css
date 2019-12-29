@@ -11,7 +11,7 @@
   z-index: 1;
 }
 
-.back-button {
+.back_button {
   position: absolute;
   display: flex;
   background-color: #4169e1;

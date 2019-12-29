@@ -2,22 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import RegisterHeader from './header/RegisterHeader';
 
-import './Register.css';
+import styles from './Register.module.css';
 
 const Register = () => {
   return (
     <div>
       <RegisterHeader></RegisterHeader>
-      <div className="main">
-        <div className="register-fields">
-          <input type="text" className="editor editor-title" placeholder="Title"></input>
-          <textarea className="editor editor-text" placeholder="Your text here"></textarea>
-          <input type="text" className="editor editor-url" placeholder="URL"></input>
-          <div className="button-area">
+      <div className={styles.main}>
+        <div className={styles.register_fields}>
+          <input type="text" className={styles.editor_title} placeholder="Title"></input>
+          <textarea className={styles.editor_text} placeholder="Your text here"></textarea>
+          <input type="text" className={styles.editor_url} placeholder="URL"></input>
+          <div className={styles.button_area}>
             <Link to="/">
-              <div className="cancel-button">Cancel</div>
+              <div className={styles.cancel_button}>Cancel</div>
             </Link>
-            <div className="post-button">Post</div>
+            <div className={styles.post_button}>Post</div>
           </div>
         </div>
       </div>

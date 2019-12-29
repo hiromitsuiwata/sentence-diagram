@@ -1,19 +1,23 @@
 import React from 'react';
 import HomeHeader from './header/HomeHeader';
-import logo from './logo.svg';
-import './Home.css';
+import MyCard from './mycard/MyCard';
+import styles from './Home.module.css';
 
 const Home = () => {
   return (
-    <div className="Home">
+    <div className={styles.Home}>
       <HomeHeader />
-      <img src={logo} className="Home-logo" alt="logo" />
-      <p>
-        Edit <code>src/Home.tsx</code> and save to reload.
-      </p>
-      <a className="Home-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-        Learn React
-      </a>
+      <div className={styles.main}>
+        <div className={styles.columns}>
+          <MyCard />
+          <MyCard />
+          <MyCard />
+          <MyCard />
+          <MyCard />
+          <MyCard />
+          <MyCard />
+        </div>
+      </div>
     </div>
   );
 };

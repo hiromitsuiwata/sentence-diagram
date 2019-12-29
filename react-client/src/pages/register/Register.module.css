@@ -16,24 +16,27 @@
   display: inline-block;
 }
 
-.editor {
+.editor_title {
   margin: 10px 10px 10px 10px;
   border-style: none;
   resize: none;
-}
-
-.editor-title {
   font-size: 16px;
   width: 460px;
 }
 
-.editor-text {
+.editor_text {
+  margin: 10px 10px 10px 10px;
+  border-style: none;
+  resize: none;
   font-size: 16px;
   height: 220px;
   width: 460px;
 }
 
-.editor-url {
+.editor_url {
+  margin: 10px 10px 10px 10px;
+  border-style: none;
+  resize: none;
   font-size: 16px;
   width: 460px;
 }
@@ -42,7 +45,7 @@
   border-top: 1px solid #eee;
 }
 
-.post-button {
+.post_button {
   position: absolute;
   background-color: #4169e1;
   color: #fff;
@@ -56,7 +59,7 @@
   cursor: pointer;
 }
 
-.cancel-button {
+.cancel_button {
   position: absolute;
   background-color: #696969;
   color: #fff;
@@ -67,22 +70,4 @@
   box-shadow: 0 6px 3px -3px rgba(0, 0, 0, 0.07);
   text-align: center;
   cursor: pointer;
-}
-
-@media screen and (max-width: 600px) {
-  .main {
-    width: 90%;
-  }
-
-  .editor-title {
-    width: 85%;
-  }
-
-  .editor-text {
-    width: 85%;
-  }
-
-  .editor-url {
-    width: 85%;
-  }
 }

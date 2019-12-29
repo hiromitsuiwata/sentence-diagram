@@ -2,18 +2,12 @@
   text-align: center;
 }
 
-.Home-logo {
+.logo {
   height: 40vmin;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .Home-logo {
-    animation: Home-logo-spin infinite 20s linear;
-  }
-}
-
-.Home-header {
+.header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -24,16 +18,18 @@
   color: white;
 }
 
-.Home-link {
+.link {
   color: #61dafb;
 }
 
-@keyframes Home-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+.main {
+  padding: 20px 20px 20px 20px;
+  position: absolute;
+  top: 48px;
+}
 
-  to {
-    transform: rotate(360deg);
-  }
+.columns {
+  column-count: 3;
+  column-gap: 5px;
+  column-fill: balance;
 }
