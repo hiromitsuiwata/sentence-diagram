@@ -32,8 +32,8 @@ psql -l
 createdb mydb
 # データベース名を指定して接続
 psql -d mydb
-# ホスト名、ユーザー名を指定して接続する
-psql --host 127.0.0.1 -U postgres
+# ホスト名、ユーザー名、データベース名を指定して接続する
+psql --host 127.0.0.1 -U username mydb
 ```
 
 ## psql コマンド
