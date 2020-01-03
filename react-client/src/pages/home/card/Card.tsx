@@ -8,12 +8,14 @@ interface Props {
   title: string;
   text: string;
   url: string;
+  openModalHandler: (id: number, title: string, text: string) => void;
 }
 interface State {}
 
 class Card extends React.Component<Props, State> {
-  showDiagram = () => {
-    alert('clicked!');
+  showDiagram = (e: any) => {
+    e.preventDefault();
+    this.props.openModalHandler(this.props.id, this.props.title, this.props.text);
   };
 
   render() {
