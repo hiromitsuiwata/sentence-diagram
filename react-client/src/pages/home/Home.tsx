@@ -11,6 +11,7 @@ interface Props {}
 
 interface State {
   cards: CardContent[];
+  searchKeyword: string;
   modal: ModalContent;
   showingModal: boolean;
 }
@@ -18,8 +19,12 @@ interface State {
 class Home extends React.Component<Props, State> {
   constructor(props: object) {
     super(props);
+
+    // 子コンポーネントで呼び出すこのコンポーネントのメソッドはthisをこのコンポーネントにバインドする
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.search = this.search.bind(this);
+
     console.log('constructor');
     this.state = {
       cards: [
@@ -67,7 +72,8 @@ class Home extends React.Component<Props, State> {
         }
       ],
       modal: { id: 1, title: '', text: '', diagramData: '' },
-      showingModal: false
+      showingModal: false,
+      searchKeyword: ''
     };
   }
 
@@ -121,7 +127,7 @@ class Home extends React.Component<Props, State> {
     } else {
       return (
         <div className={styles.Home}>
-          <HomeHeader />
+          <HomeHeader searchHander={this.search} />
           <div className={styles.main}>
             <div className={styles.columns}>
               <MyCard />
