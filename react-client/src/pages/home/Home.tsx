@@ -16,7 +16,7 @@ interface State {
 class Home extends React.Component<Props, State> {
   private cards: CardContent[];
 
-  constructor(props: object) {
+  constructor(props: Props) {
     super(props);
 
     // 子コンポーネントで呼び出すこのコンポーネントのメソッドはthisをこのコンポーネントにバインドする
