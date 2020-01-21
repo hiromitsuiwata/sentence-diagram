@@ -15,18 +15,16 @@ interface Props {
 interface State {}
 
 class TextLine extends React.Component<Props, State> {
-  private id: string;
-  private href: string;
-  private offset: number;
-  private mainD: string;
-  private separatorD: string;
-
   constructor(props: Props) {
     super(props);
+  }
 
-    this.id = uuid();
-    this.href = '#' + this.id;
-    this.offset = 15;
+  render(): JSX.Element {
+    console.log('TextLine render: ' + this.props.x);
+
+    const id = uuid();
+    const href = '#' + id;
+    const offset = 15;
 
     let length: number = this.props.text.length * 9 + 20;
     let endX: number;
@@ -39,34 +37,32 @@ class TextLine extends React.Component<Props, State> {
       endX = Math.round(this.props.x + length);
       endY = Math.round(this.props.y);
     }
-    this.mainD = `M ${this.props.x} ${this.props.y} L ${endX} ${endY}`;
+    const mainD = `M ${this.props.x} ${this.props.y} L ${endX} ${endY}`;
 
     let height = 15;
-    this.separatorD = `M ${this.props.x} ${this.props.y - height} L ${this.props.x} ${this.props.y +
-      height}`;
+    const separatorD = `M ${this.props.x} ${this.props.y - height} L ${this.props.x} ${this.props
+      .y + height}`;
 
     this.props.onCompute(this.props.wordId, endX, endY);
-  }
 
-  render(): JSX.Element {
     if (this.props.separator) {
       return (
         <g>
-          <path id={this.id} className={styles.redline} d={this.mainD}></path>
+          <path id={id} className={styles.redline} d={mainD}></path>
           <text>
-            <textPath href={this.href} startOffset={this.offset}>
+            <textPath href={href} startOffset={offset}>
               {this.props.text}
             </textPath>
           </text>
-          <path id={this.id} className={styles.redline} d={this.separatorD}></path>
+          <path id={id} className={styles.redline} d={separatorD}></path>
         </g>
       );
     } else {
       return (
         <g>
-          <path id={this.id} className={styles.redline} d={this.mainD}></path>
+          <path id={id} className={styles.redline} d={mainD}></path>
           <text>
-            <textPath href={this.href} startOffset={this.offset}>
+            <textPath href={href} startOffset={offset}>
               {this.props.text}
             </textPath>
           </text>

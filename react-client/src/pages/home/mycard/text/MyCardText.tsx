@@ -3,25 +3,28 @@ import TextLine from '../../diagram/svg/TextLine';
 
 interface Props {}
 
-interface State {}
+interface State {
+  startX: number;
+}
 
 class MyCardText extends React.Component<Props, State> {
-  private ends: any;
-  private myEndX: number;
+  private tempX: number = 0;
   private handleCompute = (wordId: string, endX: number, endY: number) => {
-    this.ends.push({ wordId, endX, endY });
-    console.log(this.ends);
-    this.myEndX = this.ends.filter((end: any) => end.wordId === '1')[0].endX;
-    console.log(this.myEndX);
+    if (wordId === '1') {
+      this.tempX = endX;
+    }
   };
 
   constructor(props: Props) {
     super(props);
-    this.ends = [];
-    this.myEndX = 110;
+    this.state = {
+      startX: 0
+    };
   }
 
   render(): JSX.Element {
+    console.log('render: ' + this.state.startX);
+
     return (
       <>
         <div>
@@ -32,7 +35,7 @@ class MyCardText extends React.Component<Props, State> {
           <TextLine wordId="1" x={20} y={20} text="unicorn" onCompute={this.handleCompute} />
           <TextLine
             wordId="2"
-            x={this.myEndX}
+            x={this.state.startX}
             y={20}
             text="flew."
             separator={true}
@@ -58,6 +61,26 @@ class MyCardText extends React.Component<Props, State> {
       </>
     );
   }
+
+  componentDidMount(): void {
+    console.log('componentDidMount: ' + this.state.startX);
+    this.setState({ startX: this.tempX });
+  }
+
+  componentWillUnmount(): void {
+    console.log('componentWillUnmount');
+  }
 }
 
 export default MyCardText;
+
+class Word {
+  id: string = '';
+  text: string = '';
+  startX: number = 0;
+  startY: number = 0;
+  endX: number = 0;
+  endY: number = 0;
+  direction: string = '';
+  separator: boolean = false;
+}
