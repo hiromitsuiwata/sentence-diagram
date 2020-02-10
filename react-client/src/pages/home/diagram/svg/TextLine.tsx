@@ -15,10 +15,6 @@ interface Props {
 interface State {}
 
 class TextLine extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   render(): JSX.Element {
     console.log('TextLine render: ' + this.props.x);
 
