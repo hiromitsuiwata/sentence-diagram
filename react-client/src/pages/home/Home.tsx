@@ -24,7 +24,7 @@ class Home extends React.Component<Props, State> {
     this.closeModal = this.closeModal.bind(this);
     this.search = this.search.bind(this);
 
-    console.log('constructor');
+    console.log('Home constructor');
 
     this.cards = [
       {
@@ -78,11 +78,11 @@ class Home extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    console.log('componentDidMount');
+    console.log('Home componentDidMount');
   }
 
   componentWillUnmount(): void {
-    console.log('componentWillUnmount');
+    console.log('Home componentWillUnmount');
   }
 
   render(): JSX.Element {

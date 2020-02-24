@@ -9,7 +9,7 @@ interface Props {
   text: string;
   direction?: string;
   separator?: boolean;
-  onCompute: (id: string, endX: number, endY: number) => void;
+  onCompute: (id: string, startX: number, startY: number, endX: number, endY: number) => void;
 }
 
 interface State {}
@@ -39,7 +39,7 @@ class TextLine extends React.Component<Props, State> {
     const separatorD = `M ${this.props.x} ${this.props.y - height} L ${this.props.x} ${this.props
       .y + height}`;
 
-    this.props.onCompute(this.props.wordId, endX, endY);
+    this.props.onCompute(this.props.wordId, this.props.x, this.props.y, endX, endY);
 
     if (this.props.separator) {
       return (
