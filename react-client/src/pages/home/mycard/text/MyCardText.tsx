@@ -10,6 +10,7 @@ interface State {
 class MyCardText extends React.Component<Props, State> {
   private tempX: number = 0;
   private handleCompute = (wordId: string, endX: number, endY: number) => {
+    // 制約を指定する. 単語の長さを計算した結果をcomponentDidMountで設定し、state経由で反映させる
     if (wordId === '1') {
       this.tempX = endX;
     }
@@ -27,10 +28,7 @@ class MyCardText extends React.Component<Props, State> {
 
     return (
       <>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua.
-        </div>
+        <div>The white unicorn flew.</div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
           <TextLine wordId="1" x={20} y={20} text="unicorn" onCompute={this.handleCompute} />
           <TextLine
@@ -64,6 +62,7 @@ class MyCardText extends React.Component<Props, State> {
 
   componentDidMount(): void {
     console.log('componentDidMount: ' + this.state.startX);
+    // stateに反映させる
     this.setState({ startX: this.tempX });
   }
 
