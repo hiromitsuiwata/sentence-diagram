@@ -3,13 +3,13 @@ import styles from './TextLine.module.css';
 import { v4 as uuid } from 'uuid';
 
 interface Props {
-  wordId: string;
+  wordId: number;
   x: number;
   y: number;
   text: string;
   direction?: string;
   separator?: boolean;
-  onCompute: (id: string, startX: number, startY: number, endX: number, endY: number) => void;
+  onCompute: (id: number, startX: number, startY: number, endX: number, endY: number) => void;
 }
 
 interface State {}

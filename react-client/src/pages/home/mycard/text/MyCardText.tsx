@@ -24,36 +24,68 @@ class MyCardText extends React.Component<Props, State> {
     this.state.starts[0].x = 40;
     this.state.starts[0].y = 40;
     // word
-    this.words.push({ id: '0', text: 'unicornxxxxxxxxxxxx' });
-    this.words.push({ id: '1', text: 'flew.', separator: true });
-    this.words.push({ id: '2', text: 'The', direction: 'right-down' });
-    this.words.push({ id: '3', text: 'white', direction: 'right-down' });
+    this.words.push({ id: 0, text: 'unicorn' });
+    this.words.push({
+      id: 1,
+      text: 'flew.',
+      separator: true,
+      parentId: 0,
+      relation: 'nsubj'
+    });
+    this.words.push({
+      id: 2,
+      text: 'The',
+      direction: 'right-down',
+      parentId: 0,
+      relation: 'mod',
+      childrenIndex: 1
+    });
+    this.words.push({
+      id: 3,
+      text: 'white',
+      direction: 'right-down',
+      parentId: 0,
+      relation: 'mod',
+      childrenIndex: 2
+    });
   }
 
   /**
    * ある単語の長さの計算が終わったときに呼ばれるハンドラー
    */
   private handleCompute = (
-    wordId: string,
+    lengthComputedWordId: number,
     startX: number,
     startY: number,
     endX: number,
     endY: number
   ) => {
-    console.log('MyCardText handleCompute');
     // 単語の長さを計算した結果を一時変数に保存してマウントされたときにstateに反映させる
+    // TODO 単語間の位置関係における制約を記述する
+    this.words.forEach((word) => {
+      if (lengthComputedWordId === word.parentId) {
+        if ('nsubj' === word.relation) {
+          // 親とnsubj関連を持つ場合、親の終点が子の始点となる
+          this.tempStarts[word.id] = { x: endX, y: startY };
+        } else if ('mod' === word.relation) {
+          if (word.childrenIndex) {
+            // 親とmod関連を持つ場合、親の単語の途中の位置が子の始点となる
+            this.tempStarts[word.id] = {
+              x: startX + 20 * word.childrenIndex,
+              y: startY
+            };
+          }
+        }
+      }
 
-    // 単語間の位置関係における制約を記述する
-    if (wordId === '0') {
-      // 自分自身の始点(本来意味がないがReactの性質のためstateを丸ごと入れ替えているので記述必要)
-      this.tempStarts[0] = { x: startX, y: startY };
-      // 単語1の始点は単語0の終点とする
-      this.tempStarts[1] = { x: endX, y: startY };
-      // 単語2の始点はx方向に単語0の長さの1/3ずれた位置とする
-      this.tempStarts[2] = { x: startX + (endX - startX) / 3, y: startY };
-      // 単語3の始点はx方向に単語0の長さの2/3ずれた位置とする
-      this.tempStarts[3] = { x: startX + ((endX - startX) * 2) / 3, y: startY };
-    }
+      if (lengthComputedWordId === word.id && word.parentId === undefined) {
+        // 自分自身の始点(本来意味がないがReactの性質のためstateを丸ごと入れ替えているので記述必要)
+        console.log(
+          lengthComputedWordId + ': ' + word.id + ': ' + word.parentId + ': ' + word.text
+        );
+        this.tempStarts[word.id] = { x: startX, y: startY };
+      }
+    });
   };
 
   render(): JSX.Element {
@@ -63,6 +95,7 @@ class MyCardText extends React.Component<Props, State> {
       console.log(i);
       list.push(
         <TextLine
+          key={this.words[i].id}
           wordId={this.words[i].id}
           x={this.state.starts[i].x}
           y={this.state.starts[i].y}
@@ -102,8 +135,11 @@ class Start {
 }
 
 class Word {
-  id: string = '';
+  id: number = 0;
   text: string = '';
   separator?: boolean = false;
   direction?: string = '';
+  parentId?: number = 0;
+  relation?: string = '';
+  childrenIndex?: number = 0;
 }
