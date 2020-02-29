@@ -1,31 +1,33 @@
 <server description="new server">
 
-  <featureManager>
-    <feature>localConnector-1.0</feature>
-    <feature>jpaContainer-2.2</feature>
-    <feature>servlet-4.0</feature>
-    <feature>beanValidation-2.0</feature>
-    <feature>jsp-2.3</feature>
-    <feature>cdi-2.0</feature>
-    <feature>jndi-1.0</feature>
-    <feature>jaxrs-2.1</feature>
-  </featureManager>
+	<!-- Enable features -->
+	<featureManager>
+		<feature>localConnector-1.0</feature>
+		<feature>jpaContainer-2.2</feature>
+		<feature>servlet-4.0</feature>
+		<feature>beanValidation-2.0</feature>
+		<feature>jsp-2.3</feature>
+		<feature>cdi-2.0</feature>
+		<feature>jndi-1.0</feature>
+		<feature>jaxrs-2.1</feature>
+	</featureManager>
 
-  <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" host="*">
-    <accessLogging filepath="${server.output.dir}/logs/access.log" logFormat='%h %i %u %t "%r" %s %b' />
-  </httpEndpoint>
+	<httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint">
+	</httpEndpoint>
 
-  <applicationManager autoExpand="false"/>
-  <applicationMonitor updateTrigger="mbean"/>
+	<applicationManager autoExpand="false"/>
+	<applicationMonitor updateTrigger="mbean"/>
 
-  <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
-    <jdbcDriver>
-      <library>
-        <fileset dir="/Users/hiro/dev/postgres" includes="postgresql-42.2.5.jar"/>
-      </library>
-    </jdbcDriver>
-    <properties databaseName="mydb" portNumber="5432" serverName="localhost"/>
-  </dataSource>
+	<dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
+		<jdbcDriver>
+			<library>
+				<fileset dir="/Users/hiro/dev/postgres" includes="postgresql-42.2.10.jar"/>
+			</library>
+		</jdbcDriver>
+		<properties databaseName="mydb" portNumber="5432" serverName="localhost"/>
+	</dataSource>
 
-  <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
+	<application location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="/"></application>
+
+	<jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 </server>
