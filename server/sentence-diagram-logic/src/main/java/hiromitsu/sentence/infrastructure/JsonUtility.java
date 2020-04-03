@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 /**
- * Json関連のユーティリティー
+ * JSON関連のユーティリティー
  */
 public class JsonUtility {
 
@@ -21,8 +21,7 @@ public class JsonUtility {
    */
   public static String toPrettyJSON(String json) {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    JsonParser jp = new JsonParser();
-    JsonElement je = jp.parse(json);
+    JsonElement je = JsonParser.parseString(json);
     String prettyJsonString = gson.toJson(je);
     return prettyJsonString;
   }

@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>13</java.version>
+		<java.version>11</java.version>
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
@@ -78,13 +78,13 @@
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-engine</artifactId>
-				<version>5.6.0</version>
+				<version>5.6.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.platform</groupId>
 				<artifactId>junit-platform-launcher</artifactId>
-				<version>1.6.0</version>
+				<version>1.6.1</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -142,10 +142,10 @@
 						<configuration>
 							<rules>
 								<requireMavenVersion>
-									<version>3.0</version>
+									<version>3.1.1</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
-									<version>13</version>
+									<version>11</version>
 								</requireJavaVersion>
 							</rules>
 						</configuration>
@@ -176,12 +176,12 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>3.1.12.2</version>
+				<version>4.0.0</version>
 				<dependencies>
 					<dependency>
 						<groupId>com.github.spotbugs</groupId>
 						<artifactId>spotbugs</artifactId>
-						<version>3.1.12.2</version>
+						<version>4.0.1</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -193,7 +193,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>3.1.11</version>
+				<version>4.0.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
