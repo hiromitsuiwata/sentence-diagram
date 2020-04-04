@@ -45,7 +45,7 @@ class Home extends React.Component<Props, State> {
 
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     axios
-      .get('http://localhost:9080/sentence-diagram-web/api/sentences')
+      .get('/api/sentences')
       .then((response) => {
         console.log({
           response: response,
@@ -131,7 +131,7 @@ class Home extends React.Component<Props, State> {
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
-      .post('http://localhost:9080/sentence-diagram-web/api/sentences', {
+      .post('/api/sentences', {
         title,
         text,
         url,
@@ -162,7 +162,7 @@ class Home extends React.Component<Props, State> {
     console.log('delete: ' + id);
     this.setState({ cards: this.state.cards.filter((card) => card.id !== id) });
     axios
-      .delete('http://localhost:9080/sentence-diagram-web/api/sentences/' + id)
+      .delete('/api/sentences/' + id)
       .then((response) => {
         console.log({
           response: response,
@@ -181,7 +181,7 @@ class Home extends React.Component<Props, State> {
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
-      .get('http://localhost:9080/sentence-diagram-web/api/sentences/search', {
+      .get('/api/sentences/search', {
         params: {
           q: keyword,
         },
