@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -45,6 +46,16 @@ public class SentenceResource {
 
     Response response = Response.ok(json).build();
 
+    return response;
+  }
+
+  @DELETE
+  @Produces("application/json")
+  @Path("{id}")
+  public Response delete(@PathParam("id") Long id) {
+    logger.info("delete: " + id);
+    sentenceService.delete(id);
+    Response response = Response.ok().build();
     return response;
   }
 

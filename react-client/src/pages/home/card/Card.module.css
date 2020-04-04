@@ -27,7 +27,7 @@
   text-align: center;
   border-top: 1px solid #eee;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   height: 20px;
   padding-top: 5px;
   font-size: 16px;
@@ -51,6 +51,10 @@
 
 .diagram {
   grid-column: 3 / 4;
+}
+
+.garbage {
+  grid-column: 4 / 5;
 }
 
 .diagram a {

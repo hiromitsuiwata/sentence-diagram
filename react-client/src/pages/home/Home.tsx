@@ -82,7 +82,22 @@ class Home extends React.Component<Props, State> {
 
   componentDidMount(): void {
     console.log('Home componentDidMount');
-    this.setState({ cards: this.testDataCards });
+    // this.setState({ cards: this.testDataCards });
+    axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+
+    axios
+      .get('http://localhost:9080/sentence-diagram-web/api/sentences')
+      .then((response) => {
+        console.log({
+          response: response,
+        });
+        this.setState({ cards: response.data });
+      })
+      .catch((error) => {
+        console.log({
+          error: error,
+        });
+      });
   }
 
   componentWillUnmount(): void {
@@ -141,11 +156,11 @@ class Home extends React.Component<Props, State> {
 
   search(keyword: string): void {
     console.log('search: ' + keyword);
-    // テスト用に設定
+    // TODO テスト用に設定
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
-      .get('http://localhost:9080/api/sentences/search', {
+      .get('http://localhost:9080/sentence-diagram-web/api/sentences/search', {
         params: {
           q: keyword,
         },

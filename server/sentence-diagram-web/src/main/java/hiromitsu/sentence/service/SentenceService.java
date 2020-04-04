@@ -56,6 +56,18 @@ public class SentenceService {
     return em.find(Sentence.class, id);
   }
 
+  /**
+   * 主キーで削除する
+   * 
+   * @param id 主キー
+   * @return 検索結果
+   */
+  public Sentence delete(Long id) {
+    Sentence s = em.find(Sentence.class, id);
+    em.remove(s);
+    return s;
+  }
+
   public List<Sentence> search(String text) {
     TypedQuery<Sentence> query = em.createNamedQuery("Sentence.search", Sentence.class).setParameter("keyword",
         "%" + text + "%");
