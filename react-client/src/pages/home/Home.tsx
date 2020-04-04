@@ -10,8 +10,9 @@ import styles from './Home.module.css';
 interface Props {}
 
 interface State {
-  modal: ModalContent;
-  showingModal: boolean;
+  diagramModal: DiagramModalContent;
+  showingDiagram: boolean;
+  showingRegistration: boolean;
   cards: CardContent[];
 }
 
@@ -20,16 +21,17 @@ class Home extends React.Component<Props, State> {
     super(props);
 
     // 子コンポーネントで呼び出すこのコンポーネントのメソッドはthisをこのコンポーネントにバインドする
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.openDiagram = this.openDiagram.bind(this);
+    this.closeDiagram = this.closeDiagram.bind(this);
     this.search = this.search.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
 
     console.log('Home constructor');
 
     this.state = {
-      modal: { id: 1, title: '', text: '', diagramData: '' },
-      showingModal: false,
+      diagramModal: { id: 1, title: '', text: '', diagramData: '' },
+      showingDiagram: false,
+      showingRegistration: false,
       cards: [],
     };
   }
@@ -38,7 +40,6 @@ class Home extends React.Component<Props, State> {
     console.log('Home componentDidMount');
 
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
-
     axios
       .get('http://localhost:9080/sentence-diagram-web/api/sentences')
       .then((response) => {
@@ -66,19 +67,19 @@ class Home extends React.Component<Props, State> {
         title={d.title}
         text={d.text}
         url={d.url}
-        openModalHandler={this.openModal}
+        openModalHandler={this.openDiagram}
         deleteCardHandler={this.deleteCard}
       />
     ));
 
-    if (this.state.showingModal) {
+    if (this.state.showingDiagram) {
       return (
         <div className={styles.Home}>
           <Diagram
-            id={this.state.modal.id}
-            title={this.state.modal.title}
-            text={this.state.modal.text}
-            closeModalHandler={this.closeModal}
+            id={this.state.diagramModal.id}
+            title={this.state.diagramModal.title}
+            text={this.state.diagramModal.text}
+            closeModalHandler={this.closeDiagram}
           />
         </div>
       );
@@ -97,11 +98,11 @@ class Home extends React.Component<Props, State> {
     }
   }
 
-  openModal(id: number, title: string, text: string): void {
-    console.log('openModal');
-    const modalContent = new ModalContent(id, title, text);
-    console.log(modalContent);
-    this.setState({ showingModal: true, modal: modalContent });
+  openDiagram(id: number, title: string, text: string): void {
+    console.log('open diagram');
+    const diagramModalContent = new DiagramModalContent(id, title, text);
+    console.log(diagramModalContent);
+    this.setState({ showingDiagram: true, diagramModal: diagramModalContent });
   }
 
   deleteCard(id: number): void {
@@ -121,9 +122,9 @@ class Home extends React.Component<Props, State> {
       });
   }
 
-  closeModal(): void {
+  closeDiagram(): void {
     console.log('closeModal');
-    this.setState({ showingModal: false });
+    this.setState({ showingDiagram: false });
   }
 
   search(keyword: string): void {
@@ -158,7 +159,7 @@ class CardContent {
   url: string = '';
 }
 
-class ModalContent {
+class DiagramModalContent {
   id: number = 0;
   title: string = '';
   text: string = '';

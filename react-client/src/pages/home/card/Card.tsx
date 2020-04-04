@@ -18,6 +18,7 @@ class Card extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.delete = this.delete.bind(this);
+    this.showDiagram = this.showDiagram.bind(this);
   }
 
   showDiagram(e: React.FormEvent): void {
