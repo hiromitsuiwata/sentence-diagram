@@ -49,12 +49,12 @@
   cursor: pointer;
 }
 
-.diagram {
-  grid-column: 3 / 4;
+.link a:hover {
+  color: #0090aa;
 }
 
-.garbage {
-  grid-column: 4 / 5;
+.diagram {
+  grid-column: 3 / 4;
 }
 
 .diagram a {
@@ -63,10 +63,20 @@
   cursor: pointer;
 }
 
-.link a:hover {
+.diagram a:hover {
   color: #0090aa;
 }
 
-.diagram a:hover {
+.trash {
+  grid-column: 4 / 5;
+}
+
+.trash a {
+  text-decoration: none;
+  color: #0bd;
+  cursor: pointer;
+}
+
+.trash a:hover {
   color: #0090aa;
 }
