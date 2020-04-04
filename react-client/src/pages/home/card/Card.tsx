@@ -1,7 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilRuler } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 
 import styles from './Card.module.css';
 
@@ -11,35 +10,24 @@ interface Props {
   text: string;
   url: string;
   openModalHandler: (id: number, title: string, text: string) => void;
+  deleteCardHandler: (id: number) => void;
 }
 interface State {}
 
 class Card extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.drop = this.drop.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
-  showDiagram = (e: any) => {
+  showDiagram(e: React.FormEvent): void {
     e.preventDefault();
     this.props.openModalHandler(this.props.id, this.props.title, this.props.text);
-  };
+  }
 
-  drop(e: React.FormEvent): void {
+  delete(e: React.FormEvent): void {
     e.preventDefault();
-    console.log(this.props.id);
-    axios
-      .delete('http://localhost:9080/sentence-diagram-web/api/sentences/' + this.props.id)
-      .then((response) => {
-        console.log({
-          response: response,
-        });
-      })
-      .catch((error) => {
-        console.log({
-          error: error,
-        });
-      });
+    this.props.deleteCardHandler(this.props.id);
   }
 
   render() {
@@ -61,7 +49,7 @@ class Card extends React.Component<Props, State> {
             </a>
           </div>
           <div className={styles.garbage}>
-            <a href="#top" onClick={this.drop}>
+            <a href="#top" onClick={this.delete}>
               drop
             </a>
           </div>
