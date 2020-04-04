@@ -51,9 +51,11 @@ class Register extends React.Component<Props, State> {
               <Link to="/">
                 <div className={styles.cancel_button}>Cancel</div>
               </Link>
-              <div className={styles.post_button} onClick={() => this.handleSubmit()}>
-                Post
-              </div>
+              <Link to="/">
+                <div className={styles.post_button} onClick={() => this.handleSubmit()}>
+                  Post
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -79,7 +81,7 @@ class Register extends React.Component<Props, State> {
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
-      .post('http://localhost:9080/api/sentences', {
+      .post('http://localhost:9080/sentence-diagram-web/api/sentences', {
         title: this.state.title,
         text: this.state.text,
         url: this.state.url,
