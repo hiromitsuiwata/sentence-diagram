@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUser, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import lodash from 'lodash';
@@ -8,6 +7,7 @@ import styles from './HomeHeader.module.css';
 
 interface Props {
   searchHander: (keyword: string) => void;
+  openRegistrationHandler: () => void;
 }
 
 interface State {}
@@ -38,11 +38,9 @@ class HomeHeader extends React.Component<Props, State> {
         </div>
 
         <div>
-          <Link to="/register">
-            <div className={styles.create_button}>
-              <FontAwesomeIcon icon={faPencilAlt} className={styles.center} />
-            </div>
-          </Link>
+          <div className={styles.create_button} onClick={this.props.openRegistrationHandler}>
+            <FontAwesomeIcon icon={faPencilAlt} className={styles.center} />
+          </div>
         </div>
       </div>
     );

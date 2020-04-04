@@ -1,12 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import styles from './Registration.module.css';
 
-import RegisterHeader from './header/RegisterHeader';
-
-import styles from './Register.module.css';
-
-interface Props {}
+interface Props {
+  submitRegistrationHandler: (title: string, text: string, url: string) => void;
+  cancelRegistrationHandler: () => void;
+}
 
 interface State {
   title: string;
@@ -14,17 +12,20 @@ interface State {
   url: string;
 }
 
-class Register extends React.Component<Props, State> {
+class Registeration extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      title: '',
+      text: '',
+      url: '',
+    };
   }
 
   render(): JSX.Element {
     return (
       <div>
-        <RegisterHeader></RegisterHeader>
         <div className={styles.main}>
           <div className={styles.register_fields}>
             <input
@@ -48,14 +49,12 @@ class Register extends React.Component<Props, State> {
               onChange={this.handleChange}
             ></input>
             <div className={styles.button_area}>
-              <Link to="/">
-                <div className={styles.cancel_button}>Cancel</div>
-              </Link>
-              <Link to="/">
-                <div className={styles.post_button} onClick={() => this.handleSubmit()}>
-                  Post
-                </div>
-              </Link>
+              <div className={styles.cancel_button} onClick={() => this.handleCancel()}>
+                Cancel
+              </div>
+              <div className={styles.post_button} onClick={() => this.handleSubmit()}>
+                Post
+              </div>
             </div>
           </div>
         </div>
@@ -77,26 +76,12 @@ class Register extends React.Component<Props, State> {
     }
   }
   handleSubmit(): void {
-    // TODO テスト用に設定
-    axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
-    // テスト用にドメインを指定
-    axios
-      .post('http://localhost:9080/sentence-diagram-web/api/sentences', {
-        title: this.state.title,
-        text: this.state.text,
-        url: this.state.url,
-      })
-      .then((response) => {
-        console.log({
-          response: response,
-        });
-      })
-      .catch((error) => {
-        console.log({
-          error: error,
-        });
-      });
+    this.props.submitRegistrationHandler(this.state.title, this.state.text, this.state.url);
+  }
+
+  handleCancel(): void {
+    this.props.cancelRegistrationHandler();
   }
 }
 
-export default Register;
+export default Registeration;

@@ -29,11 +29,11 @@ public class SentenceService {
    * DBに文を登録する
    * 
    * @param sentence
-   * @return 自動採番された主キー(id)
+   * @return 自動採番された主キー(id)を含むsentence
    */
-  public Long create(Sentence sentence) {
+  public Sentence create(Sentence sentence) {
     em.persist(sentence);
-    return sentence.getId();
+    return sentence;
   }
 
   /**

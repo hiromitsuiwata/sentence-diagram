@@ -82,9 +82,12 @@ public class SentenceResource {
 
     Gson gson = new Gson();
     Sentence sentence = gson.fromJson(request, Sentence.class);
-    sentenceService.create(sentence);
+    Sentence result = sentenceService.create(sentence);
 
-    Response response = Response.ok().build();
+    String json = gson.toJson(result);
+    logger.info(json);
+
+    Response response = Response.ok(json).build();
     logger.info(response.toString());
     return response;
   }
