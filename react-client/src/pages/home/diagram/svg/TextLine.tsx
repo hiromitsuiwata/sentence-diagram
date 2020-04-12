@@ -16,8 +16,6 @@ interface State {}
 
 class TextLine extends React.Component<Props, State> {
   render(): JSX.Element {
-    console.log('TextLine render: ' + this.props.x);
-
     const id = uuid();
     const href = '#' + id;
     const offset = 15;
@@ -36,8 +34,9 @@ class TextLine extends React.Component<Props, State> {
     const mainD = `M ${this.props.x} ${this.props.y} L ${endX} ${endY}`;
 
     let height = 15;
-    const separatorD = `M ${this.props.x} ${this.props.y - height} L ${this.props.x} ${this.props
-      .y + height}`;
+    const separatorD = `M ${this.props.x} ${this.props.y - height} L ${this.props.x} ${
+      this.props.y + height
+    }`;
 
     this.props.onCompute(this.props.wordId, this.props.x, this.props.y, endX, endY);
 

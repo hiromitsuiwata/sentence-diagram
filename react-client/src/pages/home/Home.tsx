@@ -30,8 +30,6 @@ class Home extends React.Component<Props, State> {
     this.search = this.search.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
 
-    console.log('Home constructor');
-
     this.state = {
       diagramModal: { id: 1, title: '', text: '', diagramData: '' },
       showingDiagram: false,
@@ -41,8 +39,6 @@ class Home extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    console.log('Home componentDidMount');
-
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     axios
       .get('/api/sentences')
@@ -57,10 +53,6 @@ class Home extends React.Component<Props, State> {
           error: error,
         });
       });
-  }
-
-  componentWillUnmount(): void {
-    console.log('Home componentWillUnmount');
   }
 
   render(): JSX.Element {

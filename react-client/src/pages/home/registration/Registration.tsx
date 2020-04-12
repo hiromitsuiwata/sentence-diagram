@@ -12,8 +12,6 @@ const Registeration: React.FC<Props> = (props) => {
   const [url, setUrl] = useState<string>('');
 
   function handleChange(e: React.FormEvent): void {
-    console.log(e.target);
-
     const name = (e.target as HTMLInputElement).name;
     const value = (e.target as HTMLInputElement).value;
     if (name === 'title') {

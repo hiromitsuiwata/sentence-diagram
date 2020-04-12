@@ -13,9 +13,9 @@ class MyCardText extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    console.log('MyCardText constructor');
+
     this.state = {
-      starts: []
+      starts: [],
     };
     for (let i = 0; i < 4; i++) {
       this.state.starts.push({ x: 0, y: 0 });
@@ -30,7 +30,7 @@ class MyCardText extends React.Component<Props, State> {
       text: 'flew.',
       separator: true,
       parentId: 0,
-      relation: 'nsubj'
+      relation: 'nsubj',
     });
     this.words.push({
       id: 2,
@@ -38,7 +38,7 @@ class MyCardText extends React.Component<Props, State> {
       direction: 'right-down',
       parentId: 0,
       relation: 'mod',
-      childrenIndex: 1
+      childrenIndex: 1,
     });
     this.words.push({
       id: 3,
@@ -46,8 +46,9 @@ class MyCardText extends React.Component<Props, State> {
       direction: 'right-down',
       parentId: 0,
       relation: 'mod',
-      childrenIndex: 2
+      childrenIndex: 2,
     });
+    console.log(JSON.stringify(this.words));
   }
 
   /**
@@ -72,7 +73,7 @@ class MyCardText extends React.Component<Props, State> {
             // 親とmod関連を持つ場合、親の単語の途中の位置が子の始点となる
             this.tempStarts[word.id] = {
               x: startX + 20 * word.childrenIndex,
-              y: startY
+              y: startY,
             };
           }
         }
@@ -80,9 +81,6 @@ class MyCardText extends React.Component<Props, State> {
 
       if (lengthComputedWordId === word.id && word.parentId === undefined) {
         // 自分自身の始点(本来意味がないがReactの性質のためstateを丸ごと入れ替えているので記述必要)
-        console.log(
-          lengthComputedWordId + ': ' + word.id + ': ' + word.parentId + ': ' + word.text
-        );
         this.tempStarts[word.id] = { x: startX, y: startY };
       }
     });
@@ -92,7 +90,6 @@ class MyCardText extends React.Component<Props, State> {
     // 固定部分(words)と可変部分(state.starts)を使ってタグを作る
     let list = [];
     for (let i = 0; i < this.words.length; i++) {
-      console.log(i);
       list.push(
         <TextLine
           key={this.words[i].id}
@@ -118,12 +115,7 @@ class MyCardText extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    console.log('MyCardText componentDidMount');
     this.setState({ starts: this.tempStarts });
-  }
-
-  componentWillUnmount(): void {
-    console.log('componentWillUnmount');
   }
 }
 

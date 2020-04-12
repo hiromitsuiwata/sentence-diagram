@@ -17,7 +17,7 @@ class AnalyzerTest {
     assertEquals("is running--nsubj-->Bill", results.get(0).getEdgeList().get(0).toPrettyString());
     printResult(results);
   }
-  
+
   @Test
   void subjectAndVerb2() {
     String text = "Bill was watched.";
@@ -25,7 +25,7 @@ class AnalyzerTest {
     assertEquals("was watched--nsubj-->Bill", results.get(0).getEdgeList().get(0).toPrettyString());
     printResult(results);
   }
-  
+
   @Test
   void auxAndAuxpass1() {
     String text = "Have you decided?";
@@ -41,7 +41,6 @@ class AnalyzerTest {
     assertEquals("may have been running--nsubj-->I", results.get(0).getEdgeList().get(0).toPrettyString());
     printResult(results);
   }
-  
 
   @Test
   void nmodpossAndAdvmod1() {
@@ -60,10 +59,13 @@ class AnalyzerTest {
     assertEquals("The--det-->unicorn", results.get(0).getEdgeList().get(0).toPrettyString());
     assertEquals("white--amod-->unicorn", results.get(0).getEdgeList().get(1).toPrettyString());
     assertEquals("flew--nsubj-->unicorn", results.get(0).getEdgeList().get(2).toPrettyString());
-    
+
     printResult(results);
+
+    String result = "[{\"id\":0,\"text\":\"unicorn\"},{\"id\":1,\"text\":\"flew.\",\"separator\":true,\"parentId\":0,\"relation\":\"nsubj\"},{\"id\":2,\"text\":\"The\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":1},{\"id\":3,\"text\":\"white\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":2}]";
+    System.out.println(result);
   }
-  
+
   private void printResult(List<ParsedResult> results) {
     results.stream().map(r -> new VResult(r)).map(vr -> vr.toJSON()).forEach(System.out::println);
   }

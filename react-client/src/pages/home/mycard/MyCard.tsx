@@ -2,7 +2,7 @@ import React from 'react';
 import MyCardText from './text/MyCardText';
 import styles from '../card/Card.module.css';
 
-const MyCard = () => {
+const MyCard: React.FC = () => {
   return (
     <div className={styles.card}>
       <div className={styles.id}>#0</div>
