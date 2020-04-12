@@ -16,12 +16,21 @@ import lombok.Data;
  * 表示用の結果
  */
 @Data
-public class VResult {
+public class ViewMapper {
 
   private List<VNode> vnodes = new ArrayList<>();
   private List<VEdge> vedges = new ArrayList<>();
 
-  public VResult(ParsedResult r) {
+  public static String map(ParsedResult r) {
+    List<Edge> edgeList = r.getEdgeList();
+    List<Node> nodeList = r.getNodeList();
+    List<ViewNode> viewNodes = new ArrayList<>();
+
+    Gson gson = new Gson();
+    return JsonUtility.toPrettyJSON(gson.toJson(viewNodes));
+  }
+
+  public ViewMapper(ParsedResult r) {
 
     List<Edge> edgeList = r.getEdgeList();
     List<Node> nodeList = r.getNodeList();

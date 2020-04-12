@@ -6,7 +6,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import hiromitsu.sentence.visualization.VResult;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+
+import hiromitsu.sentence.visualization.ViewMapper;
 
 class AnalyzerTest {
 
@@ -62,11 +65,15 @@ class AnalyzerTest {
 
     printResult(results);
 
+    ViewMapper.map(results.get(0));
+
+    System.out.println("目標");
     String result = "[{\"id\":0,\"text\":\"unicorn\"},{\"id\":1,\"text\":\"flew.\",\"separator\":true,\"parentId\":0,\"relation\":\"nsubj\"},{\"id\":2,\"text\":\"The\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":1},{\"id\":3,\"text\":\"white\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":2}]";
-    System.out.println(result);
+    String prettyPrintedJson = new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(result));
+    System.out.println(prettyPrintedJson);
   }
 
   private void printResult(List<ParsedResult> results) {
-    results.stream().map(r -> new VResult(r)).map(vr -> vr.toJSON()).forEach(System.out::println);
+    results.stream().map(r -> new ViewMapper(r)).map(vr -> vr.toJSON()).forEach(System.out::println);
   }
 }

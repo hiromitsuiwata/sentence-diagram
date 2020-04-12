@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 import hiromitsu.sentence.Analyzer;
 import hiromitsu.sentence.ParsedResult;
-import hiromitsu.sentence.visualization.VResult;
+import hiromitsu.sentence.visualization.ViewMapper;
 
 /**
  * 文サービス
@@ -80,7 +80,7 @@ public class SentenceService {
     String text = sentence.getText();
 
     List<ParsedResult> results = Analyzer.analyze(text);
-    List<VResult> vresults = results.stream().map(r -> new VResult(r)).collect(Collectors.toList());
+    List<ViewMapper> vresults = results.stream().map(r -> new ViewMapper(r)).collect(Collectors.toList());
 
     Gson gson = new Gson();
     String json = gson.toJson(vresults);
