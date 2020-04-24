@@ -1,17 +1,31 @@
 package hiromitsu.sentence.visualization;
 
-import lombok.AllArgsConstructor;
+import com.google.gson.annotations.Expose;
+
+import hiromitsu.sentence.Node;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ViewNode {
 
-  private int id = 0;
-  private String text;
-  private String relation;
-  private String direction;
-  private int parentId;
-  private int childId;
-  private boolean separator = false;
+  // nullオブジェクトはGsonによるJSON変換時に無視される
+  // https://github.com/google/gson/blob/master/UserGuide.md#TOC-Null-Object-Support
+  @Expose
+  private final Integer id;
+  @Expose
+  private final String text;
+  @Expose
+  private String relation = null;
+  @Expose
+  private String direction = null;
+  @Expose
+  private Integer parentId = null;
+  @Expose
+  private Integer childId = null;
+  @Expose
+  private Boolean separator = null;
+
+  private Node node;
 }

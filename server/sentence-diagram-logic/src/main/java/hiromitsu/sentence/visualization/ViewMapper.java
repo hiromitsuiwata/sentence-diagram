@@ -2,8 +2,10 @@ package hiromitsu.sentence.visualization;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import hiromitsu.sentence.Edge;
 import hiromitsu.sentence.EdgeType;
@@ -26,7 +28,22 @@ public class ViewMapper {
     List<Node> nodeList = r.getNodeList();
     List<ViewNode> viewNodes = new ArrayList<>();
 
-    Gson gson = new Gson();
+    for (int i = 0; i < nodeList.size(); i++) {
+      Node node = nodeList.get(i);
+      String text = node.getWordList().stream().map(word -> word.getToken()).collect(Collectors.joining(" "));
+      ViewNode viewNode = new ViewNode(i, text);
+      for (Edge edge : edgeList) {
+        if (node.equals(edge.getFrom())) {
+          String type = edge.getType().name();
+          viewNode.setRelation(type);
+          edge.getTo();
+        }
+      }
+
+      viewNodes.add(viewNode);
+    }
+
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     return JsonUtility.toPrettyJSON(gson.toJson(viewNodes));
   }
 

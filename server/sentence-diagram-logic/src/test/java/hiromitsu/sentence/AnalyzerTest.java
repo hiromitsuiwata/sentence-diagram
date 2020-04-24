@@ -65,11 +65,12 @@ class AnalyzerTest {
 
     printResult(results);
 
-    ViewMapper.map(results.get(0));
+    String actual = ViewMapper.map(results.get(0));
+    System.out.println(actual);
 
     System.out.println("目標");
-    String result = "[{\"id\":0,\"text\":\"unicorn\"},{\"id\":1,\"text\":\"flew.\",\"separator\":true,\"parentId\":0,\"relation\":\"nsubj\"},{\"id\":2,\"text\":\"The\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":1},{\"id\":3,\"text\":\"white\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":2}]";
-    String prettyPrintedJson = new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(result));
+    String expected = "[{\"id\":0,\"text\":\"unicorn\"},{\"id\":1,\"text\":\"flew.\",\"separator\":true,\"parentId\":0,\"relation\":\"nsubj\"},{\"id\":2,\"text\":\"The\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":1},{\"id\":3,\"text\":\"white\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childrenIndex\":2}]";
+    String prettyPrintedJson = new GsonBuilder().setPrettyPrinting().create().toJson(JsonParser.parseString(expected));
     System.out.println(prettyPrintedJson);
   }
 
