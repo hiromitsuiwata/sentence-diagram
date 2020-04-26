@@ -63,7 +63,7 @@ class AnalyzerTest {
     assertEquals("white--amod-->unicorn", results.get(0).getEdgeList().get(1).toPrettyString());
     assertEquals("flew--nsubj-->unicorn", results.get(0).getEdgeList().get(2).toPrettyString());
 
-    printResult(results);
+    // printResult(results);
 
     String actual = ViewMapper.map(results.get(0));
     System.out.println(actual);

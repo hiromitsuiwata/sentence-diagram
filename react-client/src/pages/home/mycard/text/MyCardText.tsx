@@ -37,7 +37,7 @@ class MyCardText extends React.Component<Props, State> {
       text: 'The',
       direction: 'right-down',
       parentId: 0,
-      relation: 'mod',
+      relation: 'det',
       childId: 1,
     });
     this.words.push({
@@ -45,7 +45,7 @@ class MyCardText extends React.Component<Props, State> {
       text: 'white',
       direction: 'right-down',
       parentId: 0,
-      relation: 'mod',
+      relation: 'amod',
       childId: 2,
     });
     console.log(JSON.stringify(this.words));
@@ -68,9 +68,9 @@ class MyCardText extends React.Component<Props, State> {
         if ('nsubj' === word.relation) {
           // 親とnsubj関連を持つ場合、親の終点が子の始点となる
           this.tempStarts[word.id] = { x: endX, y: startY };
-        } else if ('mod' === word.relation) {
+        } else if ('det' === word.relation || 'amod' === word.relation) {
           if (word.childId) {
-            // 親とmod関連を持つ場合、親の単語の途中の位置が子の始点となる
+            // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
             this.tempStarts[word.id] = {
               x: startX + 20 * word.childId,
               y: startY,

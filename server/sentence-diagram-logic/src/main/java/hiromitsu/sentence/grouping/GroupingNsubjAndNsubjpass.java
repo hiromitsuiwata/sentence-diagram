@@ -1,6 +1,7 @@
 package hiromitsu.sentence.grouping;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import hiromitsu.sentence.Dep;
@@ -33,11 +34,18 @@ public class GroupingNsubjAndNsubjpass {
         Word fromWord = input.getWordList().get(from - 1);
         Word toWord = input.getWordList().get(to - 1);
 
+        List<Node> nodeList = input.getNodeList();
+
         Node fromNode = Utility.createNodeIfAbsent(input, fromWord);
+        if (!nodeList.contains(fromNode)) {
+          nodeList.add(fromNode);
+        }
 
         Node toNode = new Node();
         toNode.getWordList().add(toWord);
-        input.getNodeList().add(toNode);
+        if (!nodeList.contains(toNode)) {
+          nodeList.add(toNode);
+        }
 
         Edge edge = new Edge();
         edge.setFrom(fromNode);

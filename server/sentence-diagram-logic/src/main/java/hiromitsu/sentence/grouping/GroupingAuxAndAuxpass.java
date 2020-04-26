@@ -76,6 +76,8 @@ public class GroupingAuxAndAuxpass {
     }
 
     wordList.sort(Comparator.comparing(Word::getIndex));
-    input.getNodeList().add(node);
+    if (node.getWordList().size() > 0) {
+      input.getNodeList().add(node);
+    }
   }
 }

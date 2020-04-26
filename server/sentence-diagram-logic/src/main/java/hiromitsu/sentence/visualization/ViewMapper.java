@@ -36,12 +36,19 @@ public class ViewMapper {
         if (node.equals(edge.getFrom())) {
           String type = edge.getType().name();
           viewNode.setRelation(type);
-          edge.getTo();
+          if (type.equals("det") || type.equals("amod")) {
+            viewNode.setDirection("right-down");
+          } else if (type.equals("nsubj")) {
+            viewNode.setSeparator(true);
+          }
+          int parentId = nodeList.indexOf(edge.getTo());
+          viewNode.setParentId(parentId);
         }
       }
-
       viewNodes.add(viewNode);
     }
+
+    // TODO 同一のparentIdを持つnodeが複数あったときはrの結果から子供の中でindexを付ける
 
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     return JsonUtility.toPrettyJSON(gson.toJson(viewNodes));
