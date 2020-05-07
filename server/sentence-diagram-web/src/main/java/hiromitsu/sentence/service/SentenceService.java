@@ -80,7 +80,7 @@ public class SentenceService {
     String text = sentence.getText();
 
     List<ParsedResult> results = Analyzer.analyze(text);
-    List<ViewMapper> vresults = results.stream().map(r -> new ViewMapper(r)).collect(Collectors.toList());
+    List<String> vresults = results.stream().map(r -> ViewMapper.map(r)).collect(Collectors.toList());
 
     Gson gson = new Gson();
     String json = gson.toJson(vresults);

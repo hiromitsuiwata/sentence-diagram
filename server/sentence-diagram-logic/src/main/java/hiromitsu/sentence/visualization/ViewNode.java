@@ -23,7 +23,7 @@ public class ViewNode {
   @Expose
   private Integer parentId = null;
   @Expose
-  private Integer childId = null;
+  private Integer childOrder = null;
   @Expose
   private Boolean separator = null;
 

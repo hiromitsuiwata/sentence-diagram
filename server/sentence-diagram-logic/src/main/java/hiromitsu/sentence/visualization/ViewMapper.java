@@ -1,7 +1,9 @@
 package hiromitsu.sentence.visualization;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -28,6 +30,8 @@ public class ViewMapper {
     List<Node> nodeList = r.getNodeList();
     List<ViewNode> viewNodes = new ArrayList<>();
 
+    Map<Integer, Integer> childIdMap = new HashMap<>();
+
     for (int i = 0; i < nodeList.size(); i++) {
       Node node = nodeList.get(i);
       String text = node.getWordList().stream().map(word -> word.getToken()).collect(Collectors.joining(" "));
@@ -43,17 +47,27 @@ public class ViewMapper {
           }
           int parentId = nodeList.indexOf(edge.getTo());
           viewNode.setParentId(parentId);
+
+          if (type.equals("det") || type.equals("amod")) {
+            Integer newValue;
+            if (childIdMap.containsKey(parentId)) {
+              newValue = childIdMap.get(parentId) + 1;
+            } else {
+              newValue = 0;
+            }
+            childIdMap.put(parentId, newValue);
+            viewNode.setChildOrder(newValue);
+          }
         }
       }
       viewNodes.add(viewNode);
     }
 
-    // TODO 同一のparentIdを持つnodeが複数あったときはrの結果から子供の中でindexを付ける
-
-    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-    return JsonUtility.toPrettyJSON(gson.toJson(viewNodes));
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    return gson.toJson(viewNodes);
   }
 
+  @Deprecated
   public ViewMapper(ParsedResult r) {
 
     List<Edge> edgeList = r.getEdgeList();
