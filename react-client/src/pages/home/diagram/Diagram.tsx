@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import styles from './Diagram.module.css';
+import axios from 'axios';
 
 interface Props {
   id: number;
@@ -10,7 +11,13 @@ interface Props {
   closeModalHandler: () => void;
 }
 
-const Diagram: React.FC<Props> = (props) => {
+const Diagram: React.FC<Props> = (props: Props) => {
+  useEffect(() => {
+    axios.put('/api/sentences/' + props.id + '/diagram').then((response) => {
+      console.log(response.data[0]);
+    });
+  });
+
   return (
     <div className={styles.overlay}>
       <div className={styles.window}>
