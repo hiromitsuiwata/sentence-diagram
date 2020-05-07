@@ -17,6 +17,26 @@ interface State {
   cards: CardContent[];
 }
 
+class CardContent {
+  id: number = 0;
+  title: string = '';
+  text: string = '';
+  url: string = '';
+}
+
+class DiagramModalContent {
+  id: number = 0;
+  title: string = '';
+  text: string = '';
+  diagramData: any = '';
+
+  constructor(id: number, title: string, text: string) {
+    this.id = id;
+    this.title = title;
+    this.text = text;
+  }
+}
+
 class Home extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -120,7 +140,7 @@ class Home extends React.Component<Props, State> {
   submitRegistration(title: string, text: string, url: string): void {
     this.setState({ showingRegistration: false });
     // TODO テスト用に設定
-    axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+    //axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
       .post('/api/sentences', {
@@ -132,7 +152,7 @@ class Home extends React.Component<Props, State> {
         console.log({
           response: response,
         });
-        let addedCard: CardContent = new CardContent();
+        const addedCard: CardContent = new CardContent();
         addedCard.id = response.data.id;
         addedCard.title = response.data.title;
         addedCard.text = response.data.text;
@@ -170,7 +190,7 @@ class Home extends React.Component<Props, State> {
   search(keyword: string): void {
     console.log('search: ' + keyword);
     // TODO テスト用に設定
-    axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+    //axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
       .get('/api/sentences/search', {
@@ -189,26 +209,6 @@ class Home extends React.Component<Props, State> {
           error: error,
         });
       });
-  }
-}
-
-class CardContent {
-  id: number = 0;
-  title: string = '';
-  text: string = '';
-  url: string = '';
-}
-
-class DiagramModalContent {
-  id: number = 0;
-  title: string = '';
-  text: string = '';
-  diagramData: any = '';
-
-  constructor(id: number, title: string, text: string) {
-    this.id = id;
-    this.title = title;
-    this.text = text;
   }
 }
 

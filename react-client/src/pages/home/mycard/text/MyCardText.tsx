@@ -38,7 +38,7 @@ class MyCardText extends React.Component<Props, State> {
       direction: 'right-down',
       parentId: 0,
       relation: 'det',
-      childId: 1,
+      childOrder: 0,
     });
     this.words.push({
       id: 3,
@@ -46,7 +46,7 @@ class MyCardText extends React.Component<Props, State> {
       direction: 'right-down',
       parentId: 0,
       relation: 'amod',
-      childId: 2,
+      childOrder: 1,
     });
     console.log(JSON.stringify(this.words));
   }
@@ -69,10 +69,10 @@ class MyCardText extends React.Component<Props, State> {
           // 親とnsubj関連を持つ場合、親の終点が子の始点となる
           this.tempStarts[word.id] = { x: endX, y: startY };
         } else if ('det' === word.relation || 'amod' === word.relation) {
-          if (word.childId) {
+          if (typeof word.childOrder != 'undefined' && word.childOrder >= 0) {
             // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
             this.tempStarts[word.id] = {
-              x: startX + 20 * word.childId,
+              x: startX + 20 * (word.childOrder + 1),
               y: startY,
             };
           }
@@ -88,7 +88,7 @@ class MyCardText extends React.Component<Props, State> {
 
   render(): JSX.Element {
     // 固定部分(words)と可変部分(state.starts)を使ってタグを作る
-    let list = [];
+    const list = [];
     for (let i = 0; i < this.words.length; i++) {
       list.push(
         <TextLine
@@ -133,5 +133,5 @@ class Word {
   direction?: string = '';
   parentId?: number = 0;
   relation?: string = '';
-  childId?: number = 0;
+  childOrder?: number = -1;
 }

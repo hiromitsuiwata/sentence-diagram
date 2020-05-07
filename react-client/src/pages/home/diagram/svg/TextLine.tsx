@@ -20,7 +20,7 @@ class TextLine extends React.Component<Props, State> {
     const href = '#' + id;
     const offset = 15;
 
-    let length: number = this.props.text.length * 9 + 20;
+    const length: number = this.props.text.length * 9 + 20;
     let endX: number;
     let endY: number;
 
@@ -33,7 +33,7 @@ class TextLine extends React.Component<Props, State> {
     }
     const mainD = `M ${this.props.x} ${this.props.y} L ${endX} ${endY}`;
 
-    let height = 15;
+    const height = 15;
     const separatorD = `M ${this.props.x} ${this.props.y - height} L ${this.props.x} ${
       this.props.y + height
     }`;
