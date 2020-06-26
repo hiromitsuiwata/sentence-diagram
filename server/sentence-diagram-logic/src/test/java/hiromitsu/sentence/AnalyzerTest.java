@@ -49,9 +49,10 @@ class AnalyzerTest {
   void nmodpossAndAdvmod1() {
     String text = "Where is Bill's brother sitting?";
     List<ParsedResult> results = Analyzer.analyze(text);
-    assertEquals("Bill 's--nmod_poss-->brother", results.get(0).getEdgeList().get(0).toPrettyString());
-    assertEquals("Where--advmod-->is sitting", results.get(0).getEdgeList().get(1).toPrettyString());
-    assertEquals("is sitting--nsubj-->brother", results.get(0).getEdgeList().get(2).toPrettyString());
+    List<Edge> edgeList = results.get(0).getEdgeList();
+    assertEquals("Bill 's--nmod_poss-->brother", edgeList.get(0).toPrettyString());
+    assertEquals("Where--advmod-->is sitting", edgeList.get(1).toPrettyString());
+    assertEquals("is sitting--nsubj-->brother", edgeList.get(2).toPrettyString());
     printResult(results);
   }
 
