@@ -6,6 +6,9 @@ import hiromitsu.sentence.Node;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 表示用のノード
+ */
 @Data
 @RequiredArgsConstructor
 public class ViewNode {
