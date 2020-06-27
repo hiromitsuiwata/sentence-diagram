@@ -1,6 +1,6 @@
 import React from 'react';
-import MyCardText from './text/MyCardText';
-import styles from '../card/Card.module.css';
+import MyCardText from './MyCardText';
+import styles from '../../card/Card.module.css';
 
 const MyCard: React.FC = () => {
   return (

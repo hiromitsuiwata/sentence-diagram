@@ -3,7 +3,8 @@ import axios from 'axios';
 
 import HomeHeader from './header/HomeHeader';
 import Card from './card/Card';
-import MyCard from './mycard/MyCard';
+import MyCard1 from './mycard/card1/MyCard';
+import MyCard2 from './mycard/card2/MyCard';
 import Diagram from './diagram/Diagram';
 import Registration from './registration/Registration';
 import styles from './Home.module.css';
@@ -114,7 +115,8 @@ class Home extends React.Component<Props, State> {
           <HomeHeader searchHander={this.search} openRegistrationHandler={this.openRegistration} />
           <div className={styles.main}>
             <div className={styles.columns}>
-              <MyCard />
+              <MyCard1 />
+              <MyCard2 />
               {cards}
             </div>
           </div>
