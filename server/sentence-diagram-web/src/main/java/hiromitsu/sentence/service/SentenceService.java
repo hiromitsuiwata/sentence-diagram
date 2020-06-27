@@ -1,7 +1,6 @@
 package hiromitsu.sentence.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
@@ -10,10 +9,12 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import hiromitsu.sentence.Analyzer;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.visualization.ViewMapper;
+import hiromitsu.sentence.visualization.ViewNode;
 
 /**
  * 文サービス
@@ -80,11 +81,9 @@ public class SentenceService {
     String text = sentence.getText();
 
     List<ParsedResult> results = Analyzer.analyze(text);
-    List<String> vresults = results.stream().map(r -> ViewMapper.map(r)).collect(Collectors.toList());
+    List<ViewNode> vns = ViewMapper.map(results.get(0));
 
-    Gson gson = new Gson();
-    String json = gson.toJson(vresults);
-
-    return json;
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    return gson.toJson(vns);
   }
 }
