@@ -22,8 +22,6 @@ class MyCardText extends React.Component<Props> {
       { id: 2, text: 'is sitting', relation: 'nsubj', parentId: 1, separator: true },
       { id: 3, text: 'Where', relation: 'advmod', parentId: 2 },
     ];
-
-    console.log(JSON.stringify(this.words));
   }
 
   private fillShortage = (): void => {
