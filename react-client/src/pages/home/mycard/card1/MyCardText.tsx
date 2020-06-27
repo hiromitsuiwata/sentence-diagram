@@ -40,7 +40,6 @@ class MyCardText extends React.Component<Props> {
       relation: 'amod',
       childOrder: 1,
     });
-    console.log(JSON.stringify(this.words));
   }
 
   private fillShortage = (): void => {

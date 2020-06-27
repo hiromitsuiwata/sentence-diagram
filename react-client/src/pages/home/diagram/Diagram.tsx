@@ -58,26 +58,56 @@ class Diagram extends React.Component<Props, State> {
     }
   };
 
-  private computeStarts = (): void => {
-    // TODO この計算はツリー構造の親から順番に実行していく必要がある
+  private move = (): void => {};
+
+  private moveUsingDependencies = (): void => {
     // TODO 始点と終点をまとめて平行移動した方が良い
 
+    // ツリー構造の親から順番に実行していく必要があるため、parentIdについて0から順番に実行する
     for (let i = 0; i < this.state.words.length; i++) {
       this.state.words.forEach((word) => {
         if (i === word.parentId) {
+          const actualStartX = this.tempStarts[word.id].x;
+          const actualStartY = this.tempStarts[word.id].y;
           if ('nsubj' === word.relation) {
             // 親とnsubj関連を持つ場合、親の終点が子の始点となる
+            const expectedStartX = this.tempEnds[i].x;
+            const expectedStartY = this.tempStarts[i].y;
+            const diffX = expectedStartX - actualStartX;
+            const diffY = expectedStartY - actualStartY;
+
             this.tempStarts[word.id] = {
-              x: this.tempEnds[i].x,
-              y: this.tempStarts[i].y,
+              x: this.tempStarts[word.id].x + diffX,
+              y: this.tempStarts[word.id].y + diffY,
             };
+            this.tempEnds[word.id] = {
+              x: this.tempEnds[word.id].x + diffX,
+              y: this.tempEnds[word.id].y + diffY,
+            };
+            // this.tempStarts[word.id] = {
+            //   x: this.tempEnds[i].x,
+            //   y: this.tempStarts[i].y,
+            // };
           } else if ('det' === word.relation || 'amod' === word.relation) {
             if (typeof word.childOrder != 'undefined' && word.childOrder >= 0) {
               // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
+              const expectedStartX = this.tempStarts[i].x + 20 * (word.childOrder + 1);
+              const expectedStartY = this.tempStarts[i].y;
+              const diffX = expectedStartX - actualStartX;
+              const diffY = expectedStartY - actualStartY;
+
               this.tempStarts[word.id] = {
-                x: this.tempStarts[i].x + 20 * (word.childOrder + 1),
-                y: this.tempStarts[i].y,
+                x: this.tempStarts[word.id].x + diffX,
+                y: this.tempStarts[word.id].y + diffY,
               };
+              this.tempEnds[word.id] = {
+                x: this.tempEnds[word.id].x + diffX,
+                y: this.tempEnds[word.id].y + diffY,
+              };
+              // this.tempStarts[word.id] = {
+              //   x: this.tempStarts[i].x + 20 * (word.childOrder + 1),
+              //   y: this.tempStarts[i].y,
+              // };
             }
           }
         }
@@ -101,10 +131,10 @@ class Diagram extends React.Component<Props, State> {
     this.computeEnds();
 
     // 単語間の意味の関連から始点を変更する
-    this.computeStarts();
+    this.moveUsingDependencies();
 
     // 変更した始点に対して再度終点を決定する
-    this.computeEnds();
+    //this.computeEnds();
 
     const list: JSX.Element[] = [];
     for (let i = 0; i < this.state.words.length; i++) {
