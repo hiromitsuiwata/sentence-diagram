@@ -122,7 +122,7 @@ class MyCardText extends React.Component<Props> {
     return (
       <>
         <div>The white unicorn flew.</div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="400" height="100">
           {list}
         </svg>
       </>
@@ -135,15 +135,3 @@ class MyCardText extends React.Component<Props> {
 }
 
 export default MyCardText;
-
-/*
-class Word {
-  id: number = 0;
-  text: string = '';
-  separator?: boolean = false;
-  direction?: string = '';
-  parentId?: number = 0;
-  relation?: string = '';
-  childOrder?: number = -1;
-}
-*/
