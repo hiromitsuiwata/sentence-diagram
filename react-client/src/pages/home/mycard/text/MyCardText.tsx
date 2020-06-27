@@ -94,12 +94,13 @@ class MyCardText extends React.Component<Props, State> {
         <TextLine
           key={this.words[i].id}
           wordId={this.words[i].id}
-          x={this.state.starts[i].x}
-          y={this.state.starts[i].y}
+          startX={10}
+          startY={10}
+          endX={10}
+          endY={10}
           text={this.words[i].text}
           separator={this.words[i].separator}
           direction={this.words[i].direction}
-          onCompute={this.handleCompute}
         />
       );
     }

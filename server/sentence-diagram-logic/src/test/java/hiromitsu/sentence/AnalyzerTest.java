@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
 import hiromitsu.sentence.visualization.ViewMapper;
+import hiromitsu.sentence.visualization.ViewNode;
 
 class AnalyzerTest {
 
@@ -66,8 +67,7 @@ class AnalyzerTest {
 
     // printResult(results);
 
-    String actual = ViewMapper.map(results.get(0));
-    System.out.println(actual);
+    List<ViewNode> actualVNs = ViewMapper.map(results.get(0));
 
     System.out.println("目標");
     String expected = "[{\"id\":0,\"text\":\"unicorn\"},{\"id\":1,\"text\":\"flew.\",\"separator\":true,\"parentId\":0,\"relation\":\"nsubj\"},{\"id\":2,\"text\":\"The\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childId\":1},{\"id\":3,\"text\":\"white\",\"direction\":\"right-down\",\"parentId\":0,\"relation\":\"mod\",\"childId\":2}]";

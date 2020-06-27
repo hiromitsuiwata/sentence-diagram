@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import hiromitsu.sentence.Edge;
 import hiromitsu.sentence.EdgeType;
@@ -25,7 +24,7 @@ public class ViewMapper {
   private List<VNode> vnodes = new ArrayList<>();
   private List<VEdge> vedges = new ArrayList<>();
 
-  public static String map(ParsedResult r) {
+  public static List<ViewNode> map(ParsedResult r) {
     List<Edge> edgeList = r.getEdgeList();
     List<Node> nodeList = r.getNodeList();
     List<ViewNode> viewNodes = new ArrayList<>();
@@ -62,9 +61,8 @@ public class ViewMapper {
       }
       viewNodes.add(viewNode);
     }
+    return viewNodes;
 
-    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-    return gson.toJson(viewNodes);
   }
 
   @Deprecated
