@@ -44,7 +44,9 @@ public class ViewMapper {
               || type.equals(EdgeType.neg.toString()) || type.equals(EdgeType.nmod_tmod.toString())) {
             viewNode.setDirection("right-down");
           } else if (type.equals("nsubj")) {
-            viewNode.setSeparator(true);
+            viewNode.setSeparator("full");
+          } else if (type.equals("dobj")) {
+            viewNode.setSeparator("half");
           }
           int parentId = nodeList.indexOf(edge.getTo());
           viewNode.setParentId(parentId);

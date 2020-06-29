@@ -19,7 +19,7 @@ class MyCardText extends React.Component<Props> {
     this.words = [
       { id: 0, text: 'Bill \u0027s', relation: 'nmod_poss', direction: 'right-down', parentId: 1 },
       { id: 1, text: 'brother' },
-      { id: 2, text: 'is sitting', relation: 'nsubj', parentId: 1, separator: true },
+      { id: 2, text: 'is sitting', relation: 'nsubj', parentId: 1, separator: 'full' },
       { id: 3, text: 'Where', relation: 'advmod', direction: 'right-down', parentId: 2 },
     ];
   }

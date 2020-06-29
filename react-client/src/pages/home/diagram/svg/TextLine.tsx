@@ -10,7 +10,7 @@ interface Props {
   endY: number;
   text: string;
   direction?: string;
-  separator?: boolean;
+  separator?: string;
 }
 
 interface State {}
@@ -24,9 +24,17 @@ class TextLine extends React.Component<Props, State> {
     const mainD = `M ${this.props.startX} ${this.props.startY} L ${this.props.endX} ${this.props.endY}`;
 
     const height = 15;
-    const separatorD = `M ${this.props.startX} ${this.props.startY - height} L ${
-      this.props.startX
-    } ${this.props.startY + height}`;
+
+    let separatorD;
+    if ('full' === this.props.separator) {
+      separatorD = `M ${this.props.startX} ${this.props.startY - height} L ${this.props.startX} ${
+        this.props.startY + height
+      }`;
+    } else if ('half' === this.props.separator) {
+      separatorD = `M ${this.props.startX} ${this.props.startY - height} L ${this.props.startX} ${
+        this.props.startY
+      }`;
+    }
 
     if (this.props.separator) {
       return (

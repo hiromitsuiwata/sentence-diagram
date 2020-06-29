@@ -6,6 +6,7 @@ import hiromitsu.sentence.rule.AdvmodNmodTmodNeg;
 import hiromitsu.sentence.rule.AuxAndAuxpass;
 import hiromitsu.sentence.rule.Case;
 import hiromitsu.sentence.rule.DetAndAmod;
+import hiromitsu.sentence.rule.Dobj;
 import hiromitsu.sentence.rule.NmodPoss;
 import hiromitsu.sentence.rule.NsubjAndNsubjpass;
 
@@ -34,6 +35,7 @@ public class Analyzer {
       AuxAndAuxpass.execute(r);
       AdvmodNmodTmodNeg.execute(r);
       DetAndAmod.execute(r);
+      Dobj.execute(r);
       NsubjAndNsubjpass.execute(r);
     }
 
