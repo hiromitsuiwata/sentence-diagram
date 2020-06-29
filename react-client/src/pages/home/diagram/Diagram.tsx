@@ -6,6 +6,8 @@ import TextLine from './svg/TextLine';
 import Word from './Word';
 import Coordinate from './Coordinate';
 import axios from 'axios';
+import { css } from '@emotion/core';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 interface Props {
   id: number;
@@ -16,7 +18,14 @@ interface Props {
 
 interface State {
   words: Word[];
+  loading: boolean;
 }
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 class Diagram extends React.Component<Props, State> {
   private tempStarts: Coordinate[] = [];
@@ -27,6 +36,7 @@ class Diagram extends React.Component<Props, State> {
 
     this.state = {
       words: [],
+      loading: true,
     };
 
     // 最初のwordの始点
@@ -114,10 +124,40 @@ class Diagram extends React.Component<Props, State> {
     const result = await axios.put('/api/sentences/' + this.props.id + '/diagram');
     console.log(result.data);
     this.setState({ words: result.data });
+    this.setState({ loading: false });
   };
 
   render(): JSX.Element {
     console.log('render');
+
+    if (this.state.loading) {
+      return (
+        <div className={styles.overlay}>
+          <div className={styles.window}>
+            <div className={styles.title}>{this.props.title}</div>
+            <div className={styles.text}>
+              <div>{this.props.text}</div>
+              <div className="sweet-loading">
+                <ClipLoader
+                  css={override}
+                  size={150}
+                  color={'#123abc'}
+                  loading={this.state.loading}
+                />
+              </div>
+            </div>
+            <div className={styles.operation}>
+              <div className={styles.operation_close}>
+                <a href="#top" onClick={this.props.closeModalHandler}>
+                  close
+                  <FontAwesomeIcon icon={faWindowClose} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     // tempStarts, tempEndsの不足部分を埋める
     this.fillShortage();
