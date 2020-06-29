@@ -1,6 +1,7 @@
-package hiromitsu.sentence.grouping;
+package hiromitsu.sentence.rule;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import hiromitsu.sentence.Dep;
@@ -13,40 +14,46 @@ import hiromitsu.sentence.Word;
 /**
  * 文のなかの単語をグルーピングする
  */
-public class GroupingNmodPoss {
+public class NsubjAndNsubjpass {
 
-  private GroupingNmodPoss() {
+  private NsubjAndNsubjpass() {
   }
 
-  /**
-   * nmod:possのグルーピングを行う
-   * 
-   * @param input
-   */
   public static void execute(ParsedResult input) {
 
     Set<Dep> deps = input.getDependencies();
     Iterator<Dep> ite = deps.iterator();
-
     while (ite.hasNext()) {
       Dep dep = ite.next();
 
-      if (dep.getRelation().equals("nmod:poss")) {
+      // 主語のnodeと主語と動詞の間のedgeを作る
+      if (dep.getRelation().equals(EdgeType.nsubj.toString())
+          || dep.getRelation().equals(EdgeType.nsubjpass.toString())) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);
         Word toWord = input.getWordList().get(to - 1);
-        
-        Node fromNode = Utility.searchWordInNodes(input, toWord);
+
+        List<Node> nodeList = input.getNodeList();
+
+        Node fromNode = Utility.createNodeIfAbsent(input, fromWord);
+        if (!nodeList.contains(fromNode)) {
+          nodeList.add(fromNode);
+        }
+
         Node toNode = new Node();
-        toNode.getWordList().add(fromWord);
-        input.getNodeList().add(toNode);
-        
+        toNode.getWordList().add(toWord);
+        if (!nodeList.contains(toNode)) {
+          nodeList.add(toNode);
+        }
+
         Edge edge = new Edge();
         edge.setFrom(fromNode);
         edge.setTo(toNode);
-        edge.setType(EdgeType.nmod_poss);
+        edge.setType(EdgeType.nsubj);
         input.getEdgeList().add(edge);
+
+        break;
       }
     }
   }

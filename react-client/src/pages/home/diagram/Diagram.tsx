@@ -1,13 +1,14 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
-import styles from './Diagram.module.css';
-import TextLine from './svg/TextLine';
-import Word from './Word';
-import Coordinate from './Coordinate';
 import axios from 'axios';
 import { css } from '@emotion/core';
 import BounceLoader from 'react-spinners/BounceLoader';
+
+import styles from './Diagram.module.css';
+import Coordinate from './Coordinate';
+import TextLine from './svg/TextLine';
+import Word from './Word';
 
 interface Props {
   id: number;
@@ -86,18 +87,52 @@ class Diagram extends React.Component<Props, State> {
     targetEnds[i].y = targetEnds[i].y + diffY;
   };
 
+  private findChildren = (words: Word[], parent: Word): Word[] => {
+    const parentId = parent.id;
+    const result: Word[] = [];
+    words.forEach((word) => {
+      if (word.parentId === parentId) {
+        result.push(word);
+      }
+    });
+    return result;
+  };
+
   private moveUsingDependencies = (): void => {
     // 文法上の依存関係から始点と終点をまとめて平行移動する
-    // ツリー構造の親から順番に実行していく必要があるため、parentIdについて0から順番に実行する
-    for (let parentId = 0; parentId < this.state.words.length; parentId++) {
-      let parentWord: Word;
-      this.state.words.forEach((word) => {
-        if (word.id === parentId) {
-          parentWord = word;
-        }
-      });
+    // ツリー構造の親から順番に実行していく必要がある
+
+    // ルートを探す
+    let root: Word = { id: 0, text: '' };
+    for (let id = 0; id < this.state.words.length; id++) {
+      const word = this.state.words[id];
+      if (word.parentId === undefined) {
+        root = word;
+      }
+    }
+
+    // ルートから繋がっているwordを幅優先探索し、rootに近いところからsortedWordsに詰める
+    const sortedWords: Word[] = [];
+    const stack = [root];
+    const dequeue = (array: Word[]): Word => {
+      const word: any = array.shift();
+      sortedWords.push(word);
+      return word;
+    };
+    while (stack.length > 0) {
+      const row = dequeue(stack);
+      if (this.findChildren(this.state.words, row)) {
+        this.findChildren(this.state.words, row).forEach((childNode) => stack.push(childNode));
+      }
+    }
+
+    // rootに近いところから順番に位置を決定していく
+    sortedWords.forEach((sortedWord) => {
+      const parentId = sortedWord.id;
+
       let childWord;
-      this.state.words.forEach((word) => {
+      for (let wordId = 0; wordId < this.state.words.length; wordId++) {
+        const word = this.state.words[wordId];
         if (word.parentId === parentId) {
           childWord = word;
           if ('nsubj' === childWord.relation) {
@@ -106,17 +141,18 @@ class Diagram extends React.Component<Props, State> {
               this.tempStarts,
               this.tempEnds,
               childWord.id,
-              this.tempEnds[parentWord.id].x,
-              this.tempStarts[parentWord.id].y
+              this.tempEnds[parentId].x,
+              this.tempStarts[parentId].y
             );
           } else if (
             'det' === childWord.relation ||
             'amod' === childWord.relation ||
             'nmod_poss' === childWord.relation ||
-            'advmod' === childWord.relation
+            'advmod' === childWord.relation ||
+            'nmod_tmod' === childWord.relation ||
+            'neg' === childWord.relation
           ) {
-            //if (typeof childWord.childOrder != 'undefined' && childWord.childOrder >= 0) {
-            // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
+            // 親と修飾の関連を持つ場合、親の単語の途中の位置が子の始点となる
             let order: number;
             if (childWord.childOrder) {
               order = childWord.childOrder;
@@ -127,14 +163,13 @@ class Diagram extends React.Component<Props, State> {
               this.tempStarts,
               this.tempEnds,
               word.id,
-              this.tempStarts[parentWord.id].x + 20 * (order + 1),
-              this.tempStarts[parentWord.id].y
+              this.tempStarts[parentId].x + 20 * (order + 1),
+              this.tempStarts[parentId].y
             );
-            //}
           }
         }
-      });
-    }
+      }
+    });
   };
 
   private fetchData = async () => {
@@ -144,9 +179,39 @@ class Diagram extends React.Component<Props, State> {
     this.setState({ loading: false });
   };
 
+  private moveAllWords = () => {
+    let minX = 1000;
+    let maxX = -1000;
+    let minY = 1000;
+    let maxY = -1000;
+    for (let i = 0; i < this.state.words.length; i++) {
+      minX = Math.min(minX, this.tempStarts[i].x);
+      maxX = Math.max(maxX, this.tempEnds[i].x);
+      minY = Math.min(minY, this.tempStarts[i].y);
+      maxY = Math.max(maxY, this.tempEnds[i].y);
+    }
+    const aveX = (minX + maxX) / 2;
+    const aveY = (minY + maxY) / 2;
+    const expectedX = 900 / 2;
+    const expectedY = 500 / 2;
+    const diffX = expectedX - aveX;
+    const diffY = expectedY - aveY;
+
+    for (let i = 0; i < this.state.words.length; i++) {
+      this.move(
+        this.tempStarts,
+        this.tempEnds,
+        i,
+        this.tempStarts[i].x + diffX,
+        this.tempStarts[i].y + diffY
+      );
+    }
+  };
+
   render(): JSX.Element {
     console.log('render');
 
+    // サーバーからのレスポンス待ちの間はloading spinnerを表示する
     if (this.state.loading) {
       return (
         <div className={styles.overlay}>
@@ -184,6 +249,9 @@ class Diagram extends React.Component<Props, State> {
 
     // 単語間の意味の関連から位置を変更する
     this.moveUsingDependencies();
+
+    // 文全体の位置から全体を平行移動する
+    this.moveAllWords();
 
     const list: JSX.Element[] = [];
     for (let i = 0; i < this.state.words.length; i++) {

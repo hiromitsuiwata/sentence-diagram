@@ -1,5 +1,6 @@
 INSERT INTO sentence (title, text, url) VALUES ('title 1', 'The white unicorn flew.', 'http://example.com/');
 INSERT INTO sentence (title, text, url) VALUES ('title 2', 'Where is Bill''s brother sitting?', 'http://example.com/');
+INSERT INTO sentence (title, text, url) VALUES ('title 3', 'I will not drive tomorrow.', 'http://example.com/');
 INSERT INTO sentence (title, text, url) VALUES ('Spring (device)', 'When a conventional spring, without stiffness variability features, is compressed or stretched from its resting position, it exerts an opposing force approximately proportional to its change in length (this approximation breaks down for larger deflections).', 'https://en.wikipedia.org/wiki/Spring_(device)');
 INSERT INTO sentence (title, text, url) VALUES ('Hydnum repandum', 'Hydnum repandum, commonly known as the sweet tooth, wood hedgehog or hedgehog mushroom, is a basidiomycete fungus of the family Hydnaceae.', 'https://en.wikipedia.org/wiki/Hydnum_repandum');
 INSERT INTO sentence (title, text, url) VALUES ('IndyCar Classic', 'Circuit of the Americas (COTA) in Austin, Texas, was built to Formula One (F1) specifications to host the United States Grand Prix starting in 2012.', 'https://en.wikipedia.org/wiki/IndyCar_Classic');

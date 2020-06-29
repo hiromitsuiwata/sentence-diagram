@@ -1,4 +1,4 @@
-package hiromitsu.sentence.grouping;
+package hiromitsu.sentence.rule;
 
 import java.util.Iterator;
 
@@ -12,9 +12,9 @@ import hiromitsu.sentence.Word;
 /**
  * 文のなかの単語をグルーピングする
  */
-public class GroupingAdvmod {
+public class AdvmodNmodTmodNeg {
 
-  private GroupingAdvmod() {
+  private AdvmodNmodTmodNeg() {
   }
 
   public static void execute(ParsedResult input) {
@@ -23,14 +23,14 @@ public class GroupingAdvmod {
     while (ite.hasNext()) {
       Dep dep = ite.next();
 
-      if (dep.getRelation().equals(EdgeType.advmod.toString())) {
+      if (dep.getRelation().equals("advmod") || dep.getRelation().equals("nmod:tmod")
+          || dep.getRelation().equals("neg")) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);
         Word toWord = input.getWordList().get(to - 1);
 
         Node fromNode = Utility.createNodeIfAbsent(input, fromWord);
-
         Node toNode = new Node();
         toNode.getWordList().add(toWord);
         input.getNodeList().add(toNode);
@@ -39,10 +39,18 @@ public class GroupingAdvmod {
         // 逆向きに設定する
         edge.setFrom(toNode);
         edge.setTo(fromNode);
-        edge.setType(EdgeType.advmod);
+
+        if (dep.getRelation().equals("advmod")) {
+          edge.setType(EdgeType.advmod);
+        } else if (dep.getRelation().equals("nmod:tmod")) {
+          edge.setType(EdgeType.nmod_tmod);
+        } else if (dep.getRelation().equals("neg")) {
+          edge.setType(EdgeType.neg);
+        }
+
         input.getEdgeList().add(edge);
 
-        break;
+        // break;
       }
     }
   }

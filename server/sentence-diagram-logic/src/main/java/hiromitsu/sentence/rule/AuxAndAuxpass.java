@@ -1,4 +1,4 @@
-package hiromitsu.sentence.grouping;
+package hiromitsu.sentence.rule;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,9 +17,9 @@ import hiromitsu.sentence.Word;
 /**
  * 文のなかの単語をグルーピングする
  */
-public class GroupingAuxAndAuxpass {
+public class AuxAndAuxpass {
 
-  private GroupingAuxAndAuxpass() {
+  private AuxAndAuxpass() {
   }
 
   /**

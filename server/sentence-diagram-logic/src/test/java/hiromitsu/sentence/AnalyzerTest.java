@@ -75,6 +75,16 @@ class AnalyzerTest {
     System.out.println(prettyPrintedJson);
   }
 
+  @Test
+  void negNmodTmod() {
+    String text = "I will not drive tomorrow.";
+    List<ParsedResult> results = Analyzer.analyze(text);
+    assertEquals("not--neg-->will drive", results.get(0).getEdgeList().get(0).toPrettyString());
+    assertEquals("tomorrow--nmod_tmod-->will drive", results.get(0).getEdgeList().get(1).toPrettyString());
+    assertEquals("will drive--nsubj-->I", results.get(0).getEdgeList().get(2).toPrettyString());
+
+  }
+
   private void printResult(List<ParsedResult> results) {
     results.stream().map(r -> new ViewMapper(r)).map(vr -> vr.toJSON()).forEach(System.out::println);
   }

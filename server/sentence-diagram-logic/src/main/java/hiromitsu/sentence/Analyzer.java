@@ -2,40 +2,41 @@ package hiromitsu.sentence;
 
 import java.util.List;
 
-import hiromitsu.sentence.grouping.GroupingAdvmod;
-import hiromitsu.sentence.grouping.GroupingAuxAndAuxpass;
-import hiromitsu.sentence.grouping.GroupingCase;
-import hiromitsu.sentence.grouping.GroupingDetAndAmod;
-import hiromitsu.sentence.grouping.GroupingNmodPoss;
-import hiromitsu.sentence.grouping.GroupingNsubjAndNsubjpass;
+import hiromitsu.sentence.rule.AdvmodNmodTmodNeg;
+import hiromitsu.sentence.rule.AuxAndAuxpass;
+import hiromitsu.sentence.rule.Case;
+import hiromitsu.sentence.rule.DetAndAmod;
+import hiromitsu.sentence.rule.NmodPoss;
+import hiromitsu.sentence.rule.NsubjAndNsubjpass;
 
 /**
  * dependency分析
  */
 public class Analyzer {
 
-  private Analyzer() { 
+  private Analyzer() {
   }
-  
+
   /**
    * dependencyを読み取ってグラフ構造のデータを追加する
+   * 
    * @param text
    * @return
    */
   public static List<ParsedResult> analyze(String text) {
     CoreNLPWrapper wrapper = CoreNLPWrapper.getInstance();
     List<ParsedResult> results = wrapper.parse(text);
-    
+
     for (ParsedResult r : results) {
       // FIXME とりあえず
-      GroupingCase.execute(r);
-      GroupingNmodPoss.execute(r);
-      GroupingAuxAndAuxpass.execute(r);
-      GroupingAdvmod.execute(r);
-      GroupingDetAndAmod.execute(r);
-      GroupingNsubjAndNsubjpass.execute(r);
+      Case.execute(r);
+      NmodPoss.execute(r);
+      AuxAndAuxpass.execute(r);
+      AdvmodNmodTmodNeg.execute(r);
+      DetAndAmod.execute(r);
+      NsubjAndNsubjpass.execute(r);
     }
-    
+
     return results;
   }
 }

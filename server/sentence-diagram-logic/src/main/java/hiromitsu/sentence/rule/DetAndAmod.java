@@ -1,4 +1,4 @@
-package hiromitsu.sentence.grouping;
+package hiromitsu.sentence.rule;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +13,8 @@ import hiromitsu.sentence.Word;
 /**
  * 文のなかの単語をグルーピングする
  */
-public class GroupingDetAndAmod {
-  private GroupingDetAndAmod() {
+public class DetAndAmod {
+  private DetAndAmod() {
 
   }
 

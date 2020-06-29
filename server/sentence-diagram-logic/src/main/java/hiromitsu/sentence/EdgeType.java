@@ -36,6 +36,7 @@ public enum EdgeType {
   num, // numeric modifier
   number, // element of compound number
   nmod_poss, // nominal modifier(possesive)
+  nmod_tmod, // temporal modifier
   parataxis, // parataxis
   pcomp, // prepositional complement
   pobj, // object of a preposition

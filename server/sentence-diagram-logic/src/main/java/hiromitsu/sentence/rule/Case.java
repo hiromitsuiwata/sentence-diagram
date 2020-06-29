@@ -1,4 +1,4 @@
-package hiromitsu.sentence.grouping;
+package hiromitsu.sentence.rule;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,9 +12,9 @@ import hiromitsu.sentence.Word;
 /**
  * 文のなかの単語をグルーピングする
  */
-public class GroupingCase {
+public class Case {
 
-  private GroupingCase() {
+  private Case() {
   }
 
   public static void execute(ParsedResult input) {
