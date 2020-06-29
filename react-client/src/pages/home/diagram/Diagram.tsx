@@ -7,7 +7,7 @@ import Word from './Word';
 import Coordinate from './Coordinate';
 import axios from 'axios';
 import { css } from '@emotion/core';
-import ClipLoader from 'react-spinners/ClipLoader';
+import BounceLoader from 'react-spinners/BounceLoader';
 
 interface Props {
   id: number;
@@ -24,7 +24,7 @@ interface State {
 const override = css`
   display: block;
   margin: 0 auto;
-  border-color: red;
+  border-color: #4169e1;
 `;
 
 class Diagram extends React.Component<Props, State> {
@@ -47,11 +47,11 @@ class Diagram extends React.Component<Props, State> {
   private fillShortage = (): void => {
     const startsShortage = this.state.words.length - this.tempStarts.length;
     for (let i = 0; i < startsShortage; i++) {
-      this.tempStarts.push({ x: 0, y: 0 });
+      this.tempStarts.push({ x: 100, y: 100 });
     }
     const startsEnds = this.state.words.length - this.tempEnds.length;
     for (let i = 0; i < startsEnds; i++) {
-      this.tempEnds.push({ x: 0, y: 0 });
+      this.tempEnds.push({ x: 100, y: 100 });
     }
   };
 
@@ -89,31 +89,48 @@ class Diagram extends React.Component<Props, State> {
   private moveUsingDependencies = (): void => {
     // 文法上の依存関係から始点と終点をまとめて平行移動する
     // ツリー構造の親から順番に実行していく必要があるため、parentIdについて0から順番に実行する
-    for (let i = 0; i < this.state.words.length; i++) {
+    for (let parentId = 0; parentId < this.state.words.length; parentId++) {
+      let parentWord: Word;
       this.state.words.forEach((word) => {
-        if (i === word.parentId) {
-          // const actualStartX = this.tempStarts[word.id].x;
-          // const actualStartY = this.tempStarts[word.id].y;
-          if ('nsubj' === word.relation) {
+        if (word.id === parentId) {
+          parentWord = word;
+        }
+      });
+      let childWord;
+      this.state.words.forEach((word) => {
+        if (word.parentId === parentId) {
+          childWord = word;
+          if ('nsubj' === childWord.relation) {
             // 親とnsubj関連を持つ場合、親の終点が子の始点となる
             this.move(
               this.tempStarts,
               this.tempEnds,
-              word.id,
-              this.tempEnds[i].x,
-              this.tempStarts[i].y
+              childWord.id,
+              this.tempEnds[parentWord.id].x,
+              this.tempStarts[parentWord.id].y
             );
-          } else if ('det' === word.relation || 'amod' === word.relation) {
-            if (typeof word.childOrder != 'undefined' && word.childOrder >= 0) {
-              // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
-              this.move(
-                this.tempStarts,
-                this.tempEnds,
-                word.id,
-                this.tempStarts[i].x + 20 * (word.childOrder + 1),
-                this.tempStarts[i].y
-              );
+          } else if (
+            'det' === childWord.relation ||
+            'amod' === childWord.relation ||
+            'nmod_poss' === childWord.relation ||
+            'advmod' === childWord.relation
+          ) {
+            //if (typeof childWord.childOrder != 'undefined' && childWord.childOrder >= 0) {
+            // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
+            let order: number;
+            if (childWord.childOrder) {
+              order = childWord.childOrder;
+            } else {
+              order = 0;
             }
+            this.move(
+              this.tempStarts,
+              this.tempEnds,
+              word.id,
+              this.tempStarts[parentWord.id].x + 20 * (order + 1),
+              this.tempStarts[parentWord.id].y
+            );
+            //}
           }
         }
       });
@@ -137,11 +154,11 @@ class Diagram extends React.Component<Props, State> {
             <div className={styles.title}>{this.props.title}</div>
             <div className={styles.text}>
               <div>{this.props.text}</div>
-              <div className="sweet-loading">
-                <ClipLoader
+              <div className={styles.loading}>
+                <BounceLoader
                   css={override}
-                  size={150}
-                  color={'#123abc'}
+                  size={60}
+                  color={'#4169e1'}
                   loading={this.state.loading}
                 />
               </div>

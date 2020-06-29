@@ -17,21 +17,21 @@ class MyCardText extends React.Component<Props> {
 
     // word
     this.words = [
-      { id: 0, text: 'Bill \u0027s', relation: 'nmod_poss', parentId: 1 },
+      { id: 0, text: 'Bill \u0027s', relation: 'nmod_poss', direction: 'right-down', parentId: 1 },
       { id: 1, text: 'brother' },
       { id: 2, text: 'is sitting', relation: 'nsubj', parentId: 1, separator: true },
-      { id: 3, text: 'Where', relation: 'advmod', parentId: 2 },
+      { id: 3, text: 'Where', relation: 'advmod', direction: 'right-down', parentId: 2 },
     ];
   }
 
   private fillShortage = (): void => {
     const startsShortage = this.words.length - this.tempStarts.length;
     for (let i = 0; i < startsShortage; i++) {
-      this.tempStarts.push({ x: 0, y: 0 });
+      this.tempStarts.push({ x: 20, y: 20 });
     }
     const startsEnds = this.words.length - this.tempEnds.length;
     for (let i = 0; i < startsEnds; i++) {
-      this.tempEnds.push({ x: 0, y: 0 });
+      this.tempEnds.push({ x: 20, y: 20 });
     }
   };
 
@@ -49,24 +49,68 @@ class MyCardText extends React.Component<Props> {
     }
   };
 
-  private computeStarts = (): void => {
-    for (let i = 0; i < this.words.length; i++) {
+  private move = (
+    targetStarts: Coordinate[],
+    targetEnds: Coordinate[],
+    i: number,
+    expectedStartX: number,
+    expectedStartY: number
+  ): void => {
+    const actualStartX = targetStarts[i].x;
+    const actualStartY = targetStarts[i].y;
+    const diffX = expectedStartX - actualStartX;
+    const diffY = expectedStartY - actualStartY;
+    targetStarts[i].x = actualStartX + diffX;
+    targetStarts[i].y = actualStartY + diffY;
+    targetEnds[i].x = targetEnds[i].x + diffX;
+    targetEnds[i].y = targetEnds[i].y + diffY;
+  };
+
+  private moveUsingDependencies = (): void => {
+    // 文法上の依存関係から始点と終点をまとめて平行移動する
+    // ツリー構造の親から順番に実行していく必要があるため、parentIdについて0から順番に実行する
+    for (let parentId = 0; parentId < this.words.length; parentId++) {
+      let parentWord: Word;
       this.words.forEach((word) => {
-        if (i === word.parentId) {
-          if ('nsubj' === word.relation) {
+        if (word.id === parentId) {
+          parentWord = word;
+        }
+      });
+      let childWord;
+      this.words.forEach((word) => {
+        if (word.parentId === parentId) {
+          childWord = word;
+          if ('nsubj' === childWord.relation) {
             // 親とnsubj関連を持つ場合、親の終点が子の始点となる
-            this.tempStarts[word.id] = {
-              x: this.tempEnds[i].x,
-              y: this.tempStarts[i].y,
-            };
-          } else if ('det' === word.relation || 'amod' === word.relation) {
-            if (typeof word.childOrder != 'undefined' && word.childOrder >= 0) {
-              // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
-              this.tempStarts[word.id] = {
-                x: this.tempStarts[i].x + 20 * (word.childOrder + 1),
-                y: this.tempStarts[i].y,
-              };
+            this.move(
+              this.tempStarts,
+              this.tempEnds,
+              childWord.id,
+              this.tempEnds[parentWord.id].x,
+              this.tempStarts[parentWord.id].y
+            );
+          } else if (
+            'det' === childWord.relation ||
+            'amod' === childWord.relation ||
+            'nmod_poss' === childWord.relation ||
+            'advmod' === childWord.relation
+          ) {
+            //if (typeof childWord.childOrder != 'undefined' && childWord.childOrder >= 0) {
+            // 親とdetまたはamod関連を持つ場合、親の単語の途中の位置が子の始点となる
+            let order: number;
+            if (childWord.childOrder) {
+              order = childWord.childOrder;
+            } else {
+              order = 0;
             }
+            this.move(
+              this.tempStarts,
+              this.tempEnds,
+              word.id,
+              this.tempStarts[parentWord.id].x + 20 * (order + 1),
+              this.tempStarts[parentWord.id].y
+            );
+            //}
           }
         }
       });
@@ -79,9 +123,7 @@ class MyCardText extends React.Component<Props> {
     // 始点と単語の長さから終点を決定する
     this.computeEnds();
     // 単語間の意味の関連から始点を変更する
-    this.computeStarts();
-    // 変更した始点に対して再度終点を決定する
-    this.computeEnds();
+    this.moveUsingDependencies();
 
     const list = [];
     for (let i = 0; i < this.words.length; i++) {

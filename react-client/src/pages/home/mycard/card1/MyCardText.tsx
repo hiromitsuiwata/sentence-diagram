@@ -16,30 +16,19 @@ class MyCardText extends React.Component<Props> {
     this.tempStarts.push({ x: 40, y: 40 });
 
     // word
-    this.words.push({ id: 0, text: 'unicorn' });
-    this.words.push({
-      id: 1,
-      text: 'flew.',
-      separator: true,
-      parentId: 0,
-      relation: 'nsubj',
-    });
-    this.words.push({
-      id: 2,
-      text: 'The',
-      direction: 'right-down',
-      parentId: 0,
-      relation: 'det',
-      childOrder: 0,
-    });
-    this.words.push({
-      id: 3,
-      text: 'white',
-      direction: 'right-down',
-      parentId: 0,
-      relation: 'amod',
-      childOrder: 1,
-    });
+    this.words = [
+      { id: 0, text: 'unicorn' },
+      { id: 1, text: 'The', relation: 'det', direction: 'right-down', parentId: 0, childOrder: 0 },
+      {
+        id: 2,
+        text: 'white',
+        relation: 'amod',
+        direction: 'right-down',
+        parentId: 0,
+        childOrder: 1,
+      },
+      { id: 3, text: 'flew', relation: 'nsubj', parentId: 0, separator: true },
+    ];
   }
 
   private fillShortage = (): void => {

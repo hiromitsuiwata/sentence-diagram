@@ -39,7 +39,7 @@ public class ViewMapper {
         if (node.equals(edge.getFrom())) {
           String type = edge.getType().name();
           viewNode.setRelation(type);
-          if (type.equals("det") || type.equals("amod")) {
+          if (type.equals("det") || type.equals("amod") || type.equals("nmod_poss") || type.equals("advmod")) {
             viewNode.setDirection("right-down");
           } else if (type.equals("nsubj")) {
             viewNode.setSeparator(true);
