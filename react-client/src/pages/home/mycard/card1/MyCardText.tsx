@@ -27,7 +27,7 @@ class MyCardText extends React.Component<Props> {
         parentId: 0,
         childOrder: 1,
       },
-      { id: 3, text: 'flew', relation: 'nsubj', parentId: 0, separator: true },
+      { id: 3, text: 'flew', relation: 'nsubj', parentId: 0, separator: 'full' },
     ];
   }
 

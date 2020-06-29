@@ -135,7 +135,7 @@ class Diagram extends React.Component<Props, State> {
         const word = this.state.words[wordId];
         if (word.parentId === parentId) {
           childWord = word;
-          if ('nsubj' === childWord.relation) {
+          if ('nsubj' === childWord.relation || 'dobj' === childWord.relation) {
             // 親とnsubj関連を持つ場合、親の終点が子の始点となる
             this.move(
               this.tempStarts,

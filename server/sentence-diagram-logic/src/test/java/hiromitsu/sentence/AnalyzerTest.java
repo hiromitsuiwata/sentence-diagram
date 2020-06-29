@@ -82,7 +82,13 @@ class AnalyzerTest {
     assertEquals("not--neg-->will drive", results.get(0).getEdgeList().get(0).toPrettyString());
     assertEquals("tomorrow--nmod_tmod-->will drive", results.get(0).getEdgeList().get(1).toPrettyString());
     assertEquals("will drive--nsubj-->I", results.get(0).getEdgeList().get(2).toPrettyString());
+  }
 
+  @Test
+  void dobj() {
+    String text = "Roger sent a package.";
+    List<ParsedResult> results = Analyzer.analyze(text);
+    System.out.println(results.get(0));
   }
 
   private void printResult(List<ParsedResult> results) {

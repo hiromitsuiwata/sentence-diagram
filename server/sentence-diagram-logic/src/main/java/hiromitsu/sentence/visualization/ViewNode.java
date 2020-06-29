@@ -28,7 +28,7 @@ public class ViewNode {
   @Expose
   private Integer childOrder = null;
   @Expose
-  private Boolean separator = null;
+  private String separator = null;
 
   private Node node;
 }
