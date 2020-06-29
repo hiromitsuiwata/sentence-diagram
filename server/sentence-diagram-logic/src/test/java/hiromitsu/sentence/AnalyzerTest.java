@@ -91,7 +91,6 @@ class AnalyzerTest {
     assertEquals("a--det-->package", results.get(0).getEdgeList().get(0).toPrettyString());
     assertEquals("package--dobj-->sent", results.get(0).getEdgeList().get(1).toPrettyString());
     assertEquals("sent--nsubj-->Roger", results.get(0).getEdgeList().get(2).toPrettyString());
-
   }
 
   private void printResult(List<ParsedResult> results) {
