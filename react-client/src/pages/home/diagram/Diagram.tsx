@@ -25,7 +25,7 @@ interface State {
 const override = css`
   display: block;
   margin: 0 auto;
-  border-color: #4169e1;
+  border-color: #0bd;
 `;
 
 class Diagram extends React.Component<Props, State> {
@@ -223,7 +223,7 @@ class Diagram extends React.Component<Props, State> {
                 <BounceLoader
                   css={override}
                   size={60}
-                  color={'#4169e1'}
+                  color={'#0bd'}
                   loading={this.state.loading}
                 />
               </div>

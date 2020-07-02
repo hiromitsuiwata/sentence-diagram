@@ -11,3 +11,7 @@ npm run build
 cd ../server
 npm clean package
 ```
+
+```bash
+mvn depgraph:graph -DcreateImage=true -DimageFormat=svg -DshowClassifiers=true -DshowConflicts=true -DshowDuplicates=true -DshowGroupIds=true -DshowOptional=true -DshowVersions=true
+```
