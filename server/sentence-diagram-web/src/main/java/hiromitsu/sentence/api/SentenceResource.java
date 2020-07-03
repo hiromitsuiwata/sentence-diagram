@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ public class SentenceResource {
 
   @GET
   @Produces("application/json")
+  @SimplyTimed(name = "sentenceGetTime")
   public Response getSentences() {
     List<Sentence> list = sentenceService.findAll();
 
@@ -95,6 +97,7 @@ public class SentenceResource {
   @PUT
   @Path("{id}/diagram")
   @Produces("application/json")
+  @SimplyTimed(name = "sentenceCreateDiagramTime")
   public Response createDiagram(@PathParam("id") long id) {
     logger.info(Long.toString(id));
     String json = sentenceService.createDiagram(id);
