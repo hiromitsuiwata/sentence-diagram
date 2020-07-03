@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
+import hiromitsu.sentence.infra.JWTTokenNeeded;
 import hiromitsu.sentence.service.Sentence;
 import hiromitsu.sentence.service.SentenceService;
 
@@ -29,6 +31,9 @@ import hiromitsu.sentence.service.SentenceService;
  */
 @ApplicationScoped
 @Path("sentences")
+@JWTTokenNeeded
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class SentenceResource {
 
   private static Logger logger = LoggerFactory.getLogger(SentenceResource.class);
@@ -37,7 +42,6 @@ public class SentenceResource {
   private SentenceService sentenceService;
 
   @GET
-  @Produces("application/json")
   @SimplyTimed(name = "sentenceGetTime")
   public Response getSentences() {
     List<Sentence> list = sentenceService.findAll();
@@ -52,7 +56,6 @@ public class SentenceResource {
   }
 
   @DELETE
-  @Produces("application/json")
   @Path("{id}")
   public Response delete(@PathParam("id") Long id) {
     logger.info("delete: " + id);
@@ -62,7 +65,6 @@ public class SentenceResource {
   }
 
   @GET
-  @Produces("application/json")
   @Path("/search")
   public Response searchSentences(@QueryParam("q") String query) {
     logger.info("query: " + query);
@@ -78,7 +80,6 @@ public class SentenceResource {
   }
 
   @POST
-  @Consumes("application/json")
   public Response createSentence(String request) {
     logger.info(request);
 
@@ -96,7 +97,6 @@ public class SentenceResource {
 
   @PUT
   @Path("{id}/diagram")
-  @Produces("application/json")
   @SimplyTimed(name = "sentenceCreateDiagramTime")
   public Response createDiagram(@PathParam("id") long id) {
     logger.info(Long.toString(id));

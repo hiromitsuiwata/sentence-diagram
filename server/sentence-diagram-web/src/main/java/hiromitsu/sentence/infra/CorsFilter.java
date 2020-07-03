@@ -1,4 +1,4 @@
-package hiromitsu.sentence.api;
+package hiromitsu.sentence.infra;
 
 import java.io.IOException;
 

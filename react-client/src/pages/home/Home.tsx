@@ -112,7 +112,11 @@ class Home extends React.Component<Props, State> {
     } else {
       return (
         <div className={styles.Home}>
-          <HomeHeader searchHander={this.search} openRegistrationHandler={this.openRegistration} />
+          <HomeHeader
+            searchHander={this.search}
+            openRegistrationHandler={this.openRegistration}
+            loginHandler={this.login}
+          />
           <div className={styles.main}>
             <div className={styles.columns}>
               <MyCard1 />
@@ -211,6 +215,15 @@ class Home extends React.Component<Props, State> {
           error: error,
         });
       });
+  }
+
+  login(user: string, password: string): void {
+    let params = new URLSearchParams();
+    params.append('user', user);
+    params.append('password', password);
+    axios.post('/api/users/login', params).then((response) => {
+      console.log({ response: response });
+    });
   }
 }
 
