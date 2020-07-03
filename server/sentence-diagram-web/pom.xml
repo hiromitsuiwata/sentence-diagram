@@ -15,8 +15,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -47,6 +47,10 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile.health</groupId>
+			<artifactId>microprofile-health-api</artifactId>
 		</dependency>
 	</dependencies>
 

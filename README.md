@@ -9,7 +9,7 @@
 cd react-client
 npm run build
 cd ../server
-npm clean package
+mvn clean package
 ```
 
 ```bash
