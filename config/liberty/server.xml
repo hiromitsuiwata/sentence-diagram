@@ -10,7 +10,6 @@
     <feature>cdi-2.0</feature>
     <feature>jndi-1.0</feature>
     <feature>jaxrs-2.1</feature>
-    <feature>mpOpenTracing-1.3</feature>
     <feature>mpMetrics-2.3</feature>
     <feature>mpHealth-2.2</feature>
   </featureManager>
@@ -24,7 +23,6 @@
 
   <monitor filter="JVM,ThreadPool,WebContainer,Session,ConnectionPool,REST"/>
   <mpMetrics authentication="false"/>
-
 
   <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
     <jdbcDriver>
