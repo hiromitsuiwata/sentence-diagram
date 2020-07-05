@@ -12,6 +12,18 @@ cd ../server
 mvn clean package
 ```
 
+## 依存関係の可視化
+
 ```bash
 mvn depgraph:graph -DcreateImage=true -DimageFormat=svg -DshowClassifiers=true -DshowConflicts=true -DshowDuplicates=true -DshowGroupIds=true -DshowOptional=true -DshowVersions=true
+```
+
+## 実行準備
+
+```bash
+# Postgresqlの起動
+postgres -D /usr/local/var/postgres
+
+# Redisの起動
+redis-server /usr/local/etc/redis.conf
 ```

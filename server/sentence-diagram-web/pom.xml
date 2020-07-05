@@ -68,7 +68,13 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-gson</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
 	</dependencies>
+
+
 	<build>
 		<finalName>sentence-diagram-web</finalName>
 		<plugins>

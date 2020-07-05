@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import io.jsonwebtoken.Jwts;
 
+/**
+ * JSON Web Tokenを付加したリクエストでない場合にアクセスを拒否するフィルター
+ */
 @Provider
 @JWTTokenNeeded
 @Priority(Priorities.AUTHENTICATION)

@@ -11,6 +11,9 @@ import org.eclipse.microprofile.health.Readiness;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Readiness probe用のエンドポイント.DBへ接続できているときにupを返す.
+ */
 @Readiness
 @ApplicationScoped
 public class ReadinessProbe implements HealthCheck {

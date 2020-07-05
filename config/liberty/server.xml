@@ -27,7 +27,7 @@
   <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
     <jdbcDriver>
       <library>
-        <fileset dir="/Users/hiro/dev/postgres" includes="postgresql-42.2.12.jar"/>
+        <fileset dir="/Users/hiro/dev/postgres" includes="postgresql-42.2.14.jar"/>
       </library>
     </jdbcDriver>
     <properties databaseName="mydb" portNumber="5432" serverName="localhost"/>
@@ -36,4 +36,6 @@
   <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
   <webApplication contextRoot="/" id="sentence-diagram-web" location="sentence-diagram-web.war" name="sentence-diagram-web"/>
+
+  <keyStore password="password"></keyStore>
 </server>

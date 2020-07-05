@@ -19,7 +19,7 @@ apt install -y iputils-ping
 
 # Mac に導入された Nginx を使って設定を作る
 
-```
+```bash
     server {
         listen       80;
         server_name  localhost;

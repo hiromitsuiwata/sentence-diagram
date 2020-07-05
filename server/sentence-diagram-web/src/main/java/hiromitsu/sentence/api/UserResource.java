@@ -25,6 +25,9 @@ import hiromitsu.sentence.infra.KeyHolder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * 認証、ユーザー管理を行うリソース
+ */
 @Path("users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
