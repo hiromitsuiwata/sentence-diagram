@@ -30,12 +30,14 @@
         <fileset dir="/Users/hiro/dev/postgres" includes="postgresql-42.2.14.jar"/>
       </library>
     </jdbcDriver>
-    <properties databaseName="mydb" portNumber="5432" serverName="localhost"/>
+    <!-- serverNameは環境によって書き換える.docker-machineを使う場合など -->
+    <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}" user="${DB_USER}" password="${DB_PASSWORD}"/>
   </dataSource>
 
   <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
   <webApplication contextRoot="/" id="sentence-diagram-web" location="sentence-diagram-web.war" name="sentence-diagram-web"/>
+  <!-- <webApplication contextRoot="/" id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web"/> -->
 
   <keyStore password="password"></keyStore>
 </server>

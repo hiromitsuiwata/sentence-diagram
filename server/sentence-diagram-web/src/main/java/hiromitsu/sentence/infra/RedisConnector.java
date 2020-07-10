@@ -1,5 +1,6 @@
 package hiromitsu.sentence.infra;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 
@@ -13,7 +14,13 @@ import redis.clients.jedis.JedisPoolConfig;
 @ApplicationScoped
 public class RedisConnector {
 
-  private JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+  private JedisPool pool;
+
+  @PostConstruct
+  public void postContruct() {
+    String host = System.getProperty("REDIS_HOST");
+    pool = new JedisPool(new JedisPoolConfig(), host);
+  }
 
   @PreDestroy
   public void preDestroy() {
