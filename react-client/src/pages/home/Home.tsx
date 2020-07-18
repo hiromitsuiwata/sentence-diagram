@@ -218,7 +218,7 @@ class Home extends React.Component<Props, State> {
   }
 
   login(user: string, password: string): void {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     params.append('user', user);
     params.append('password', password);
     axios.post('/api/users/login', params).then((response) => {
