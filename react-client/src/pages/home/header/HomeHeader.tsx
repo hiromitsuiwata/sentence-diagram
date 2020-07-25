@@ -38,7 +38,7 @@ const HomeHeader: React.FC<Props> = (props) => {
           className={styles.textbox}
           onInput={debounceInputSearch}
         />
-        <button className={styles.search_button}>
+        <button className={styles.search_button} name="search">
           <FontAwesomeIcon icon={faSearch} />
         </button>
       </div>

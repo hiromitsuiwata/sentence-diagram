@@ -46,3 +46,6 @@ server/sentence-diagram-web/src/main/webapp/*.ico
 server/sentence-diagram-web/src/main/webapp/*.webmanifest
 server/sentence-diagram-web/src/main/webapp/*.html
 server/sentence-diagram-web/src/main/webapp/*.json
+
+container/liberty/*.jar
+container/liberty/*.war

@@ -18,8 +18,7 @@
     <accessLogging/>
   </httpEndpoint>
 
-  <applicationManager autoExpand="false"/>
-  <applicationMonitor updateTrigger="mbean"/>
+  <applicationManager autoExpand="false" startTimeout="120s" stopTimeout="60s"/>
 
   <monitor filter="JVM,ThreadPool,WebContainer,Session,ConnectionPool,REST"/>
   <mpMetrics authentication="false"/>
@@ -27,17 +26,16 @@
   <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
     <jdbcDriver>
       <library>
-        <fileset dir="/Users/hiro/dev/postgres" includes="postgresql-42.2.14.jar"/>
+        <fileset dir="/config/dropins" includes="postgresql-42.2.14.jar"/>
       </library>
     </jdbcDriver>
-    <!-- serverNameは環境によって書き換える.docker-machineを使う場合など -->
-    <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}" user="${DB_USER}" password="${DB_PASSWORD}"/>
+    <properties databaseName="${DB_DBNAME}" user="${DB_USER}" password="${DB_PASSWORD}" portNumber="${DB_PORT}" serverName="${DB_HOST}"/>
   </dataSource>
 
   <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-  <webApplication contextRoot="/" id="sentence-diagram-web" location="sentence-diagram-web.war" name="sentence-diagram-web"/>
-  <!-- <webApplication contextRoot="/" id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web"/> -->
+  <webApplication contextRoot="/" id="sentence-diagram-web" location="/config/dropins/sentence-diagram-web.war" name="sentence-diagram-web"/>
 
-  <keyStore password="password"></keyStore>
+  <keyStore password="password"/>
+  <applicationMonitor dropinsEnabled="false" updateTrigger="mbean"/>
 </server>
