@@ -18,7 +18,7 @@
     <accessLogging/>
   </httpEndpoint>
 
-  <applicationManager autoExpand="false" startTimeout="120s" stopTimeout="60s"/>
+  <applicationManager autoExpand="false" startTimeout="180s" stopTimeout="60s"/>
 
   <monitor filter="JVM,ThreadPool,WebContainer,Session,ConnectionPool,REST"/>
   <mpMetrics authentication="false"/>

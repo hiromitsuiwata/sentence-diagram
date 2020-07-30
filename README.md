@@ -18,7 +18,7 @@ mvn clean package
 mvn depgraph:graph -DcreateImage=true -DimageFormat=svg -DshowClassifiers=true -DshowConflicts=true -DshowDuplicates=true -DshowGroupIds=true -DshowOptional=true -DshowVersions=true
 ```
 
-## 実行準備
+## 実行準備(macOS 上)
 
 ```bash
 # Postgresqlの起動
@@ -26,4 +26,13 @@ postgres -D /usr/local/var/postgres
 
 # Redisの起動
 redis-server /usr/local/etc/redis.conf
+```
+
+## 実行準備(Minikube 上)
+
+```bash
+minikube start
+eval $(minikube -p minikube docker-env)
+make build
+make apply
 ```
