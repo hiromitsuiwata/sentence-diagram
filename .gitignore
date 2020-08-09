@@ -49,3 +49,5 @@ server/sentence-diagram-web/src/main/webapp/*.json
 
 container/liberty/*.jar
 container/liberty/*.war
+
+*/sentence-server
