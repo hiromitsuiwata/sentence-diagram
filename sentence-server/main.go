@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
@@ -51,8 +50,10 @@ var (
 	seq       = 1
 )
 
+var db *sqlx.DB
+
 func main() {
-	accessDb()
+	initDb()
 
 	e := echo.New()
 	e.Use(middleware.Logger())
@@ -81,13 +82,25 @@ func createSentence(c echo.Context) error {
 }
 
 func getSentences(c echo.Context) error {
+	sentences := []sentence{}
+	db.Select(&sentences, "SELECT * FROM sentence ORDER BY id ASC")
 	return c.JSON(http.StatusOK, sentences)
 }
 
 func deleteSentence(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	delete(sentences, id)
+	id := c.Param("id")
+	tx := db.MustBegin()
+	tx.MustExec("DELETE FROM sentence WHERE id=$1", id)
+	tx.Commit()
 	return c.NoContent(http.StatusNoContent)
+}
+
+func initDb() {
+	var err error
+	db, err = sqlx.Connect("postgres", "dbname=mydb sslmode=disable")
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func accessDb() {
