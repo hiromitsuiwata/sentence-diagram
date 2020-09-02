@@ -50,33 +50,28 @@ public class SentenceResource {
     String json = gson.toJson(list);
     logger.info(json);
 
-    Response response = Response.ok(json).build();
-
-    return response;
+    return Response.ok(json).build();
   }
 
   @DELETE
   @Path("{id}")
   public Response delete(@PathParam("id") Long id) {
-    logger.info("delete: " + id);
+    logger.info("delete: {}", id);
     sentenceService.delete(id);
-    Response response = Response.ok().build();
-    return response;
+    return Response.ok().build();
   }
 
   @GET
   @Path("/search")
   public Response searchSentences(@QueryParam("q") String query) {
-    logger.info("query: " + query);
+    logger.info("query: {}", query);
 
     List<Sentence> list = sentenceService.search(query);
     Gson gson = new Gson();
     String json = gson.toJson(list);
     logger.info(json);
 
-    Response response = Response.ok(json).build();
-
-    return response;
+    return Response.ok(json).build();
   }
 
   @POST
@@ -102,7 +97,6 @@ public class SentenceResource {
     logger.info(Long.toString(id));
     String json = sentenceService.createDiagram(id);
     logger.info(json);
-    Response response = Response.ok(json).build();
-    return response;
+    return Response.ok(json).build();
   }
 }

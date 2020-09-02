@@ -1,0 +1,11 @@
+-Duser.language=en
+-Duser.country=US
+
+-DREDIS_HOST=localhost
+
+-DDB_HOST=localhost
+-DDB_PORT=5432
+-DDB_USER=myuser
+-DDB_PASSWORD=mypassword
+-DDB_DBNAME=mydb
+

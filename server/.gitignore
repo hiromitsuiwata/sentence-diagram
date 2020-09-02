@@ -1,0 +1,10 @@
+*.woff
+*.woff2
+*.eot
+*.svg
+*.ttf
+*.js
+*.css
+*.map
+robots.txt
+*LICENSE.txt
