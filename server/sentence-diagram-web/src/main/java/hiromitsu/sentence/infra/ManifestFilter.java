@@ -20,7 +20,5 @@ public class ManifestFilter implements Filter {
       throws IOException, ServletException {
     chain.doFilter(request, response);
     response.setContentLength(response.getBufferSize());
-//    response.getContentType();
   }
-
 }

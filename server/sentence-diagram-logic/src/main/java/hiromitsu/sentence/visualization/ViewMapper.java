@@ -39,9 +39,10 @@ public class ViewMapper {
         if (node.equals(edge.getFrom())) {
           String type = edge.getType().name();
           viewNode.setRelation(type);
-          if (type.equals(EdgeType.det.toString()) || type.equals(EdgeType.amod.toString())
+          boolean isRightDown = type.equals(EdgeType.det.toString()) || type.equals(EdgeType.amod.toString())
               || type.equals(EdgeType.nmod_poss.toString()) || type.equals(EdgeType.advmod.toString())
-              || type.equals(EdgeType.neg.toString()) || type.equals(EdgeType.nmod_tmod.toString())) {
+              || type.equals(EdgeType.neg.toString()) || type.equals(EdgeType.nmod_tmod.toString());
+          if (isRightDown) {
             viewNode.setDirection("right-down");
           } else if (type.equals("nsubj")) {
             viewNode.setSeparator("full");
@@ -51,7 +52,9 @@ public class ViewMapper {
           int parentId = nodeList.indexOf(edge.getTo());
           viewNode.setParentId(parentId);
 
-          if (type.equals("det") || type.equals("amod") || type.equals("nmod_tmod") || type.equals("neg")) {
+          boolean includesChild = type.equals("det") || type.equals("amod") || type.equals("nmod_tmod")
+              || type.equals("neg");
+          if (includesChild) {
             Integer newValue;
             if (childIdMap.containsKey(parentId)) {
               newValue = childIdMap.get(parentId) + 1;

@@ -24,7 +24,7 @@ public class AuxAndAuxpass {
 
   /**
    * グルーピングを行う.マルチパスで少しずつ変形させる.
-   * 
+   *
    * @param input
    */
   public static void execute(ParsedResult input) {
@@ -76,7 +76,7 @@ public class AuxAndAuxpass {
     }
 
     wordList.sort(Comparator.comparing(Word::getIndex));
-    if (node.getWordList().size() > 0) {
+    if (!node.getWordList().isEmpty()) {
       input.getNodeList().add(node);
     }
   }

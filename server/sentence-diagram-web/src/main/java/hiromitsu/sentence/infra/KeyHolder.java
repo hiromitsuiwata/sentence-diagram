@@ -67,7 +67,7 @@ public class KeyHolder {
       if (o instanceof KeyPair) {
         this.keyPair = (KeyPair) o;
       } else {
-        logger.error("deserialization error: ", o.getClass().getCanonicalName());
+        logger.error("deserialization error: {}", o.getClass().getCanonicalName());
       }
     } catch (IOException | ClassNotFoundException e) {
       logger.error("deserialization error", e);

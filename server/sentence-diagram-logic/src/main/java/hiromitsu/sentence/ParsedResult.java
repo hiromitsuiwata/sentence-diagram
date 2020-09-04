@@ -30,7 +30,7 @@ public class ParsedResult {
 
   /**
    * JSON文字列を取得する
-   * 
+   *
    * @return JSON文字列
    */
   public String toJSON() {
@@ -40,7 +40,7 @@ public class ParsedResult {
 
   /**
    * 整形されたJSON文字列を取得する
-   * 
+   *
    * @return JSON文字列
    */
   public String toPrettyJSON() {
@@ -50,13 +50,14 @@ public class ParsedResult {
 
   /**
    * 品詞を表形式の文字列に整形する
+   * 
    * @return 単語と品詞の表
    */
   public String toWordTable() {
-    StringBuffer sbIndex = new StringBuffer();
-    StringBuffer sbToken = new StringBuffer();
-    StringBuffer sbLemma = new StringBuffer();
-    StringBuffer sbPosTag = new StringBuffer();
+    StringBuilder sbIndex = new StringBuilder();
+    StringBuilder sbToken = new StringBuilder();
+    StringBuilder sbLemma = new StringBuilder();
+    StringBuilder sbPosTag = new StringBuilder();
 
     for (int i = 0; i < wordList.size(); i++) {
       Word w = wordList.get(i);
@@ -72,14 +73,14 @@ public class ParsedResult {
       sbLemma.append(String.format(format, w.getLemma()));
       sbPosTag.append(String.format(format, w.getPosTag()));
     }
-    
-    StringBuffer sb = new StringBuffer();
+
+    StringBuilder sb = new StringBuilder();
     sb.append(sbIndex).append("\n").append(sbToken).append("\n").append(sbLemma).append("\n").append(sbPosTag);
     return sb.toString();
   }
-  
+
   public String toPrettyString() {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     for (Node node : nodeList) {
       sb.append(node.toPrettyString()).append(",").append(LINE_SEPARETOR);
     }
@@ -88,6 +89,5 @@ public class ParsedResult {
     }
     return sb.toString();
   }
-  
 
 }

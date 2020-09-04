@@ -20,7 +20,7 @@ public class Analyzer {
 
   /**
    * dependencyを読み取ってグラフ構造のデータを追加する
-   * 
+   *
    * @param text
    * @return
    */
@@ -29,7 +29,6 @@ public class Analyzer {
     List<ParsedResult> results = wrapper.parse(text);
 
     for (ParsedResult r : results) {
-      // FIXME とりあえず
       Case.execute(r);
       NmodPoss.execute(r);
       AuxAndAuxpass.execute(r);

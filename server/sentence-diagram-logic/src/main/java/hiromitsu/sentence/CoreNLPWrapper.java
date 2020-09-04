@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
@@ -60,13 +61,13 @@ public class CoreNLPWrapper {
       // 品詞
       List<Word> wordList = createWordList(s);
       result.setWordList(wordList);
-      
+
       // 構成素
       Tree constituencyParse = s.constituencyParse();
       result.setConstituentyText(constituencyParse.toString());
       Set<Con> cons = createConstituentSet(constituencyParse);
       result.setConstituents(cons);
-      
+
       // 依存関係
       Set<Dep> deps = createDepSet(s);
       result.setDependencies(deps);
@@ -78,8 +79,8 @@ public class CoreNLPWrapper {
   }
 
   private List<Word> createWordList(CoreSentence s) {
-    List<String> tokens = s.tokens().stream().map(t -> t.originalText()).collect(Collectors.toList());
-    List<String> lemmas = s.tokens().stream().map(t -> t.lemma()).collect(Collectors.toList());
+    List<String> tokens = s.tokens().stream().map(CoreLabel::originalText).collect(Collectors.toList());
+    List<String> lemmas = s.tokens().stream().map(CoreLabel::lemma).collect(Collectors.toList());
     List<String> posTags = s.posTags();
 
     List<Word> wordList = new ArrayList<>();

@@ -24,9 +24,11 @@ public class Word {
     this.lemma = lemma;
     this.posTag = posTag;
     this.index = index;
-    
+
     List<Integer> lengthList = Arrays.asList(token.length(), lemma.length(), posTag.length());
     Optional<Integer> m = lengthList.stream().max(Comparator.naturalOrder());
-    this.maxLength = m.get();
+    if (m.isPresent()) {
+      this.maxLength = m.get();
+    }
   }
 }

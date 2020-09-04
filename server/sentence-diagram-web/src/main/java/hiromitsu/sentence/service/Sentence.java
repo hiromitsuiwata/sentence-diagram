@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import lombok.Data;
@@ -15,8 +14,8 @@ import lombok.Data;
  */
 @Data
 @Entity(name = "sentence")
-@NamedQueries({ @NamedQuery(name = "Sentence.findAll", query = "SELECT s FROM sentence s"),
-    @NamedQuery(name = "Sentence.search", query = "SELECT s FROM sentence s WHERE (lower(s.title) LIKE lower(:keyword)) OR (lower(s.text) LIKE lower(:keyword)) OR (lower(s.url) LIKE lower(:keyword))") })
+@NamedQuery(name = "Sentence.findAll", query = "SELECT s FROM sentence s")
+@NamedQuery(name = "Sentence.search", query = "SELECT s FROM sentence s WHERE (lower(s.title) LIKE lower(:keyword)) OR (lower(s.text) LIKE lower(:keyword)) OR (lower(s.url) LIKE lower(:keyword))")
 public class Sentence {
 
   private static final int COLUMN_LENGTH = 1024;
