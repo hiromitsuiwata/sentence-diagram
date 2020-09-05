@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 
 import hiromitsu.sentence.Edge;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.Word;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.infrastructure.JsonUtility;
@@ -33,43 +34,50 @@ public class ViewMapper {
 
     for (int i = 0; i < nodeList.size(); i++) {
       Node node = nodeList.get(i);
-      String text = node.getWordList().stream().map(word -> word.getToken()).collect(Collectors.joining(" "));
+      String text = node.getWordList().stream().map(Word::getToken).collect(Collectors.joining(" "));
       ViewNode viewNode = new ViewNode(i, text);
       for (Edge edge : edgeList) {
         if (node.equals(edge.getFrom())) {
-          String type = edge.getType().name();
-          viewNode.setRelation(type);
-          boolean isRightDown = type.equals(EdgeType.det.toString()) || type.equals(EdgeType.amod.toString())
-              || type.equals(EdgeType.nmod_poss.toString()) || type.equals(EdgeType.advmod.toString())
-              || type.equals(EdgeType.neg.toString()) || type.equals(EdgeType.nmod_tmod.toString());
-          if (isRightDown) {
-            viewNode.setDirection("right-down");
-          } else if (type.equals("nsubj")) {
-            viewNode.setSeparator("full");
-          } else if (type.equals("dobj")) {
-            viewNode.setSeparator("half");
-          }
-          int parentId = nodeList.indexOf(edge.getTo());
-          viewNode.setParentId(parentId);
-
-          boolean includesChild = type.equals("det") || type.equals("amod") || type.equals("nmod_tmod")
-              || type.equals("neg");
-          if (includesChild) {
-            Integer newValue;
-            if (childIdMap.containsKey(parentId)) {
-              newValue = childIdMap.get(parentId) + 1;
-            } else {
-              newValue = 0;
-            }
-            childIdMap.put(parentId, newValue);
-            viewNode.setChildOrder(newValue);
-          }
+          String type = edge.getType();
+          int parentId = setSeparator(nodeList, viewNode, edge, type);
+          setChildren(childIdMap, viewNode, type, parentId);
         }
       }
       viewNodes.add(viewNode);
     }
     return viewNodes;
 
+  }
+
+  private static int setSeparator(List<Node> nodeList, ViewNode viewNode, Edge edge, String type) {
+    viewNode.setRelation(type);
+    boolean isRightDown = type.equals(EdgeTypeString.DET) || type.equals(EdgeTypeString.AMOD)
+        || type.equals(EdgeTypeString.NMOD_POSS) || type.equals(EdgeTypeString.ADVMOD)
+        || type.equals(EdgeTypeString.NEG) || type.equals(EdgeTypeString.NMOD_TMOD);
+    if (isRightDown) {
+      viewNode.setDirection("right-down");
+    } else if (type.equals("nsubj")) {
+      viewNode.setSeparator("full");
+    } else if (type.equals("dobj")) {
+      viewNode.setSeparator("half");
+    }
+    int parentId = nodeList.indexOf(edge.getTo());
+    viewNode.setParentId(parentId);
+    return parentId;
+  }
+
+  private static void setChildren(Map<Integer, Integer> childIdMap, ViewNode viewNode, String type, int parentId) {
+    boolean includesChild = type.equals("det") || type.equals("amod") || type.equals("nmod_tmod") || type.equals("neg");
+    if (includesChild) {
+      Integer newValue;
+      if (childIdMap.containsKey(parentId)) {
+        newValue = childIdMap.get(parentId) + 1;
+      } else {
+        newValue = 0;
+      }
+      childIdMap.put(parentId, newValue);
+      viewNode.setChildOrder(newValue);
+    }
   }
 
   @Deprecated
@@ -92,11 +100,11 @@ public class ViewMapper {
       String toIds = toNode.getWordIds();
 
       String vtype = null;
-      EdgeType type = edge.getType();
+      String type = edge.getType();
       // TODO 実際のダイアグラムを見ながら他のタイプに対応する
-      if (type == EdgeType.det || type == EdgeType.amod) {
+      if (type.equals(EdgeTypeString.DET) || type.equals(EdgeTypeString.AMOD)) {
         vtype = "mod";
-      } else if (type == EdgeType.nsubj) {
+      } else if (type.equals(EdgeTypeString.NSUBJ)) {
         vtype = "subj";
       }
 

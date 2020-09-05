@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import hiromitsu.sentence.Dep;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
@@ -44,7 +44,7 @@ public class AuxAndAuxpass {
       Dep dep = ite.next();
 
       // 助動詞と動詞をグルーピングする
-      if (dep.getRelation().equals(EdgeType.aux.toString()) || dep.getRelation().equals(EdgeType.auxpass.toString())) {
+      if (dep.getRelation().equals(EdgeTypeString.AUX) || dep.getRelation().equals(EdgeTypeString.AUXPASS)) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);

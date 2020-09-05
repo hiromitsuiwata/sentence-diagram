@@ -46,10 +46,10 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
       Key key = holder.getKeyPair().getPublic();
       // https://github.com/jwtk/jjwt/pull/346
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-      logger.info("valid token : " + token);
+      logger.info("valid token: {}", token);
 
     } catch (Exception e) {
-      logger.error("invalid token : " + token);
+      logger.error("invalid token: {}", token);
       requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }
   }

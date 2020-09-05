@@ -6,7 +6,7 @@ import java.util.Set;
 
 import hiromitsu.sentence.Dep;
 import hiromitsu.sentence.Edge;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
@@ -27,8 +27,7 @@ public class NsubjAndNsubjpass {
       Dep dep = ite.next();
 
       // 主語のnodeと主語と動詞の間のedgeを作る
-      if (dep.getRelation().equals(EdgeType.nsubj.toString())
-          || dep.getRelation().equals(EdgeType.nsubjpass.toString())) {
+      if (dep.getRelation().equals(EdgeTypeString.NSUBJ) || dep.getRelation().equals(EdgeTypeString.NSUBJPASS)) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);
@@ -50,7 +49,7 @@ public class NsubjAndNsubjpass {
         Edge edge = new Edge();
         edge.setFrom(fromNode);
         edge.setTo(toNode);
-        edge.setType(EdgeType.nsubj);
+        edge.setType(EdgeTypeString.NSUBJ);
         input.getEdgeList().add(edge);
 
         break;

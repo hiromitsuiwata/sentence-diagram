@@ -5,7 +5,7 @@ import java.util.List;
 
 import hiromitsu.sentence.Dep;
 import hiromitsu.sentence.Edge;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
@@ -23,13 +23,13 @@ public class DetAndAmod {
     while (ite.hasNext()) {
       Dep dep = ite.next();
 
-      createEdge(input, dep, EdgeType.det);
-      createEdge(input, dep, EdgeType.amod);
+      createEdge(input, dep, EdgeTypeString.DET);
+      createEdge(input, dep, EdgeTypeString.AMOD);
     }
   }
 
-  private static void createEdge(ParsedResult input, Dep dep, EdgeType edgeType) {
-    if (dep.getRelation().equals(edgeType.toString())) {
+  private static void createEdge(ParsedResult input, Dep dep, String edgeType) {
+    if (dep.getRelation().equals(edgeType)) {
 
       int from = dep.getFrom();
       int to = dep.getTo();

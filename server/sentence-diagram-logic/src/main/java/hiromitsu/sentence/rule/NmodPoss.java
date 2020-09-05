@@ -5,7 +5,7 @@ import java.util.Set;
 
 import hiromitsu.sentence.Dep;
 import hiromitsu.sentence.Edge;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
@@ -47,7 +47,7 @@ public class NmodPoss {
         edge.setFrom(fromNode);
         edge.setTo(toNode);
         if (dep.getRelation().equals("nmod:poss")) {
-          edge.setType(EdgeType.nmod_poss);
+          edge.setType(EdgeTypeString.NMOD_POSS);
         }
         input.getEdgeList().add(edge);
       }

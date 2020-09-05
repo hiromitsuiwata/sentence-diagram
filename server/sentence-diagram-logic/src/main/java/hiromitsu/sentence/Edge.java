@@ -9,13 +9,13 @@ import lombok.Data;
 public class Edge {
   private Node from;
   private Node to;
-  private EdgeType type;
+  private String type;
 
   public String toPrettyString() {
     StringBuilder sb = new StringBuilder();
     String fromString = from.toPrettyString();
     String toString = to.toPrettyString();
-    sb.append(fromString).append("--").append(type.toString()).append("-->").append(toString);
+    sb.append(fromString).append("--").append(type).append("-->").append(toString);
     return sb.toString();
   }
 }

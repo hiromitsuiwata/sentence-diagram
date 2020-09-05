@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import hiromitsu.sentence.Dep;
 import hiromitsu.sentence.Edge;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
@@ -41,11 +41,11 @@ public class AdvmodNmodTmodNeg {
         edge.setTo(fromNode);
 
         if (dep.getRelation().equals("advmod")) {
-          edge.setType(EdgeType.advmod);
+          edge.setType(EdgeTypeString.ADVMOD);
         } else if (dep.getRelation().equals("nmod:tmod")) {
-          edge.setType(EdgeType.nmod_tmod);
+          edge.setType(EdgeTypeString.NMOD_TMOD);
         } else if (dep.getRelation().equals("neg")) {
-          edge.setType(EdgeType.neg);
+          edge.setType(EdgeTypeString.NEG);
         }
 
         input.getEdgeList().add(edge);

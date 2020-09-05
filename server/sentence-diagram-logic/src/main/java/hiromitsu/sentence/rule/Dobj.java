@@ -6,7 +6,7 @@ import java.util.Set;
 
 import hiromitsu.sentence.Dep;
 import hiromitsu.sentence.Edge;
-import hiromitsu.sentence.EdgeType;
+import hiromitsu.sentence.EdgeTypeString;
 import hiromitsu.sentence.Node;
 import hiromitsu.sentence.ParsedResult;
 import hiromitsu.sentence.Word;
@@ -26,7 +26,7 @@ public class Dobj {
     while (ite.hasNext()) {
       Dep dep = ite.next();
 
-      if (dep.getRelation().equals(EdgeType.dobj.toString())) {
+      if (dep.getRelation().equals(EdgeTypeString.DOBJ)) {
         int from = dep.getFrom();
         int to = dep.getTo();
         Word fromWord = input.getWordList().get(from - 1);
@@ -48,7 +48,7 @@ public class Dobj {
         Edge edge = new Edge();
         edge.setFrom(toNode);
         edge.setTo(fromNode);
-        edge.setType(EdgeType.dobj);
+        edge.setType(EdgeTypeString.DOBJ);
         input.getEdgeList().add(edge);
 
         break;

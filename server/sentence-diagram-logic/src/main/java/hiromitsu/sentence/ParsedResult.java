@@ -18,7 +18,7 @@ import lombok.ToString;
 @Setter
 @Getter
 public class ParsedResult {
-  private final String LINE_SEPARETOR = System.getProperty("line.separator");
+  private static final String LINE_SEPARETOR = System.getProperty("line.separator");
 
   private String originalSentence;
   private String constituentyText;
@@ -50,7 +50,7 @@ public class ParsedResult {
 
   /**
    * 品詞を表形式の文字列に整形する
-   * 
+   *
    * @return 単語と品詞の表
    */
   public String toWordTable() {

@@ -60,13 +60,10 @@ public class UserResource {
   }
 
   private String issueToken(String login) {
-    // TODO
     String uriInfo = "mysite";
-
     Key key = holder.getKeyPair().getPrivate();
-    String jwtToken = Jwts.builder().setSubject(login).setIssuer(uriInfo).setIssuedAt(new Date())
+    return Jwts.builder().setSubject(login).setIssuer(uriInfo).setIssuedAt(new Date())
         .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L))).signWith(key, SignatureAlgorithm.RS512).compact();
-    return jwtToken;
   }
 
   private Date toDate(LocalDateTime localDateTime) {
