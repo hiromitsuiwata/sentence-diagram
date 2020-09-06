@@ -3,15 +3,16 @@ package hiromitsu.sentence.infra;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.io.ObjectOutputStream;
+
 import java.security.KeyPair;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,8 +63,10 @@ public class KeyHolder {
 
   public void deserializeKeyPair(String str) {
     byte[] bytes = str.getBytes(StandardCharsets.ISO_8859_1);
-    try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
-      Object o = ois.readObject();
+
+    try (ValidatingObjectInputStream vois = new ValidatingObjectInputStream(new ByteArrayInputStream(bytes))) {
+      vois.accept(KeyPair.class);
+      Object o = vois.readObject();
       if (o instanceof KeyPair) {
         this.keyPair = (KeyPair) o;
       } else {

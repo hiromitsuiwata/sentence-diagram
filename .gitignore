@@ -51,3 +51,4 @@ container/liberty/*.jar
 container/liberty/*.war
 
 */sentence-server
+.scannerwork/

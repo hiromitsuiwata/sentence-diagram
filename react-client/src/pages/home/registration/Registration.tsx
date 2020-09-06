@@ -6,7 +6,7 @@ interface Props {
   cancelRegistrationHandler: () => void;
 }
 
-const Registeration: React.FC<Props> = (props) => {
+const Registration: React.FC<Props> = (props) => {
   const [title, setTitle] = useState<string>('');
   const [text, setText] = useState<string>('');
   const [url, setUrl] = useState<string>('');
@@ -69,4 +69,4 @@ const Registeration: React.FC<Props> = (props) => {
   );
 };
 
-export default Registeration;
+export default Registration;
