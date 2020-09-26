@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
+	"github.com/pkg/errors"
 )
 
 type sentence struct {
@@ -20,17 +22,25 @@ type sentence struct {
 var db *sqlx.DB
 
 func main() {
-	initDb()
+	log.SetFlags(log.Ldate | log.Ltime | log.LstdFlags | log.Lshortfile)
 
-	e := echo.New()
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	log.Println("aaa")
 
-	e.GET("/sentences", getSentences)
-	e.DELETE("/sentences/:id", deleteSentence)
-	e.POST("/sentences", createSentence)
+	err := initDb()
+	if err != nil {
+		fmt.Printf("%+v", err)
+		return
+	}
 
-	e.Logger.Fatal(e.Start(":1323"))
+	echo := echo.New()
+	echo.Use(middleware.Logger())
+	echo.Use(middleware.Recover())
+
+	echo.GET("/sentences", getSentences)
+	echo.DELETE("/sentences/:id", deleteSentence)
+	echo.POST("/sentences", createSentence)
+
+	echo.Logger.Fatal(echo.Start(":1323"))
 }
 
 func createSentence(c echo.Context) error {
@@ -62,10 +72,12 @@ func deleteSentence(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-func initDb() {
+// DB接続を初期化
+func initDb() error {
 	var err error
 	db, err = sqlx.Connect("postgres", "dbname=mydb sslmode=disable")
 	if err != nil {
-		log.Fatalln(err)
+		return errors.Wrap(err, "failed to init database connections")
 	}
+	return nil
 }
