@@ -6,7 +6,7 @@
 
 ## 概要
 
-- macOS 上に docker-machine, docker-compose で sonarcube のサーバーを立てる
+- macOS 上に docker-machine, docker-compose で sonarqube のサーバーを立てる
 - docker-machine の driver には VirtualBox を利用する
 - テストカバレッジを SonarQube に与える設定は行わない
 - SonarQube のサーバーを macOS 上に立てて、各プロジェクトに scanner を設定して実行する。scanner の設定方法が言語によって違う
@@ -23,13 +23,13 @@
 docker-machine create default
 # docker-machine起動
 docker-machine start default
-# sonarcubeが利用するElasticsearchを実行するためにパラメーターを変更
+# sonarqubeが利用するElasticsearchを実行するためにパラメーターを変更
 docker-machine ssh default "sudo sysctl -w vm.max_map_count=262144"
 # 環境変数設定
 eval $(docker-machine env default)
 # IPアドレスを確認する
 docker-machine ip
-# sonarcube起動
+# sonarqube起動
 docker-compose up -d
 # ブラウザで開く(admin/admin でログイン可能)
 open http://`(docker-machine ip)`:9000/
