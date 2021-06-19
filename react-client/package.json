@@ -18,7 +18,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/uuid": "^8.3.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -64,7 +64,7 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "jest-sonar-reporter": "^2.0.0",
     "prettier": "^2.0.5",
-    "sonarqube-scanner": "^2.7.0"
+    "sonarqube-scanner": "^2.8.1"
   },
   "proxy": "http://localhost:9080"
 }
