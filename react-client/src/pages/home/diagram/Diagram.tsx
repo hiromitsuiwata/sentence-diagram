@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import BounceLoader from 'react-spinners/BounceLoader';
 
 import styles from './Diagram.module.css';
