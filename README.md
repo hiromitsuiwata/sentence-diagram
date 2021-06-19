@@ -36,3 +36,12 @@ eval $(minikube -p minikube docker-env)
 make build
 make apply
 ```
+
+## 実行方法(サーバーサイド開発中)
+
+```bash
+cd server
+mvn clean package
+cd sentence-diagram-web
+mvn liberty:run
+```

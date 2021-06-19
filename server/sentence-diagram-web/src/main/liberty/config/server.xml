@@ -34,8 +34,8 @@
 
   <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-  <webApplication context-root="/" id="sentence-diagram-web" location="sentence-diagram-web.war" name="sentence-diagram-web"/>
-
   <keyStore password="password"/>
   <!-- <applicationMonitor dropinsEnabled="false" updateTrigger="mbean"/> -->
+
+  <webApplication id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/"/>
 </server>

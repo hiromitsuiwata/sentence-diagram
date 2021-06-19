@@ -61,6 +61,8 @@ public class UserResource {
 
   private String issueToken(String login) {
     String uriInfo = "mysite";
+    logger.info(holder.toString());
+    logger.info(holder.getKeyPair().toString());
     Key key = holder.getKeyPair().getPrivate();
     return Jwts.builder().setSubject(login).setIssuer(uriInfo).setIssuedAt(new Date())
         .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L))).signWith(key, SignatureAlgorithm.RS512).compact();

@@ -75,6 +75,14 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+    </dependency>
   </dependencies>
 
 
@@ -124,7 +132,29 @@
       <plugin>
         <groupId>io.openliberty.tools</groupId>
         <artifactId>liberty-maven-plugin</artifactId>
-        <version>3.2.3</version>
+        <version>3.3.4</version>
+        <executions>
+          <execution>
+            <id>deploy</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+            <configuration>
+              <appsDirectory>apps</appsDirectory>
+              <stripVersion>true</stripVersion>
+              <deployPackages>project</deployPackages>
+              <looseApplication>true</looseApplication>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <runtimeArtifact>
+            <groupId>io.openliberty</groupId>
+            <artifactId>openliberty-kernel</artifactId>
+            <version>21.0.0.6</version>
+          </runtimeArtifact>
+        </configuration>
       </plugin>
     </plugins>
   </build>
