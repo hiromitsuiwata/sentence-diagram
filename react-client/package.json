@@ -9,16 +9,16 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@fortawesome/react-fontawesome": "^0.1.11",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^12.1.2",
     "@types/jest": "^26.0.23",
     "@types/lodash": "^4.14.170",
-    "@types/node": "^14.6.0",
-    "@types/react": "^16.9.46",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.5",
+    "@types/node": "^15.12.4",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.8",
+    "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.1",
     "react": "^17.0.2",
@@ -66,7 +66,8 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "jest-sonar-reporter": "^2.0.0",
     "prettier": "^2.0.5",
-    "sonarqube-scanner": "^2.8.1"
+    "sonarqube-scanner": "^2.8.1",
+    "webpack": "4.42.0"
   },
   "proxy": "http://localhost:9080"
 }
