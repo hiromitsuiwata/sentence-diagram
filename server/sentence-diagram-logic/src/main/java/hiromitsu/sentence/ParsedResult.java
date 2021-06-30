@@ -1,6 +1,7 @@
 package hiromitsu.sentence;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class ParsedResult {
    */
   public String toPrettyJSON() {
     String json = this.toJSON();
-    return JsonUtility.toPrettyJSON(json);
+    return JsonUtility.toJSON(json);
   }
 
   /**
@@ -87,6 +88,24 @@ public class ParsedResult {
     for (Edge edge : edgeList) {
       sb.append(edge.toPrettyString()).append(",").append(LINE_SEPARETOR);
     }
+    return sb.toString();
+  }
+
+  public String toDepString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(LINE_SEPARETOR);
+
+    for (int i = 0; i < wordList.size(); i++) {
+      sb.append("Word: [").append(i + 1).append("]: ").append(wordList.get(i)).append(LINE_SEPARETOR);
+    }
+
+    Iterator<Dep> ite = dependencies.iterator();
+    while (ite.hasNext()) {
+      Dep dep = ite.next();
+      sb.append("Dep: ").append(dep.getFrom()).append("---").append(dep.getRelation()).append("--->")
+          .append(dep.getTo()).append(LINE_SEPARETOR);
+    }
+
     return sb.toString();
   }
 

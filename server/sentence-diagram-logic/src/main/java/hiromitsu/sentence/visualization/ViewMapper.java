@@ -126,6 +126,6 @@ public class ViewMapper {
 
   public String toJSON() {
     Gson gson = new Gson();
-    return JsonUtility.toPrettyJSON(gson.toJson(this));
+    return JsonUtility.toJSON(gson.toJson(this));
   }
 }
