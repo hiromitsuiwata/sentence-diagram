@@ -15,6 +15,8 @@ import javax.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
 /**
@@ -45,8 +47,10 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
       // Validate the token
       Key key = holder.getKeyPair().getPublic();
       // https://github.com/jwtk/jjwt/pull/346
-      Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+      Jws<Claims> claim = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
       logger.info("valid token: {}", token);
+      logger.info("claim header: {}, date: {}, body: {}, subject: {}", claim.getHeader().toString(),
+          claim.getBody().getIssuedAt().toString(), claim.getBody(), claim.getBody().getSubject());
 
     } catch (Exception e) {
       logger.error("invalid token: {}", token);

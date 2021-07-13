@@ -1,5 +1,6 @@
 package hiromitsu.sentence.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,6 +11,9 @@ import javax.transaction.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import hiromitsu.sentence.Analyzer;
 import hiromitsu.sentence.ParsedResult;
@@ -23,12 +27,14 @@ import hiromitsu.sentence.visualization.ViewNode;
 @Transactional
 public class SentenceService {
 
+  private static Logger logger = LoggerFactory.getLogger(SentenceService.class);
+
   @PersistenceContext
   private EntityManager em;
 
   /**
    * DBに文を登録する
-   * 
+   *
    * @param sentence
    * @return 自動採番された主キー(id)を含むsentence
    */
@@ -39,17 +45,21 @@ public class SentenceService {
 
   /**
    * 全件検索する
-   * 
+   *
    * @return 検索結果
    */
   public List<Sentence> findAll() {
+    if (em == null) {
+      logger.info("entityManager is null");
+      return new ArrayList<>();
+    }
     TypedQuery<Sentence> query = em.createNamedQuery("Sentence.findAll", Sentence.class);
     return query.getResultList();
   }
 
   /**
    * 主キー検索する
-   * 
+   *
    * @param id 主キー
    * @return 検索結果
    */
@@ -59,7 +69,7 @@ public class SentenceService {
 
   /**
    * 主キーで削除する
-   * 
+   *
    * @param id 主キー
    * @return 検索結果
    */

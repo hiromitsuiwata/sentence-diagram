@@ -102,8 +102,12 @@ public class ParsedResult {
     Iterator<Dep> ite = dependencies.iterator();
     while (ite.hasNext()) {
       Dep dep = ite.next();
-      sb.append("Dep: ").append(dep.getFrom()).append("---").append(dep.getRelation()).append("--->")
-          .append(dep.getTo()).append(LINE_SEPARETOR);
+      int from = dep.getFrom();
+      int to = dep.getTo();
+      String fromToken = wordList.get(from - 1).getToken();
+      String toToken = wordList.get(to - 1).getToken();
+      sb.append("Dep: [").append(from).append("]").append(fromToken).append("---").append(dep.getRelation())
+          .append("--->[").append(to).append("]").append(toToken).append(LINE_SEPARETOR);
     }
 
     return sb.toString();
