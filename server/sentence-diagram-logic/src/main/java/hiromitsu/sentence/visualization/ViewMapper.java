@@ -80,7 +80,6 @@ public class ViewMapper {
     }
   }
 
-  @Deprecated
   public ViewMapper(ParsedResult r) {
 
     List<Edge> edgeList = r.getEdgeList();
