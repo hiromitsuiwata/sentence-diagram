@@ -21,7 +21,7 @@ const HomeHeader: React.FC<Props> = (props) => {
 
   const login = () => {
     // TODO ユーザーの入力を使う
-    props.loginHandler('user', 'password');
+    props.loginHandler('myuser', 'mypassword');
   };
 
   return (

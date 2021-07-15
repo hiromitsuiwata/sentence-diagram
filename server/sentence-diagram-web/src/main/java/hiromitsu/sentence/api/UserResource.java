@@ -42,10 +42,10 @@ public class UserResource {
   @POST
   @Path("login")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public Response authenticateUser(@FormParam("login") String login, @FormParam("password") String password) {
+  public Response authenticateUser(@FormParam("user") String user, @FormParam("password") String password) {
     try {
-      authenticate(login, password);
-      String token = issueToken(login);
+      authenticate(user, password);
+      String token = issueToken(user);
       // TODO テスト時はSecure;をつけない
       String cookie = String.format("%s=%s; max-age=3600; Path=/; HttpOnly; SameSite=strict;", "jwt-token", token);
       return Response.ok().header("Set-Cookie", cookie).build();
@@ -55,17 +55,18 @@ public class UserResource {
     }
   }
 
-  private void authenticate(String login, String password) {
+  private void authenticate(String user, String password) {
     // TODO テスト用に必ず成功するようにしておく
   }
 
-  private String issueToken(String login) {
+  private String issueToken(String user) {
     String uriInfo = "mysite";
     logger.info(holder.toString());
     logger.info(holder.getKeyPair().toString());
     Key key = holder.getKeyPair().getPrivate();
-    return Jwts.builder().setSubject(login).setIssuer(uriInfo).setIssuedAt(new Date())
-        .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L))).signWith(key, SignatureAlgorithm.RS512).compact();
+    return Jwts.builder().setSubject(user).setIssuer(uriInfo).setIssuedAt(new Date()).claim("fooName", "fooValue")
+        .claim("barName", "barValue").setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
+        .signWith(key, SignatureAlgorithm.RS512).compact();
   }
 
   private Date toDate(LocalDateTime localDateTime) {
