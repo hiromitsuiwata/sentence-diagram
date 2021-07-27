@@ -18,6 +18,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +47,11 @@ public class UserResource {
   @POST
   @Path("login")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public Response authenticateUser(@FormParam("user") String user, @FormParam("password") String password) {
+  @APIResponse(responseCode = "200", description = "ログイン成功")
+  @Operation(summary = "ログインする", description = "ログインを試み成功した場合はトークンをCookieに設定する")
+  public Response authenticateUser(
+      @Parameter(description = "ユーザーID", required = true, example = "John", schema = @Schema(type = SchemaType.STRING)) @FormParam("user") String user,
+      @Parameter(description = "パスワード", required = true, schema = @Schema(type = SchemaType.STRING)) @FormParam("password") String password) {
     try {
       authenticate(user, password);
       String token = issueToken(user);

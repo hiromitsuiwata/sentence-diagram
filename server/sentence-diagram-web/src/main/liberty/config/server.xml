@@ -10,32 +10,34 @@
     <feature>cdi-2.0</feature>
     <feature>jndi-1.0</feature>
     <feature>jaxrs-2.1</feature>
-    <feature>mpMetrics-2.3</feature>
-    <feature>mpHealth-2.2</feature>
+    <feature>mpConfig-2.0</feature>
+    <feature>mpHealth-3.0</feature>
+    <feature>mpMetrics-3.0</feature>
+    <feature>mpOpenAPI-2.0</feature>
   </featureManager>
 
   <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint">
-    <accessLogging/>
+    <accessLogging />
   </httpEndpoint>
 
-  <applicationManager autoExpand="false" startTimeout="180s" stopTimeout="60s"/>
+  <applicationManager autoExpand="false" startTimeout="180s" stopTimeout="60s" />
 
-  <monitor filter="JVM,ThreadPool,WebContainer,Session,ConnectionPool,REST"/>
-  <mpMetrics authentication="false"/>
+  <monitor filter="JVM,ThreadPool,WebContainer,Session,ConnectionPool,REST" />
+  <mpMetrics authentication="false" />
 
   <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
     <jdbcDriver>
       <library>
-        <fileset dir="/Users/hiro/dev/github/sentence-diagram/container/liberty" includes="postgresql-42.2.14.jar"/>
+        <fileset dir="/Users/hiro/dev/github/sentence-diagram/container/liberty" includes="postgresql-42.2.14.jar" />
       </library>
     </jdbcDriver>
-    <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}"/>
+    <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}" />
   </dataSource>
 
-  <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider"/>
+  <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider" />
 
-  <keyStore password="password"/>
+  <keyStore password="password" />
   <!-- <applicationMonitor dropinsEnabled="false" updateTrigger="mbean"/> -->
 
-  <webApplication id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/"/>
+  <webApplication id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/" />
 </server>

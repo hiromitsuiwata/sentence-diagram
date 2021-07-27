@@ -17,6 +17,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +48,9 @@ public class SentenceResource {
 
   @GET
   @SimplyTimed(name = "sentenceGetTime")
+  @APIResponse(responseCode = "200", description = "sentence配列", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = Sentence.class)))
+  @APIResponse(responseCode = "401", description = "認証エラー")
+  @Operation(summary = "全sentenceを取得する", description = "DBに登録済みの全sentenceを取得する。ログイン必要。")
   public Response getSentences() {
     List<Sentence> list = sentenceService.findAll();
 
