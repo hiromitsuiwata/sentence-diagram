@@ -48,9 +48,9 @@ public class UserResource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @APIResponse(responseCode = "200", description = "ログイン成功")
-  @Operation(summary = "ログインする", description = "ログインを試み成功した場合はトークンをCookieに設定する")
+  @Operation(summary = "ログインする", description = "ログインを試み、成功した場合はトークンをCookieに設定する")
   public Response authenticateUser(
-      @Parameter(description = "ユーザーID", required = true, example = "John", schema = @Schema(type = SchemaType.STRING)) @FormParam("user") String user,
+      @Parameter(description = "ユーザーID", required = true, schema = @Schema(type = SchemaType.STRING)) @FormParam("user") String user,
       @Parameter(description = "パスワード", required = true, schema = @Schema(type = SchemaType.STRING)) @FormParam("password") String password) {
     try {
       authenticate(user, password);
