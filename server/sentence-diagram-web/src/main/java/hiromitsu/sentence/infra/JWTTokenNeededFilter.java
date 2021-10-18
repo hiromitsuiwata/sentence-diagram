@@ -12,8 +12,8 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -27,7 +27,7 @@ import io.jsonwebtoken.Jwts;
 @Priority(Priorities.AUTHENTICATION)
 public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
-  private static Logger logger = LoggerFactory.getLogger(JWTTokenNeededFilter.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   @Inject
   private KeyHolder holder;
@@ -48,12 +48,12 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
       Key key = holder.getKeyPair().getPublic();
       // https://github.com/jwtk/jjwt/pull/346
       Jws<Claims> claim = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-      logger.info("valid token: {}", token);
-      logger.info("claim header: {}, date: {}, body: {}, subject: {}", claim.getHeader().toString(),
+      LOGGER.info("valid token: {}", token);
+      LOGGER.info("claim header: {}, date: {}, body: {}, subject: {}", claim.getHeader().toString(),
           claim.getBody().getIssuedAt().toString(), claim.getBody(), claim.getBody().getSubject());
 
     } catch (Exception e) {
-      logger.error("invalid token: {}", token);
+      LOGGER.error("invalid token: {}", token);
       requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }
   }

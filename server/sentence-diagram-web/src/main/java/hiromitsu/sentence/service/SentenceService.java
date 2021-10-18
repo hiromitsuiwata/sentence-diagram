@@ -12,8 +12,8 @@ import javax.transaction.Transactional;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import hiromitsu.sentence.Analyzer;
 import hiromitsu.sentence.ParsedResult;
@@ -27,7 +27,7 @@ import hiromitsu.sentence.visualization.ViewNode;
 @Transactional
 public class SentenceService {
 
-  private static Logger logger = LoggerFactory.getLogger(SentenceService.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   @PersistenceContext
   private EntityManager em;
@@ -50,7 +50,7 @@ public class SentenceService {
    */
   public List<Sentence> findAll() {
     if (em == null) {
-      logger.info("entityManager is null");
+      LOGGER.info("entityManager is null");
       return new ArrayList<>();
     }
     TypedQuery<Sentence> query = em.createNamedQuery("Sentence.findAll", Sentence.class);

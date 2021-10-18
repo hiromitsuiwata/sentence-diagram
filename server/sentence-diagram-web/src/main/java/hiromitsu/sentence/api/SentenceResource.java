@@ -24,8 +24,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
 
@@ -43,7 +43,7 @@ import hiromitsu.sentence.service.SentenceService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class SentenceResource {
 
-  private static Logger logger = LoggerFactory.getLogger(SentenceResource.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   @Inject
   private SentenceService sentenceService;
@@ -58,7 +58,7 @@ public class SentenceResource {
 
     Gson gson = new Gson();
     String json = gson.toJson(list);
-    logger.info(json);
+    LOGGER.info(json);
 
     return Response.ok(json).build();
   }
@@ -69,7 +69,7 @@ public class SentenceResource {
   @Operation(summary = "sentenceを削除する", description = "指定したsentenceを削除する")
   public Response delete(
       @Parameter(description = "sentence ID", required = true, schema = @Schema(type = SchemaType.STRING)) @PathParam("id") Long id) {
-    logger.info("delete: {}", id);
+    LOGGER.info("delete: {}", id);
     sentenceService.delete(id);
     return Response.ok().build();
   }
@@ -79,12 +79,12 @@ public class SentenceResource {
   @APIResponse(responseCode = "200", description = "検索にヒットしたsentence", content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = Sentence.class)))
   @Operation(summary = "sentenceを検索する", description = "条件を指定してsentenceを検索する")
   public Response searchSentences(@QueryParam("q") String query) {
-    logger.info("query: {}", query);
+    LOGGER.info("query: {}", query);
 
     List<Sentence> list = sentenceService.search(query);
     Gson gson = new Gson();
     String json = gson.toJson(list);
-    logger.info(json);
+    LOGGER.info(json);
 
     return Response.ok(json).build();
   }
@@ -94,17 +94,17 @@ public class SentenceResource {
   @Operation(summary = "sentenceを登録する", description = "sentenceを登録する")
   public Response createSentence(
       @RequestBody(description = "登録するsentence", required = true, content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.OBJECT, implementation = Sentence.class))) String request) {
-    logger.info(request);
+    LOGGER.info(request);
 
     Gson gson = new Gson();
     Sentence sentence = gson.fromJson(request, Sentence.class);
     Sentence result = sentenceService.create(sentence);
 
     String json = gson.toJson(result);
-    logger.info(json);
+    LOGGER.info(json);
 
     Response response = Response.ok(json).build();
-    logger.info("response: {}", response);
+    LOGGER.info("response: {}", response);
     return response;
   }
 
@@ -115,9 +115,9 @@ public class SentenceResource {
   @Operation(summary = "diagramを作成する", description = "指定したsentenceのdiagramを作成する")
   public Response createDiagram(
       @Parameter(description = "sentence ID", required = true, schema = @Schema(type = SchemaType.STRING)) @PathParam("id") long id) {
-    logger.info("id: {}", id);
+    LOGGER.info("id: {}", id);
     String json = sentenceService.createDiagram(id);
-    logger.info(json);
+    LOGGER.info(json);
     return Response.ok(json).build();
   }
 }

@@ -4,8 +4,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -17,7 +17,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @ApplicationScoped
 public class RedisConnector {
 
-  private static Logger logger = LoggerFactory.getLogger(RedisConnector.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   private JedisPool pool;
 
@@ -37,14 +37,14 @@ public class RedisConnector {
   }
 
   public void set(String key, String value) {
-    logger.info("Redisに値を設定: key: {}, value: {}", key, value);
+    LOGGER.info("Redisに値を設定: key: {}, value: {}", key, value);
     try (Jedis jedis = pool.getResource()) {
       jedis.set(key, value);
     }
   }
 
   public String get(String key) {
-    logger.info("Redisから値を取得: key: {}", key);
+    LOGGER.info("Redisから値を取得: key: {}", key);
     try (Jedis jedis = pool.getResource()) {
       return jedis.get(key);
     }

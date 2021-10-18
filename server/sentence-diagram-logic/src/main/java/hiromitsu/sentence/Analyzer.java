@@ -2,8 +2,8 @@ package hiromitsu.sentence;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import hiromitsu.sentence.rule.AdvmodNmodTmodNeg;
 import hiromitsu.sentence.rule.AuxAndAuxpass;
@@ -18,7 +18,7 @@ import hiromitsu.sentence.rule.NsubjAndNsubjpass;
  */
 public class Analyzer {
 
-  private static Logger logger = LoggerFactory.getLogger(Analyzer.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   private Analyzer() {
   }
@@ -34,8 +34,8 @@ public class Analyzer {
     List<ParsedResult> results = wrapper.parse(text);
 
     for (ParsedResult r : results) {
-      if (logger.isInfoEnabled()) {
-        logger.info(r.toDepString());
+      if (LOGGER.isInfoEnabled()) {
+        LOGGER.info(r.toDepString());
       }
 
       Case.execute(r);

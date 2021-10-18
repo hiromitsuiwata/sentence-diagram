@@ -23,8 +23,8 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import hiromitsu.sentence.infra.KeyHolder;
 import io.jsonwebtoken.Jwts;
@@ -42,7 +42,7 @@ public class UserResource {
   @Inject
   private KeyHolder holder;
 
-  private static Logger logger = LoggerFactory.getLogger(UserResource.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   @POST
   @Path("login")
@@ -59,7 +59,7 @@ public class UserResource {
       String cookie = String.format("%s=%s; max-age=3600; Path=/; HttpOnly; SameSite=strict;", "jwt-token", token);
       return Response.ok().header("Set-Cookie", cookie).build();
     } catch (Exception e) {
-      logger.error("authentication error", e);
+      LOGGER.error("authentication error", e);
       return Response.status(Status.UNAUTHORIZED).build();
     }
   }
@@ -70,8 +70,8 @@ public class UserResource {
 
   private String issueToken(String user) {
     String uriInfo = "mysite";
-    logger.info(holder.toString());
-    logger.info(holder.getKeyPair().toString());
+    LOGGER.info(holder.toString());
+    LOGGER.info(holder.getKeyPair().toString());
     Key key = holder.getKeyPair().getPrivate();
     return Jwts.builder().setSubject(user).setIssuer(uriInfo).setIssuedAt(new Date()).claim("fooName", "fooValue")
         .claim("barName", "barValue").setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))

@@ -13,8 +13,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -26,7 +26,7 @@ import io.jsonwebtoken.security.Keys;
 @ApplicationScoped
 public class KeyHolder {
 
-  private static Logger logger = LoggerFactory.getLogger(KeyHolder.class);
+  private static final Logger LOGGER = LogManager.getLogger();
 
   @Inject
   private RedisConnector redisConnector;
@@ -41,15 +41,15 @@ public class KeyHolder {
   public void postConstruct() {
     String value = redisConnector.get("keyPair");
     if (value != null && !value.isEmpty()) {
-      logger.info("Redisに登録済みのkeyPairを取得: 長さ: {}", value.length());
-      logger.info("見つかったkeyPairを復元");
+      LOGGER.info("Redisに登録済みのkeyPairを取得: 長さ: {}", value.length());
+      LOGGER.info("見つかったkeyPairを復元");
       KeyPair kp = deserializeKeyPair(value);
       this.keyPair = kp;
     } else {
-      logger.info("Redisに登録済みkeyPairがないため新規作成したkeyPairをセット");
+      LOGGER.info("Redisに登録済みkeyPairがないため新規作成したkeyPairをセット");
       KeyPair newKeyPair = Keys.keyPairFor(SignatureAlgorithm.RS512);
       String serializedKeyPair = serializeKeyPair(newKeyPair);
-      logger.info("シリアライズしたkeyPair: 長さ: {}", serializedKeyPair.length());
+      LOGGER.info("シリアライズしたkeyPair: 長さ: {}", serializedKeyPair.length());
       redisConnector.set("keyPair", serializedKeyPair);
       this.keyPair = newKeyPair;
     }
@@ -65,7 +65,7 @@ public class KeyHolder {
       oos.writeObject(kp);
       oos.flush();
     } catch (IOException e) {
-      logger.error("serialization error", e);
+      LOGGER.error("serialization error", e);
     }
 
     byte[] bytes = baos.toByteArray();
