@@ -62,7 +62,7 @@ class Home extends React.Component<Props, State> {
   componentDidMount(): void {
     axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     axios
-      .get('/api/sentences')
+      .get<CardContent[]>('/api/sentences')
       .then((response) => {
         console.log({
           response: response,
@@ -149,7 +149,7 @@ class Home extends React.Component<Props, State> {
     //axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
-      .post('/api/sentences', {
+      .post<CardContent>('/api/sentences', {
         title,
         text,
         url,
@@ -199,7 +199,7 @@ class Home extends React.Component<Props, State> {
     //axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
     // テスト用にドメインを指定
     axios
-      .get('/api/sentences/search', {
+      .get<CardContent[]>('/api/sentences/search', {
         params: {
           q: keyword,
         },

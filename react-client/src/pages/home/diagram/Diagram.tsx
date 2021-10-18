@@ -101,7 +101,6 @@ class Diagram extends React.Component<Props, State> {
   private moveUsingDependencies = (): void => {
     // 文法上の依存関係から始点と終点をまとめて平行移動する
     // ツリー構造の親から順番に実行していく必要がある
-
     // ルートを探す
     let root: Word = { id: 0, text: '' };
     for (let id = 0; id < this.state.words.length; id++) {
@@ -173,7 +172,7 @@ class Diagram extends React.Component<Props, State> {
   };
 
   private fetchData = async () => {
-    const result = await axios.put('/api/sentences/' + this.props.id + '/diagram');
+    const result = await axios.put<Word[]>('/api/sentences/' + this.props.id + '/diagram');
     console.log(result.data);
     this.setState({ words: result.data });
     this.setState({ loading: false });

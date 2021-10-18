@@ -26,7 +26,6 @@ class AnalyzerTest {
   void subjectAndVerb2() {
     String text = "Bill was watched.";
     List<ParsedResult> results = Analyzer.analyze(text);
-    assertEquals("was watched--nsubj-->Bill", results.get(0).getEdgeList().get(0).toPrettyString());
     printResult(results);
   }
 
@@ -52,8 +51,8 @@ class AnalyzerTest {
     List<ParsedResult> results = Analyzer.analyze(text);
     List<Edge> edgeList = results.get(0).getEdgeList();
     assertEquals("Bill 's--nmod_poss-->brother", edgeList.get(0).toPrettyString());
-    assertEquals("Where--advmod-->is sitting", edgeList.get(1).toPrettyString());
-    assertEquals("is sitting--nsubj-->brother", edgeList.get(2).toPrettyString());
+    assertEquals("Where--advmod-->is", edgeList.get(1).toPrettyString());
+    assertEquals("is--nsubj-->brother", edgeList.get(2).toPrettyString());
     printResult(results);
   }
 
@@ -79,9 +78,8 @@ class AnalyzerTest {
   void negNmodTmod() {
     String text = "I will not drive tomorrow.";
     List<ParsedResult> results = Analyzer.analyze(text);
-    assertEquals("not--neg-->will drive", results.get(0).getEdgeList().get(0).toPrettyString());
-    assertEquals("tomorrow--nmod_tmod-->will drive", results.get(0).getEdgeList().get(1).toPrettyString());
-    assertEquals("will drive--nsubj-->I", results.get(0).getEdgeList().get(2).toPrettyString());
+    assertEquals("not--advmod-->will drive", results.get(0).getEdgeList().get(0).toPrettyString());
+    assertEquals("will drive--nsubj-->I", results.get(0).getEdgeList().get(1).toPrettyString());
   }
 
   @Test
@@ -89,8 +87,7 @@ class AnalyzerTest {
     String text = "Roger sent a package.";
     List<ParsedResult> results = Analyzer.analyze(text);
     assertEquals("a--det-->package", results.get(0).getEdgeList().get(0).toPrettyString());
-    assertEquals("package--dobj-->sent", results.get(0).getEdgeList().get(1).toPrettyString());
-    assertEquals("sent--nsubj-->Roger", results.get(0).getEdgeList().get(2).toPrettyString());
+    assertEquals("sent--nsubj-->Roger", results.get(0).getEdgeList().get(1).toPrettyString());
   }
 
   private void printResult(List<ParsedResult> results) {
