@@ -3,6 +3,10 @@
 - [Stanford typed dependencies manual](https://nlp.stanford.edu/software/dependencies_manual.pdf)
 - [Universal Dependencies](https://universaldependencies.org/u/dep/all.html)
 
+## Jaeger
+
+http://docker-machine:16686/
+
 ## 実行方法
 
 ```bash

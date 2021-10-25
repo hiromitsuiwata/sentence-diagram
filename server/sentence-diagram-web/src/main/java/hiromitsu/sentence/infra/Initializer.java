@@ -4,6 +4,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import io.opentracing.contrib.jdbc.TracingDriver;
+
 /**
  * 初期化
  */
@@ -12,7 +14,7 @@ public class Initializer implements ServletContextListener {
 
   @Override
   public void contextInitialized(ServletContextEvent ev) {
-    // no-op
+    TracingDriver.setInterceptorMode(true);
   }
 
   @Override

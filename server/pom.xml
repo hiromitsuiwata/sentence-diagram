@@ -12,6 +12,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>11</java.version>
     <dependency.locations.enabled>false</dependency.locations.enabled>
+    <liberty.env.JAEGER_SAMPLER_TYPE>const</liberty.env.JAEGER_SAMPLER_TYPE>
+    <liberty.env.JAEGER_SAMPLER_PARAM>1</liberty.env.JAEGER_SAMPLER_PARAM>
   </properties>
 
   <modules>
@@ -44,12 +46,12 @@
       <dependency>
         <groupId>edu.stanford.nlp</groupId>
         <artifactId>stanford-corenlp</artifactId>
-        <version>4.3.0</version>
+        <version>4.3.1</version>
       </dependency>
       <dependency>
         <groupId>edu.stanford.nlp</groupId>
         <artifactId>stanford-corenlp</artifactId>
-        <version>4.3.0</version>
+        <version>4.3.1</version>
         <classifier>models</classifier>
       </dependency>
       <dependency>
@@ -118,6 +120,16 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.11.0</version>
+      </dependency>
+      <dependency>
+        <groupId>io.jaegertracing</groupId>
+        <artifactId>jaeger-client</artifactId>
+        <version>1.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>io.opentracing.contrib</groupId>
+        <artifactId>opentracing-jdbc</artifactId>
+        <version>0.2.15</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

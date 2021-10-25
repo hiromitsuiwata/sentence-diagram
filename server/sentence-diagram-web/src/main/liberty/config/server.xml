@@ -14,6 +14,7 @@
     <feature>mpHealth-3.0</feature>
     <feature>mpMetrics-3.0</feature>
     <feature>mpOpenAPI-2.0</feature>
+    <feature>mpOpenTracing-2.0</feature>
   </featureManager>
 
   <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint">
@@ -28,10 +29,10 @@
   <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
     <jdbcDriver>
       <library>
-        <fileset dir="/Users/hiro/dev/github/sentence-diagram/container/liberty" includes="postgresql-42.2.14.jar" />
+        <fileset dir="/Users/hiro/dev/github/sentence-diagram/container/liberty" includes="postgresql-42.3.0.jar" />
       </library>
     </jdbcDriver>
-    <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}" />
+    <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}" user="${DB_USER}" password="${DB_PASSWORD}" />
   </dataSource>
 
   <jpa defaultJtaDataSourceJndiName="jdbc/postgres" defaultNonJtaDataSourceJndiName="jdbc/postgres" defaultPersistenceProvider="org.eclipse.persistence.jpa.PersistenceProvider" />
@@ -39,5 +40,7 @@
   <keyStore password="password" />
   <!-- <applicationMonitor dropinsEnabled="false" updateTrigger="mbean"/> -->
 
-  <webApplication id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/" />
+  <webApplication id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/">
+    <classloader apiTypeVisibility="+third-party" />
+  </webApplication>
 </server>
