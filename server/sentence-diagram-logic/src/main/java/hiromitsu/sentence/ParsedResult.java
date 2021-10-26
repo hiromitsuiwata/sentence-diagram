@@ -23,7 +23,7 @@ public class ParsedResult {
 
   private String originalSentence;
   private String constituentyText;
-  private Set<Con> constituents;
+  private Set<Constituency> constituents;
   private Set<Dep> dependencies;
   private List<Word> wordList;
   private List<Node> nodeList = new ArrayList<>();

@@ -65,7 +65,7 @@ public class CoreNLPWrapper {
       // 構成素
       Tree constituencyParse = s.constituencyParse();
       result.setConstituentyText(constituencyParse.toString());
-      Set<Con> cons = createConstituentSet(constituencyParse);
+      Set<Constituency> cons = createConstituentSet(constituencyParse);
       result.setConstituents(cons);
 
       // 依存関係
@@ -113,14 +113,14 @@ public class CoreNLPWrapper {
     return dependencies;
   }
 
-  private Set<Con> createConstituentSet(Tree constituencyParse) {
+  private Set<Constituency> createConstituentSet(Tree constituencyParse) {
     // Constituents
     Set<Constituent> constituentSet = constituencyParse.constituents(new LabeledScoredConstituentFactory());
     Iterator<Constituent> ite = constituentSet.iterator();
-    Set<Con> conSet = new HashSet<>();
+    Set<Constituency> conSet = new HashSet<>();
     while (ite.hasNext()) {
       Constituent constituent = ite.next();
-      Con con = new Con(constituent.start(), constituent.end(), constituent.label().toString());
+      Constituency con = new Constituency(constituent.start(), constituent.end(), constituent.label().toString());
       conSet.add(con);
     }
     return conSet;

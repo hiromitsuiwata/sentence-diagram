@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @AllArgsConstructor
 @Data
-public class Con {
+public class Constituency {
 
   private int start;
   private int end;
