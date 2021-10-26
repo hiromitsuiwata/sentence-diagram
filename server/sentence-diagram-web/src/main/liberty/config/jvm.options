@@ -1,17 +1,18 @@
--javaagent:/Users/hiro/Downloads/opentelemetry-javaagent-all.jar
+-javaagent:/mnt/c/Users/hiro/Downloads/opentelemetry-javaagent-all.jar
 
 -Duser.language=en
 -Duser.country=US
 
--DREDIS_HOST=docker-machine
+-DREDIS_HOST=localhost
 
--DDB_HOST=docker-machine
+-DDB_HOST=localhost
 -DDB_PORT=5432
 -DDB_USER=myuser
 -DDB_PASSWORD=mypassword
 -DDB_DBNAME=mydb
 
--DOTEL_TRACES_EXPORTER=jaeger
--DOTEL_EXPORTER_JAEGER_AGENT_HOST=docker-machine
--DOTEL_EXPORTER_JAEGER_AGENT_PORT=6831
--DOTEL_EXPORTER_JAEGER_ENDPOINT=http://docker-machine:14250
+-DOTEL_TRACES_EXPORTER=otlp
+-DOTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+-DOTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:4317
+-DOTEL_EXPORTER_OTLP_PROTOCOL=grpc
+-DOTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc

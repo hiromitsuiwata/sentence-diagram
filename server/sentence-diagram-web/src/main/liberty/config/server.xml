@@ -28,7 +28,7 @@
   <dataSource isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/postgres" supplementalJDBCTrace="true">
     <jdbcDriver>
       <library>
-        <fileset dir="/Users/hiro/dev/github/sentence-diagram/container/liberty" includes="postgresql-42.3.0.jar" />
+        <fileset dir="/mnt/c/Users/hiro/Downloads/" includes="postgresql-42.3.0.jar" />
       </library>
     </jdbcDriver>
     <properties databaseName="${DB_DBNAME}" portNumber="${DB_PORT}" serverName="${DB_HOST}" user="${DB_USER}" password="${DB_PASSWORD}" />
@@ -39,7 +39,6 @@
   <keyStore password="password" />
   <!-- <applicationMonitor dropinsEnabled="false" updateTrigger="mbean"/> -->
 
-  <webApplication id="sentence-diagram-web" location="/Users/hiro/dev/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/">
-    <classloader apiTypeVisibility="+third-party" />
+  <webApplication id="sentence-diagram-web" location="/mnt/c/github/sentence-diagram/server/sentence-diagram-web/target/sentence-diagram-web.war" name="sentence-diagram-web" contextRoot="/">
   </webApplication>
 </server>

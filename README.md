@@ -5,7 +5,7 @@
 
 ## Jaeger
 
-http://docker-machine:16686/
+http://localhost:16686/
 
 ## 実行方法
 
