@@ -14,8 +14,6 @@
       <property name="eclipselink.logging.parameters" value="true" />
       <!-- java.util.loggingへログ出力する -->
       <property name="eclipselink.logging.logger" value="JavaLogger" />
-      <property name="javax.persistence.jdbc.driver" value="io.opentracing.contrib.jdbc.TracingDriver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:tracing:jdbc:postgresql:database://docker-machine:5432/mydb" />
     </properties>
   </persistence-unit>
 </persistence>

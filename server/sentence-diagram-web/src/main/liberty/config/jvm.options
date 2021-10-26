@@ -1,3 +1,5 @@
+-javaagent:/Users/hiro/Downloads/opentelemetry-javaagent-all.jar
+
 -Duser.language=en
 -Duser.country=US
 
@@ -9,5 +11,7 @@
 -DDB_PASSWORD=mypassword
 -DDB_DBNAME=mydb
 
--DJAEGER_AGENT_HOST=docker-machine
--DJAEGER_AGENT_PORT=6831
+-DOTEL_TRACES_EXPORTER=jaeger
+-DOTEL_EXPORTER_JAEGER_AGENT_HOST=docker-machine
+-DOTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+-DOTEL_EXPORTER_JAEGER_ENDPOINT=http://docker-machine:14250
