@@ -11,8 +11,10 @@
 -DDB_PASSWORD=mypassword
 -DDB_DBNAME=mydb
 
--DOTEL_TRACES_EXPORTER=otlp
--DOTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
--DOTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://localhost:4317
--DOTEL_EXPORTER_OTLP_PROTOCOL=grpc
--DOTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
+#-Dotel.metrics.exporter=otlp
+#-Dotel.exporter.otlp.endpoint=http://localhost:4317
+#-Dotel.exporter.otlp.traces.endpoint=http://localhost:4317
+#-Dotel.exporter.otlp.protocol=grpc
+#-Dotel.exporter.otlp.traces.protocol=grpc
+-Dotel.traces.exporter=jaeger
+-Dotel.exporter.jaeger.endpoint=http://localhost:14250
