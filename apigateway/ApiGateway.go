@@ -54,6 +54,8 @@ func (p *proxyServer) ServeHTTP(frontWriter http.ResponseWriter, frontReq *http.
 		// TODO tokenの検証
 		// diagram service
 		backReq, err = createNewRequest(frontReq, "/api/diagram/", "http://localhost:9081")
+	} else if strings.Contains(frontReq.URL.String(), "/api/greeting/") {
+		backReq, err = createNewRequest(frontReq, "/api/greeting/", "http://localhost:9083")
 	} else {
 		// 静的ファイル
 		backReq, err = http.NewRequest(frontReq.Method, "http://localhost:3000"+frontReq.URL.String(), frontReq.Body)
@@ -88,7 +90,7 @@ func (p *proxyServer) ServeHTTP(frontWriter http.ResponseWriter, frontReq *http.
 }
 
 func main() {
-	var addr = flag.String("addr", "127.0.0.1:80", "The addr of the application.")
+	var addr = flag.String("addr", "127.0.0.1:2000", "The addr of the application.")
 	flag.Parse()
 
 	handler := &proxyServer{}
