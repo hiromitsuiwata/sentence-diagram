@@ -45,7 +45,7 @@ func (p *proxyServer) ServeHTTP(frontWriter http.ResponseWriter, frontReq *http.
 	var err error
 	if strings.Contains(frontReq.URL.String(), "/api/auth/") {
 		// auth service
-		backReq, err = createNewRequest(frontReq, "/api/auth/", "http://localhost:8000")
+		backReq, err = createNewRequest(frontReq, "/api/auth/", "http://localhost:9080")
 	} else if strings.Contains(frontReq.URL.String(), "/api/card/") {
 		// TODO tokenの検証
 		// card service
