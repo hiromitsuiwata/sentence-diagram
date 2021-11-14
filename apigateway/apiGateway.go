@@ -54,12 +54,20 @@ func (p *apiGateway) verifyToken(frontReq *http.Request) bool {
 
 	// アクセストークンを取得
 	access_token := strings.Trim(strings.Replace(frontReq.Header.Get("Authorization"), "Bearer", "", 1), " ")
-
-	// アクセストークンがない場合はfalseを返す
 	if access_token == "" {
-		log.Println("access_token is empty")
-		return false
+		cookie, err := frontReq.Cookie("ACCESS_TOKEN")
+		if err != nil {
+			log.Println("🚫cookie error:", err)
+		}
+		// アクセストークンがない場合はfalseを返す
+		if cookie.Value == "" {
+			log.Println("🚫access_token(Authorization and Cookie) is empty")
+			return false
+		} else {
+			access_token = cookie.Value
+		}
 	}
+
 	// アクセストークンが無効な場合も401応答
 	introspectionResult := introspectAccessToken(p.client_secret, authClient, access_token)
 	// アクセストークンが無効な場合はfalseを返す
@@ -140,14 +148,20 @@ func (p *apiGateway) ServeHTTP(frontWriter http.ResponseWriter, frontReq *http.R
 		// 検証に成功した場合、バックエンドへのリクエストを実行(diagram service)
 		backReq, err = createNewRequest(frontReq, "/api/diagram/", "http://localhost:9081")
 	} else if strings.Contains(frontReq.URL.String(), "/api/greeting/") {
-		// アクセストークンの検証
-		authorized := p.verifyToken(frontReq)
-		if !authorized {
-			p.responseUnauthorized(frontWriter)
-			return
+		// 認可コードが送信されてくるURL場合は、バックエンドへ通す
+		if strings.HasPrefix(frontReq.URL.String(), "/api/greeting/callback") {
+			//バックエンドへのリクエストを実行(greeting service)
+			backReq, err = createNewRequest(frontReq, "/api/greeting/", "http://localhost:9083")
+		} else {
+			// アクセストークンの検証
+			authorized := p.verifyToken(frontReq)
+			if !authorized {
+				p.responseUnauthorized(frontWriter)
+				return
+			}
+			// 検証に成功した場合、バックエンドへのリクエストを実行(greeting service)
+			backReq, err = createNewRequest(frontReq, "/api/greeting/", "http://localhost:9083")
 		}
-		// 検証に成功した場合、バックエンドへのリクエストを実行(greeting service)
-		backReq, err = createNewRequest(frontReq, "/api/greeting/", "http://localhost:9083")
 	} else {
 		// 静的ファイル
 		backReq, err = http.NewRequest(frontReq.Method, "http://localhost:3000"+frontReq.URL.String(), frontReq.Body)

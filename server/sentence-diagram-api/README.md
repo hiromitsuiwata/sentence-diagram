@@ -1,5 +1,3 @@
 ```bash
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.arguments=--client.secret=<client_secret>
 ```
-
-curl http://localhost:8080/hello?name=test
