@@ -15,15 +15,17 @@ import (
 )
 
 const (
-	DB_USER     = "postgres"
-	DB_PASSWORD = "12345678"
-	DB_NAME     = "movies"
+	HOST        = "localhost"
+	PORT        = 5432
+	DB_USER     = "myuser"
+	DB_PASSWORD = "mypassword"
+	DB_NAME     = "mydb"
 )
 
 // DB set up
 func setupDB() *sql.DB {
-	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", DB_USER, DB_PASSWORD, DB_NAME)
-	db, err := sql.Open("postgres", dbinfo)
+	connectionString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", HOST, PORT, DB_USER, DB_PASSWORD, DB_NAME)
+	db, err := sql.Open("postgres", connectionString)
 	checkErr(err)
 	return db
 }
@@ -43,33 +45,20 @@ func main() {
 	// ログ出力設定
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	// Init the mux router
+	// DBの初期化
+	InitDatabase()
+
 	router := mux.NewRouter()
 
 	// Route handles & endpoints
-
-	// Get all movies
 	router.HandleFunc("/movies/", GetMovies).Methods("GET")
-
-	// Create a movie
 	router.HandleFunc("/movies/", CreateMovie).Methods("POST")
-
-	// Delete a specific movie by the movieID
 	router.HandleFunc("/movies/{movieid}", DeleteMovie).Methods("DELETE")
-
-	// Delete all movies
 	router.HandleFunc("/movies/", DeleteMovies).Methods("DELETE")
 
 	// serve the app
-	fmt.Println("Server at 8080")
-	log.Fatal(http.ListenAndServe(":8000", router))
-}
-
-// Function for handling messages
-func printMessage(message string) {
-	fmt.Println("")
-	fmt.Println(message)
-	fmt.Println("")
+	log.Println("Server at 9080")
+	log.Fatal(http.ListenAndServe(":9080", router))
 }
 
 // Function for handling errors
@@ -79,18 +68,32 @@ func checkErr(err error) {
 	}
 }
 
-// Get all movies
+func InitDatabase() {
+	log.Println("Initializing database...")
+	db := setupDB()
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(10)
 
-// response and request handlers
+	// Create table
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS movies (id SERIAL PRIMARY KEY, movieID VARCHAR(255), movieName VARCHAR(255))")
+	checkErr(err)
+	_, err = db.Exec("DELETE FROM movies")
+	checkErr(err)
+	_, err = db.Exec("INSERT INTO movies(movieID, movieName) VALUES($1, $2)", 1, "The Shawshank Redemption")
+	checkErr(err)
+	_, err = db.Exec("INSERT INTO movies(movieID, movieName) VALUES($1, $2)", 2, "The Godfather")
+	checkErr(err)
+	_, err = db.Exec("INSERT INTO movies(movieID, movieName) VALUES($1, $2)", 3, "The Godfather: Part II")
+	checkErr(err)
+
+	log.Println("Database has been initialized successfully!")
+}
+
+// Get all movies
 func GetMovies(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
-
-	printMessage("Getting movies...")
-
-	// Get all movies from movies table that don't have movieID = "1"
+	log.Println("Getting movies...")
 	rows, err := db.Query("SELECT * FROM movies")
-
-	// check errors
 	checkErr(err)
 
 	// var response []JsonResponse
@@ -101,42 +104,30 @@ func GetMovies(w http.ResponseWriter, r *http.Request) {
 		var id int
 		var movieID string
 		var movieName string
-
 		err = rows.Scan(&id, &movieID, &movieName)
-
-		// check errors
 		checkErr(err)
-
 		movies = append(movies, Movie{MovieID: movieID, MovieName: movieName})
 	}
 
 	var response = JsonResponse{Type: "success", Data: movies}
-
 	json.NewEncoder(w).Encode(response)
 }
 
 // Create a movie
-
-// response and request handlers
 func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	movieID := r.FormValue("movieid")
 	movieName := r.FormValue("moviename")
-
 	var response = JsonResponse{}
 
 	if movieID == "" || movieName == "" {
 		response = JsonResponse{Type: "error", Message: "You are missing movieID or movieName parameter."}
 	} else {
 		db := setupDB()
-
-		printMessage("Inserting movie into DB")
-
-		fmt.Println("Inserting new movie with ID: " + movieID + " and name: " + movieName)
+		log.Println("Inserting movie into DB")
+		log.Println("Inserting new movie with ID: ", movieID, " and name: ", movieName)
 
 		var lastInsertID int
 		err := db.QueryRow("INSERT INTO movies(movieID, movieName) VALUES($1, $2) returning id;", movieID, movieName).Scan(&lastInsertID)
-
-		// check errors
 		checkErr(err)
 
 		response = JsonResponse{Type: "success", Message: "The movie has been inserted successfully!"}
@@ -146,27 +137,18 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 // Delete a movie
-
-// response and request handlers
 func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-
 	movieID := params["movieid"]
-
 	var response = JsonResponse{}
 
 	if movieID == "" {
 		response = JsonResponse{Type: "error", Message: "You are missing movieID parameter."}
 	} else {
 		db := setupDB()
-
-		printMessage("Deleting movie from DB")
-
+		log.Println("Deleting movie from DB")
 		_, err := db.Exec("DELETE FROM movies where movieID = $1", movieID)
-
-		// check errors
 		checkErr(err)
-
 		response = JsonResponse{Type: "success", Message: "The movie has been deleted successfully!"}
 	}
 
@@ -174,21 +156,13 @@ func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 // Delete all movies
-
-// response and request handlers
 func DeleteMovies(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
-
-	printMessage("Deleting all movies...")
-
+	log.Println("Deleting all movies...")
 	_, err := db.Exec("DELETE FROM movies")
-
-	// check errors
 	checkErr(err)
 
-	printMessage("All movies have been deleted successfully!")
-
+	log.Println("All movies have been deleted successfully!")
 	var response = JsonResponse{Type: "success", Message: "All movies have been deleted successfully!"}
-
 	json.NewEncoder(w).Encode(response)
 }
