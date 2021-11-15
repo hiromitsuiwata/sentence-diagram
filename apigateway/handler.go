@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -32,11 +33,13 @@ type Page struct {
 }
 
 // X-Forwarded-Forヘッダーを付与する
-func (p *apiGateway) appendHostToXForwardHeader(header http.Header, host string) {
-	if prior, ok := header["X-Forwarded-For"]; ok {
-		host = strings.Join(prior, ", ") + ", " + host
+func (p *apiGateway) appendHostToXForwardHeader(remoteAddr string, header http.Header) {
+	if clientIP, _, err := net.SplitHostPort(remoteAddr); err == nil {
+		if prior, ok := header["X-Forwarded-For"]; ok {
+			clientIP = strings.Join(prior, ", ") + ", " + clientIP
+		}
+		header.Set("X-Forwarded-For", clientIP)
 	}
-	header.Set("X-Forwarded-For", host)
 }
 
 // HTTPヘッダーをコピーする
@@ -58,8 +61,8 @@ func (p *apiGateway) verifyToken(frontReq *http.Request) bool {
 	authClient := &http.Client{}
 
 	// アクセストークンを取得
-	access_token := strings.Trim(strings.Replace(frontReq.Header.Get("Authorization"), "Bearer", "", 1), " ")
-	if access_token == "" {
+	accessToken := strings.Trim(strings.Replace(frontReq.Header.Get("Authorization"), "Bearer", "", 1), " ")
+	if accessToken == "" {
 		cookie, err := frontReq.Cookie("ACCESS_TOKEN")
 		if err != nil {
 			log.Println("🚫cookie error:", err)
@@ -70,21 +73,21 @@ func (p *apiGateway) verifyToken(frontReq *http.Request) bool {
 			log.Println("🚫access_token(Authorization and Cookie) is empty")
 			return false
 		} else {
-			access_token = cookie.Value
+			accessToken = cookie.Value
 		}
 	}
 
 	// アクセストークンが無効な場合も401応答
-	introspectionResult := p.introspectAccessToken(p.client_secret, authClient, access_token)
+	introspectionResult := p.introspectAccessToken(p.client_secret, authClient, accessToken)
 	// アクセストークンが無効な場合はfalseを返す
 	return introspectionResult.Active
 }
 
 // Keycloakのイントロスペクションエンドポイントにアクセストークンを送信して検証する
 // 検証結果はintrospectionResultで返し、Activeフィールドがtrueの場合は認可されている
-func (p *apiGateway) introspectAccessToken(client_secret string, client *http.Client, access_token string) introspectionResult {
+func (p *apiGateway) introspectAccessToken(clientSecret string, client *http.Client, accessToken string) introspectionResult {
 	url := "http://localhost:8080/auth/realms/sample_service/protocol/openid-connect/token/introspect"
-	parameter := "token=" + access_token + "&token_hint=access_token&client_id=sample_api_gateway&client_secret=" + client_secret
+	parameter := "token=" + accessToken + "&token_hint=access_token&client_id=sample_api_gateway&client_secret=" + clientSecret
 
 	body := strings.NewReader(parameter)
 	req, err := http.NewRequest("POST", url, body)
@@ -126,78 +129,81 @@ func (p *apiGateway) responseUnauthorized(frontWriter http.ResponseWriter) {
 	frontWriter.Write([]byte("401 Unauthorized"))
 }
 
+func (p *apiGateway) responseDummyPage(frontWriter http.ResponseWriter) {
+	// テスト用のダミーページ
+	page := Page{}
+	tmpl, err := template.ParseFiles("templete.html")
+	if err != nil {
+		log.Println("parse file error:", err)
+	}
+	err = tmpl.Execute(frontWriter, page)
+	if err != nil {
+		log.Println("execute template error:", err)
+	}
+
+	frontWriter.WriteHeader(http.StatusOK)
+}
+
 func (p *apiGateway) ServeHTTP(frontWriter http.ResponseWriter, frontReq *http.Request) {
 	log.Println("➡️", frontReq.RemoteAddr, " ", frontReq.Method, " ", frontReq.URL)
 
 	// バックエンドへの送信用のHTTPクライアントを生成
 	backendClient := &http.Client{}
 
-	// バックエンドへ送信するためのリクエストを生成
-	//var backendCandidate []backend
-
+	// 定義
 	var backReq *http.Request
 	var err error
-	if strings.Contains(frontReq.URL.String(), "/api/card/") {
-		// アクセストークンの検証
-		authorized := p.verifyToken(frontReq)
-		if !authorized {
-			p.responseUnauthorized(frontWriter)
-			return
-		}
-		// 検証に成功した場合、バックエンドへのリクエストを実行(card service)
-		backReq, err = p.createNewRequest(frontReq, "/api/card/", "http://localhost:9080")
-	} else if strings.Contains(frontReq.URL.String(), "/api/diagram/") {
-		// アクセストークンの検証
-		authorized := p.verifyToken(frontReq)
-		if !authorized {
-			p.responseUnauthorized(frontWriter)
-			return
-		}
-		// 検証に成功した場合、バックエンドへのリクエストを実行(diagram service)
-		backReq, err = p.createNewRequest(frontReq, "/api/diagram/", "http://localhost:9081")
-	} else if strings.Contains(frontReq.URL.String(), "/api/greeting/") {
-		// 認可コードが送信されてくるURL場合は、バックエンドへ通す
-		if strings.HasPrefix(frontReq.URL.String(), "/api/greeting/callback") {
-			//バックエンドへのリクエストを実行(greeting service)
-			backReq, err = p.createNewRequest(frontReq, "/api/greeting/", "http://localhost:9083")
-		} else {
-			// アクセストークンの検証
-			authorized := p.verifyToken(frontReq)
-			if !authorized {
-				p.responseUnauthorized(frontWriter)
-				return
+
+	// バックエンドへ送信するためのリクエストを生成
+	var backendCandidates []backend
+	backendCandidates = append(backendCandidates, backend{"/api/card/", "http://localhost:9080", "/api/card/callback"})
+	backendCandidates = append(backendCandidates, backend{"/api/diagram/", "http://localhost:9081", "/api/diagram/callback"})
+	backendCandidates = append(backendCandidates, backend{"/api/greeting/", "http://localhost:9083", "/api/greeting/callback"})
+
+	for _, backendCandidate := range backendCandidates {
+		if backReq == nil && strings.Contains(frontReq.URL.String(), backendCandidate.prefix) {
+			// 認可コードが送信されてくるURL場合は、バックエンドへ通す
+			if strings.HasPrefix(frontReq.URL.String(), backendCandidate.callbackUri) {
+				//バックエンドへのリクエストを実行(greeting service)
+				backReq, err = p.createNewRequest(frontReq, backendCandidate.prefix, backendCandidate.backendUri)
+				if err != nil {
+					log.Println("create new request error:", err)
+				}
+			} else {
+				// アクセストークンの検証
+				authorized := p.verifyToken(frontReq)
+				if !authorized {
+					p.responseUnauthorized(frontWriter)
+					return
+				}
+				// 検証に成功した場合、バックエンドへのリクエストを実行(greeting service)
+				backReq, err = p.createNewRequest(frontReq, backendCandidate.prefix, backendCandidate.backendUri)
+				if err != nil {
+					log.Println("create new request error:", err)
+				}
 			}
-			// 検証に成功した場合、バックエンドへのリクエストを実行(greeting service)
-			backReq, err = p.createNewRequest(frontReq, "/api/greeting/", "http://localhost:9083")
 		}
-	} else {
+	}
+	if backReq == nil && frontReq.URL.String() == "/" {
 		// 静的ファイル
 		//backReq, err = http.NewRequest(frontReq.Method, "http://localhost:3000"+frontReq.URL.String(), frontReq.Body)
 
 		// テスト用のダミーページ
-		page := Page{}
-		tmpl, err := template.ParseFiles("templete.html")
-		if err != nil {
-			log.Println("parse file error:", err)
-		}
-		err = tmpl.Execute(frontWriter, page)
-		if err != nil {
-			log.Println("execute template error:", err)
-		}
+		p.responseDummyPage(frontWriter)
 		return
 	}
-
-	if err != nil {
-		log.Fatal("create backend request:", err)
+	if backReq == nil {
+		// /favicon.icoなどは404を返す
+		frontWriter.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(frontWriter, "404 Not Found")
+		return
 	}
 
 	// フロントエンド・リクエストのヘッダーをバックエンド・リクエストのヘッダーへコピー
 	p.copyHeader(backReq.Header, frontReq.Header)
 
 	// クライアントのIPアドレスをX-Forwarded-Forへ付与
-	if clientIP, _, err := net.SplitHostPort(frontReq.RemoteAddr); err == nil {
-		p.appendHostToXForwardHeader(backReq.Header, clientIP)
-	}
+	p.appendHostToXForwardHeader(frontReq.RemoteAddr, backReq.Header)
 
 	// バックエンドへリクエストを送信
 	backResp, err := backendClient.Do(backReq)
