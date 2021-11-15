@@ -1,7 +1,3 @@
-// 参考
-// https://gist.github.com/yowu/f7dc34bd4736a65ff28d
-// https://thinkit.co.jp/article/17621
-
 package main
 
 import (
