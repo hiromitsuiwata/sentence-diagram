@@ -1,8 +1,8 @@
-module github.com/hiromitsu7/sentence-diagram/card-service
+module github.com/hiromitsuiwata/sentence-diagram/card-service
 
 go 1.17
 
 require (
-	github.com/gorilla/mux v1.8.0 // indirect
-	github.com/lib/pq v1.10.4 // indirect
+	github.com/gorilla/mux v1.8.0
+	github.com/lib/pq v1.10.4
 )

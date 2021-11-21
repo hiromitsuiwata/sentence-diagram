@@ -1,3 +1,3 @@
-module github.com/hiromitsu7/sentence-diagram/api-gateway
+module github.com/hiromitsuiwata/sentence-diagram/api-gateway
 
 go 1.17

@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "card-service"
+		},
+		{
+			"path": "api-gateway"
+		},
+		{
+			"path": "react-client"
+		}
+	],
+	"settings": {}
+}
