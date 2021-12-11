@@ -1,20 +1,42 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.209.5/containers/go/.devcontainer/base.Dockerfile
+FROM golang:1.17-bullseye
 
-# [Choice] Go version (use -bullseye variants on local arm64/Apple Silicon): 1, 1.16, 1.17, 1-bullseye, 1.16-bullseye, 1.17-bullseye, 1-buster, 1.16-buster, 1.17-buster
-ARG VARIANT="1.17-bullseye"
-FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y sudo build-essential iputils-ping net-tools vim git
 
-# [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
-ARG NODE_VERSION="none"
-RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+ENV user vscode
+ENV workspace /workspace
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN useradd -d /home/$user -m -s /bin/bash $user
+RUN echo "$user:$user" | chpasswd
+RUN echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$user
+USER $user
+ENV HOME /home/$user
+ENV GOPATH /go
+ENV GOROOT /usr/local/go
 
-# [Optional] Uncomment the next lines to use go get to install anything else you need
-# USER vscode
-# RUN go get -x <your-dependency-or-tool>
+RUN go install golang.org/x/tools/gopls@latest && \
+    go install github.com/mdempsky/gocode@latest && \
+    go install github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest && \
+    go install github.com/ramya-rao-a/go-outline@latest && \
+    go install github.com/acroca/go-symbols@latest && \
+    go install golang.org/x/tools/cmd/guru@latest && \
+    go install golang.org/x/tools/cmd/gorename@latest && \
+    go install github.com/cweill/gotests/...@latest && \
+    go install github.com/fatih/gomodifytags@latest && \
+    go install github.com/josharian/impl@latest && \
+    go install github.com/davidrjenni/reftools/cmd/fillstruct@latest && \
+    go install github.com/haya14busa/goplay/cmd/goplay@latest && \
+    go install github.com/godoctor/godoctor@latest && \
+    go install github.com/go-delve/delve/cmd/dlv@latest && \
+    go install github.com/stamblerre/gocode@latest && \
+    go install github.com/rogpeppe/godef@latest && \
+    go install golang.org/x/lint/golint@latest && \
+    go install honnef.co/go/tools/cmd/staticcheck@latest && \
+    GOBIN=/tmp/ go install github.com/go-delve/delve/cmd/dlv@master && \
+    mv /tmp/dlv /go/bin/dlv-dap
 
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+RUN sudo mkdir -p ${workspace}
+RUN sudo chown -R ${user}:${user} ${workspace}
+WORKDIR ${workspace}
+
+EXPOSE 9080

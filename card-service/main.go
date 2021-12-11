@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	HOST        = "localhost"
+	HOST        = "db"
 	PORT        = 5432
 	DB_USER     = "myuser"
 	DB_PASSWORD = "mypassword"
