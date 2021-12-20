@@ -1,8 +1,5 @@
 package main
 
-// 参考
-// https://www.section.io/engineering-education/build-a-rest-api-application-using-golang-and-postgresql-database/
-
 import (
 	"database/sql"
 	"encoding/json"
@@ -30,15 +27,11 @@ func setupDB() *sql.DB {
 	return db
 }
 
-type Movie struct {
-	MovieID   string `json:"movieid"`
-	MovieName string `json:"moviename"`
-}
-
-type JsonResponse struct {
-	Type    string  `json:"type"`
-	Data    []Movie `json:"data"`
-	Message string  `json:"message"`
+type Sentence struct {
+	ID    int    `json:"id"`
+	Title string `json:"title"`
+	Text  string `json:"text"`
+	URL   string `json:"url"`
 }
 
 func main() {
@@ -51,10 +44,10 @@ func main() {
 	router := mux.NewRouter()
 
 	// Route handles & endpoints
-	router.HandleFunc("/movies/", GetMovies).Methods("GET")
-	router.HandleFunc("/movies/", CreateMovie).Methods("POST")
-	router.HandleFunc("/movies/{movieid}", DeleteMovie).Methods("DELETE")
-	router.HandleFunc("/movies/", DeleteMovies).Methods("DELETE")
+	router.HandleFunc("/sentences/", GetSentences).Methods("GET")
+	router.HandleFunc("/sentences/", CreateSentence).Methods("POST")
+	router.HandleFunc("/sentences/{id}", DeleteSentence).Methods("DELETE")
+	router.HandleFunc("/sentences/search", SearchSentence).Methods("GET")
 
 	// serve the app
 	log.Println("Server at 9080")
@@ -75,94 +68,115 @@ func InitDatabase() {
 	db.SetMaxIdleConns(10)
 
 	// Create table
-	_, err := db.Exec("CREATE TABLE IF NOT EXISTS movies (id SERIAL PRIMARY KEY, movieID VARCHAR(255), movieName VARCHAR(255))")
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS sentences (id SERIAL PRIMARY KEY, title character varying(1024), text character varying(1024) NOT NULL, url character varying(1024))")
 	checkErr(err)
-	_, err = db.Exec("DELETE FROM movies")
+	_, err = db.Exec("DELETE FROM sentences")
 	checkErr(err)
-	_, err = db.Exec("INSERT INTO movies(movieID, movieName) VALUES($1, $2)", 1, "The Shawshank Redemption")
+	_, err = db.Exec("INSERT INTO sentences(title, text, url) VALUES($1, $2, $3)", "title 1", "The white unicorn flew.", "http://example.com/")
 	checkErr(err)
-	_, err = db.Exec("INSERT INTO movies(movieID, movieName) VALUES($1, $2)", 2, "The Godfather")
-	checkErr(err)
-	_, err = db.Exec("INSERT INTO movies(movieID, movieName) VALUES($1, $2)", 3, "The Godfather: Part II")
+	_, err = db.Exec("INSERT INTO sentences(title, text, url) VALUES($1, $2, $3)", "Yukio Mishima", "Yukio Mishima (三島 由紀夫 Mishima Yukio) is the pen name of Kimitake Hiraoka (平岡 公威 Hiraoka Kimitake, January 14, 1925 – November 25, 1970), a Japanese author, poet, playwright, actor, model, film director, nationalist, and founder of the Tatenokai. Mishima is considered one of the most important Japanese authors of the 20th century.", "https://en.wikipedia.org/wiki/Yukio_Mishima")
 	checkErr(err)
 
 	log.Println("Database has been initialized successfully!")
 }
 
-// Get all movies
-func GetMovies(w http.ResponseWriter, r *http.Request) {
+// Get all sentences
+func GetSentences(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
-	log.Println("Getting movies...")
-	rows, err := db.Query("SELECT * FROM movies")
-	checkErr(err)
+	rows, err := db.Query("SELECT id, title, text, url FROM sentences")
+	if err != nil {
+		http.Error(w, "error", http.StatusBadRequest)
+		return
+	}
 
-	// var response []JsonResponse
-	var movies []Movie
+	var sentences []Sentence
 
-	// Foreach movie
 	for rows.Next() {
 		var id int
-		var movieID string
-		var movieName string
-		err = rows.Scan(&id, &movieID, &movieName)
-		checkErr(err)
-		movies = append(movies, Movie{MovieID: movieID, MovieName: movieName})
-	}
+		var title string
+		var text string
+		var url string
+		err = rows.Scan(&id, &title, &text, &url)
+		if err != nil {
+			http.Error(w, "error", http.StatusBadRequest)
+			return
+		}
+		sentences = append(sentences, Sentence{ID: id, Title: title, Text: text, URL: url})
 
-	var response = JsonResponse{Type: "success", Data: movies}
-	json.NewEncoder(w).Encode(response)
+	}
+	json.NewEncoder(w).Encode(sentences)
 }
 
-// Create a movie
-func CreateMovie(w http.ResponseWriter, r *http.Request) {
-	movieID := r.FormValue("movieid")
-	movieName := r.FormValue("moviename")
-	var response = JsonResponse{}
+// Create a sentence
+func CreateSentence(w http.ResponseWriter, r *http.Request) {
+	var sentence = Sentence{}
+	json.NewDecoder(r.Body).Decode(&sentence)
 
-	if movieID == "" || movieName == "" {
-		response = JsonResponse{Type: "error", Message: "You are missing movieID or movieName parameter."}
+	title := sentence.Title
+	text := sentence.Text
+	url := sentence.URL
+
+	if text == "" {
+		http.Error(w, "insert error", http.StatusBadRequest)
+		return
 	} else {
 		db := setupDB()
-		log.Println("Inserting movie into DB")
-		log.Println("Inserting new movie with ID: ", movieID, " and name: ", movieName)
-
 		var lastInsertID int
-		err := db.QueryRow("INSERT INTO movies(movieID, movieName) VALUES($1, $2) returning id;", movieID, movieName).Scan(&lastInsertID)
-		checkErr(err)
-
-		response = JsonResponse{Type: "success", Message: "The movie has been inserted successfully!"}
+		err := db.QueryRow("INSERT INTO sentences (title, text, url) VALUES($1, $2, $3) returning id;", title, text, url).Scan(&lastInsertID)
+		if err != nil {
+			http.Error(w, "error", http.StatusBadRequest)
+			return
+		}
+		sentence.ID = lastInsertID
+		json.NewEncoder(w).Encode(sentence)
 	}
-
-	json.NewEncoder(w).Encode(response)
 }
 
-// Delete a movie
-func DeleteMovie(w http.ResponseWriter, r *http.Request) {
+func DeleteSentence(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	movieID := params["movieid"]
-	var response = JsonResponse{}
+	id := params["id"]
 
-	if movieID == "" {
-		response = JsonResponse{Type: "error", Message: "You are missing movieID parameter."}
+	if id == "" {
+		http.Error(w, "error", http.StatusBadRequest)
 	} else {
 		db := setupDB()
-		log.Println("Deleting movie from DB")
-		_, err := db.Exec("DELETE FROM movies where movieID = $1", movieID)
-		checkErr(err)
-		response = JsonResponse{Type: "success", Message: "The movie has been deleted successfully!"}
+		var deletedID int
+		err := db.QueryRow("DELETE FROM sentences WHERE id=$1 returning id;", id).Scan(&deletedID)
+		if err != nil {
+			http.Error(w, "error", http.StatusBadRequest)
+			return
+		}
+		log.Println("Deleted ID: ", deletedID)
+		w.WriteHeader(http.StatusOK)
 	}
-
-	json.NewEncoder(w).Encode(response)
 }
 
-// Delete all movies
-func DeleteMovies(w http.ResponseWriter, r *http.Request) {
-	db := setupDB()
-	log.Println("Deleting all movies...")
-	_, err := db.Exec("DELETE FROM movies")
-	checkErr(err)
+func SearchSentence(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	log.Println("keyword: ", query.Get("q"))
 
-	log.Println("All movies have been deleted successfully!")
-	var response = JsonResponse{Type: "success", Message: "All movies have been deleted successfully!"}
-	json.NewEncoder(w).Encode(response)
+	db := setupDB()
+	keyword := "%" + query.Get("q") + "%"
+	rows, err := db.Query("SELECT id, title, text, url FROM sentences WHERE (lower(title) LIKE lower($1)) OR (lower(text) LIKE lower($1)) OR (lower(url) LIKE lower($1))", keyword)
+	if err != nil {
+		http.Error(w, "error", http.StatusBadRequest)
+		return
+	}
+
+	var sentences []Sentence
+
+	for rows.Next() {
+		var id int
+		var title string
+		var text string
+		var url string
+		err = rows.Scan(&id, &title, &text, &url)
+		if err != nil {
+			http.Error(w, "error", http.StatusBadRequest)
+			return
+		}
+		sentences = append(sentences, Sentence{ID: id, Title: title, Text: text, URL: url})
+
+	}
+	json.NewEncoder(w).Encode(sentences)
 }
